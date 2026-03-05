@@ -1,0 +1,440 @@
+"use client";
+/* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect */
+
+import { useState, useMemo, useEffect } from "react";
+import { Check, X, AlertCircle, ArrowRight, RotateCcw } from "lucide-react";
+import { Markdown } from "./markdown";
+
+import type { ComponentRenderProps } from "./types";
+import { baseClass, getCustomClass } from "./utils";
+/* --- UTILITY FUNCTIONS --- */
+
+// Fisher-Yates Shuffle
+const shuffleArray = <T,>(array: T[]) => {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = newArray[i]!;
+    newArray[i] = newArray[j]!;
+    newArray[j] = temp;
+  }
+  return newArray;
+};
+
+/* --- MAIN COMPONENT: MULTIPLE CHOICE --- */
+
+type MultipleChoiceOption = { id: string; label: string };
+
+type MultipleChoiceQuestion = {
+  id: string;
+  question: string;
+  options: MultipleChoiceOption[];
+  correctOptionId?: string;
+  correctOptionIds?: string[];
+  minSelections?: number;
+  misconceptions?: Record<string, string> | null;
+  correctFeedback?: string | null;
+  incorrectFeedback?: string | null;
+  feedback?:
+    | {
+        correct?: string | null;
+        incorrect?: string | null;
+        success?: string | null;
+        error?: string | null;
+      }
+    | null;
+  correct_feedback?: string | null;
+  incorrect_feedback?: string | null;
+};
+
+type MultipleChoiceProps = {
+  question?: string | null;
+  options?: MultipleChoiceOption[];
+  correctOptionId?: string;
+  correctOptionIds?: string[];
+  minSelections?: number;
+  questions?: MultipleChoiceQuestion[];
+  misconceptions?: Record<string, string> | null;
+  correctFeedback?: string | null;
+  incorrectFeedback?: string | null;
+  feedback?:
+    | {
+        correct?: string | null;
+        incorrect?: string | null;
+        success?: string | null;
+        error?: string | null;
+      }
+    | null;
+  correct_feedback?: string | null;
+  incorrect_feedback?: string | null;
+  shuffle?: boolean;
+  showFeedback?: boolean;
+  className?: string[];
+};
+
+function asText(value: unknown): string | null {
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+export function MultipleChoice({ element }: ComponentRenderProps) {
+  const props = element.props as MultipleChoiceProps;
+  const customClass = getCustomClass(props);
+  const questions = Array.isArray(props.questions) ? props.questions : null;
+  const question = props.question ?? "";
+  const options = Array.isArray(props.options) ? props.options : [];
+  const correctOptionId = String(props.correctOptionId || "");
+  const correctOptionIds = Array.isArray(props.correctOptionIds)
+    ? props.correctOptionIds
+    : [];
+  const minSelections =
+    typeof props.minSelections === "number" ? props.minSelections : 1;
+  const misconceptions = props.misconceptions ?? {};
+  const shuffle = Boolean(props.shuffle);
+  const showFeedback = props.showFeedback ?? true;
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [selections, setSelections] = useState<Record<string, string>>({});
+  const [submitted, setSubmitted] = useState<Record<string, boolean>>({});
+  const [feedbackByQuestion, setFeedbackByQuestion] = useState<
+    Record<string, { type: "success" | "error"; message: string }>
+  >({});
+
+  // Restore saved state on mount
+  useEffect(() => {
+    const savedState = typeof (window as any).__getWidgetState === "function" 
+      ? (window as any).__getWidgetState() 
+      : null;
+    
+    if (savedState) {
+      if (savedState.selections) setSelections(savedState.selections);
+      if (savedState.submitted) setSubmitted(savedState.submitted);
+      if (savedState.feedbackByQuestion) setFeedbackByQuestion(savedState.feedbackByQuestion);
+      if (typeof savedState.currentIndex === 'number') setCurrentIndex(savedState.currentIndex);
+    }
+  }, []);
+
+  // Save state whenever it changes
+  useEffect(() => {
+    if (Object.keys(selections).length > 0 || Object.keys(submitted).length > 0) {
+      if (typeof (window as any).__saveWidgetState === "function") {
+        (window as any).__saveWidgetState({
+          selections,
+          submitted,
+          feedbackByQuestion,
+          currentIndex
+        });
+      }
+    }
+  }, [selections, submitted, feedbackByQuestion, currentIndex]);
+
+  const activeQuestion = questions ? questions[currentIndex] : null;
+  const activeQuestionId = activeQuestion?.id ?? "single";
+  const activeQuestionText = activeQuestion?.question ?? question;
+  const activeOptions = activeQuestion?.options ?? options;
+  const activeCorrectId = activeQuestion?.correctOptionId ?? correctOptionId;
+  const activeCorrectIds = activeQuestion?.correctOptionIds ?? correctOptionIds;
+  const activeMinSelections =
+    typeof activeQuestion?.minSelections === "number"
+      ? activeQuestion.minSelections
+      : minSelections;
+  const activeCorrectFeedback =
+    asText(activeQuestion?.correctFeedback) ??
+    asText(activeQuestion?.correct_feedback) ??
+    asText(activeQuestion?.feedback?.correct) ??
+    asText(activeQuestion?.feedback?.success) ??
+    asText(props.correctFeedback) ??
+    asText(props.correct_feedback) ??
+    asText(props.feedback?.correct) ??
+    asText(props.feedback?.success) ??
+    "Correct! You've grasped the concept perfectly.";
+  const activeIncorrectFeedback =
+    asText(activeQuestion?.incorrectFeedback) ??
+    asText(activeQuestion?.incorrect_feedback) ??
+    asText(activeQuestion?.feedback?.incorrect) ??
+    asText(activeQuestion?.feedback?.error) ??
+    asText(props.incorrectFeedback) ??
+    asText(props.incorrect_feedback) ??
+    asText(props.feedback?.incorrect) ??
+    asText(props.feedback?.error) ??
+    "That's not quite right. Review the concept and try again.";
+  const activeMisconceptions = activeQuestion?.misconceptions ?? misconceptions;
+  const selectedId = selections[activeQuestionId] ?? null;
+  const status = submitted[activeQuestionId] ? "submitted" : "idle";
+  const feedback = feedbackByQuestion[activeQuestionId] ?? null;
+
+  // Memoize shuffled options so they don't jump around on re-renders
+  const displayOptions = useMemo(() => {
+    return shuffle ? shuffleArray(activeOptions) : activeOptions;
+  }, [activeOptions, shuffle]);
+
+  const handleSelect = (id: string) => {
+    if (status === "submitted") return;
+    if (activeMinSelections > 1) {
+      const current = selections[activeQuestionId]
+        ? selections[activeQuestionId].split("|")
+        : [];
+      const isSelected = current.includes(id);
+      const next = isSelected
+        ? current.filter((item) => item !== id)
+        : [...current, id];
+      setSelections((prev) => ({
+        ...prev,
+        [activeQuestionId]: next.join("|"),
+      }));
+      return;
+    }
+
+    setSelections((prev) => ({ ...prev, [activeQuestionId]: id }));
+  };
+
+  const handleSubmit = () => {
+    if (!selectedId) return;
+
+    if (activeMinSelections > 1) {
+      const selectedIds = selectedId.split("|").filter(Boolean);
+      if (selectedIds.length < activeMinSelections) {
+        setFeedbackByQuestion((prev) => ({
+          ...prev,
+          [activeQuestionId]: {
+            type: "error",
+            message: `Select at least ${activeMinSelections} options.`,
+          },
+        }));
+        return;
+      }
+    }
+
+    const selectedIds = selectedId.split("|").filter(Boolean);
+    const isMulti = activeMinSelections > 1 || activeCorrectIds.length > 0;
+    const isCorrect = isMulti
+      ? selectedIds.length > 0 &&
+        activeCorrectIds.length > 0 &&
+        selectedIds.every((id) => activeCorrectIds.includes(id)) &&
+        activeCorrectIds.every((id) => selectedIds.includes(id))
+      : selectedId === activeCorrectId;
+    setSubmitted((prev) => ({ ...prev, [activeQuestionId]: true }));
+
+    if (isCorrect) {
+      setFeedbackByQuestion((prev) => ({
+        ...prev,
+        [activeQuestionId]: {
+          type: "success",
+          message: activeCorrectFeedback,
+        },
+      }));
+      
+      // Mark step as complete for learn-by-doing navigation
+      if (typeof (window as any).__markStepComplete === "function") {
+        (window as any).__markStepComplete();
+      }
+    } else {
+      const misconceptionMsg =
+        (activeMinSelections > 1
+          ? selectedIds
+              .map((id) => activeMisconceptions[id])
+              .filter(Boolean)
+              .join(" ")
+          : selectedId && activeMisconceptions[selectedId]) ||
+        activeIncorrectFeedback;
+      setFeedbackByQuestion((prev) => ({
+        ...prev,
+        [activeQuestionId]: {
+          type: "error",
+          message: misconceptionMsg,
+        },
+      }));
+    }
+  };
+
+  const handleReset = () => {
+    setSelections((prev) => {
+      const next = { ...prev };
+      delete next[activeQuestionId];
+      return next;
+    });
+    setSubmitted((prev) => ({ ...prev, [activeQuestionId]: false }));
+    setFeedbackByQuestion((prev) => {
+      const next = { ...prev };
+      delete next[activeQuestionId];
+      return next;
+    });
+  };
+
+  const canGoPrev = Boolean(questions && currentIndex > 0);
+  const canGoNext = Boolean(questions && currentIndex < questions.length - 1);
+
+  return (
+    <div className={`${baseClass} ${customClass} w-full max-w-2xl mx-auto`}>
+      {activeQuestionText ? (
+        <div className="text-sm font-semibold text-left mb-3">
+          <Markdown>{activeQuestionText}</Markdown>
+        </div>
+      ) : null}
+
+      <div className="space-y-2">
+        {displayOptions.map((option) => {
+          const isSelected =
+            activeMinSelections > 1
+              ? selectedId?.split("|").includes(option.id)
+              : selectedId === option.id;
+          const isSubmitted = status === "submitted";
+
+          let containerClasses =
+            "relative flex items-center p-3 rounded-md border cursor-pointer transition-colors duration-200";
+          let indicatorColor = "border-border text-transparent";
+
+          if (isSubmitted) {
+            const isCorrectOption = (activeMinSelections > 1 &&
+              activeCorrectIds.includes(option.id)) ||
+              option.id === activeCorrectId;
+
+            // Only highlight correct option if user got it right (feedback is success)
+            if (isCorrectOption && feedback?.type === "success") {
+              containerClasses += " bg-emerald-50 dark:bg-emerald-900/40 border-emerald-500 dark:border-emerald-600";
+              indicatorColor = "border-emerald-500 bg-emerald-500 text-white";
+            } else if (isSelected && !isCorrectOption) {
+              containerClasses += " bg-rose-50 dark:bg-rose-900/40 border-rose-300 dark:border-rose-600";
+              indicatorColor = "border-rose-400 dark:border-rose-600 text-rose-500 dark:text-rose-400";
+            } else {
+              containerClasses += " opacity-60";
+            }
+          } else if (isSelected) {
+            containerClasses += " border-foreground bg-muted/30";
+            indicatorColor = "border-foreground bg-foreground text-background";
+          } else {
+            containerClasses += " border-border hover:bg-muted/30";
+          }
+
+          return (
+            <div
+              key={option.id}
+              onClick={() => handleSelect(option.id)}
+              className={containerClasses}
+              role="radio"
+              aria-checked={isSelected}
+            >
+              <div
+                className={`flex items-center justify-center w-4 h-4 rounded-full border ${indicatorColor} mr-3 shrink-0 transition-colors`}
+              >
+                {isSubmitted &&
+                feedback?.type === "success" &&
+                ((activeMinSelections > 1 &&
+                  activeCorrectIds.includes(option.id)) ||
+                  option.id === activeCorrectId) ? (
+                  <Check className="w-3 h-3" strokeWidth={3} />
+                ) : isSubmitted && isSelected ? (
+                  <X className="w-3 h-3" strokeWidth={3} />
+                ) : (
+                  <div
+                    className={`w-2 h-2 rounded-full bg-background ${
+                      isSelected ? "opacity-100" : "opacity-0"
+                    }`}
+                  />
+                )}
+              </div>
+
+              <div className="flex-1">
+                <span
+                  className={`text-sm ${
+                    isSelected || (isSubmitted && feedback?.type === "success" && option.id === activeCorrectId)
+                      ? "font-medium text-foreground"
+                      : "text-muted-foreground"
+                  }`}
+                >
+                  <Markdown>{option.label}</Markdown>
+                </span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {showFeedback && status === "submitted" && feedback ? (
+        <div
+          className={`mt-3 text-xs rounded-md p-2 border ${
+            feedback.type === "success"
+              ? "bg-emerald-50 dark:bg-emerald-900/40 text-emerald-900 dark:text-emerald-300 border-emerald-100 dark:border-emerald-800"
+              : "bg-amber-50 dark:bg-amber-900/40 text-amber-900 dark:text-amber-300 border-amber-100 dark:border-amber-800"
+          }`}
+        >
+          <div className="flex items-start gap-2">
+            {feedback.type === "success" ? (
+              <Check className="w-4 h-4 mt-0.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+            ) : (
+              <AlertCircle className="w-4 h-4 mt-0.5 text-amber-600 dark:text-amber-400 shrink-0" />
+            )}
+            <div>
+              <div className="font-semibold">
+                {feedback.type === "success" ? "Spot on!" : "Not quite."}
+              </div>
+              <div className="text-muted-foreground">{feedback.message}</div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      <div className="flex items-center justify-between gap-2 mt-3">
+        {questions ? (
+          <div className="text-[10px] text-muted-foreground">
+            Question {currentIndex + 1} of {questions.length}
+          </div>
+        ) : (
+          <div />
+        )}
+
+        <div className="flex items-center gap-2">
+          {canGoPrev ? (
+            <button
+              type="button"
+              onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
+              className="h-7 px-2 rounded border border-border text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Previous
+            </button>
+          ) : null}
+        </div>
+
+        <div className="flex items-center gap-2">
+          {status === "submitted" ? (
+            feedback?.type === "success" && canGoNext ? (
+              <button
+                type="button"
+                onClick={() =>
+                  setCurrentIndex((prev) =>
+                    Math.min(prev + 1, (questions?.length ?? 1) - 1),
+                  )
+                }
+                className="h-7 px-3 rounded bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity"
+              >
+                <span className="inline-flex items-center gap-1">
+                  Next <ArrowRight className="w-3 h-3" />
+                </span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleReset}
+                className="h-7 px-2 rounded border border-border text-xs text-muted-foreground hover:text-foreground transition-colors"
+              >
+                <span className="inline-flex items-center gap-1">
+                  <RotateCcw className="w-3 h-3" /> Try Again
+                </span>
+              </button>
+            )
+          ) : (
+            <button
+              type="button"
+              onClick={handleSubmit}
+              disabled={!selectedId}
+              className="h-7 px-3 rounded bg-foreground text-background text-xs font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
+            >
+              <span className="inline-flex items-center gap-1">
+                Check Answer <ArrowRight className="w-3 h-3" />
+              </span>
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}

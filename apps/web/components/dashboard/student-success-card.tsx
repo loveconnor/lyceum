@@ -1,0 +1,80 @@
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { ArrowUpIcon, ArrowDownIcon, Users, CheckCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+
+interface StudentSuccessCardProps {
+  currentSuccessRate: number;
+  previousSuccessRate: number;
+  totalStudents: number;
+  passingStudents: number;
+}
+
+export function StudentSuccessCard({
+  currentSuccessRate = 0,
+  previousSuccessRate = 0,
+  totalStudents = 0,
+  passingStudents = 0
+}: StudentSuccessCardProps) {
+  const successRateChange = currentSuccessRate - previousSuccessRate;
+  const isPositiveChange = successRateChange >= 0;
+  const passingPercentage =
+    totalStudents > 0 ? (passingStudents / totalStudents) * 100 : 0;
+  
+  // Display as activities instead of students
+  const totalActivities = totalStudents;
+  const completedActivities = passingStudents;
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Student Overall Success Rate</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-8 lg:space-y-6">
+        <div className="flex items-center justify-between">
+          <span className="font-display text-3xl lg:text-4xl">{currentSuccessRate}%</span>
+          <div
+            className={`flex items-center text-sm ${isPositiveChange ? "text-green-600" : "text-red-600"}`}>
+            {isPositiveChange ? (
+              <ArrowUpIcon className="mr-1 size-4" />
+            ) : (
+              <ArrowDownIcon className="mr-1 size-4" />
+            )}
+            <span className="font-medium">{Math.abs(successRateChange)}%</span>
+          </div>
+        </div>
+        <div className="space-y-2">
+          <Progress value={currentSuccessRate} />
+          <div className="text-muted-foreground flex justify-between text-sm">
+            <span>Previous: {previousSuccessRate}%</span>
+            <span>Target: 100%</span>
+          </div>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Users className="mr-2 h-5 w-5 text-blue-500" />
+            <span className="font-medium">Total Labs & Paths</span>
+          </div>
+          <span className="font-bold">{totalActivities}</span>
+        </div>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <CheckCircle className="mr-2 h-5 w-5 text-green-500" />
+              <span className="font-medium">Completed</span>
+            </div>
+            <span className="font-bold">{completedActivities}</span>
+          </div>
+          <Progress value={passingPercentage} />
+          <div className="text-muted-foreground text-sm">
+            {passingPercentage.toFixed(1)}% of total
+          </div>
+        </div>
+        <Button variant="outline" className="w-full">
+          View Details
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}

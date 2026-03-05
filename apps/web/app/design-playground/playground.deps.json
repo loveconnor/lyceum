@@ -1,0 +1,24 @@
+{
+  "description": "Required npm packages for the Playground UI components. Run: node src/app/playground/setup.mjs",
+  "dependencies": {
+    "@xyflow/react": "latest",
+    "lucide-react": "latest",
+    "@radix-ui/react-alert-dialog": "latest",
+    "@radix-ui/react-dialog": "latest",
+    "@radix-ui/react-tooltip": "latest",
+    "@radix-ui/react-slot": "latest",
+    "class-variance-authority": "latest",
+    "clsx": "latest",
+    "tailwind-merge": "latest",
+    "sonner": "latest",
+    "@tailwindcss/typography": "latest",
+    "tw-animate-css": "latest"
+  },
+  "requires": [
+    "next",
+    "react",
+    "react-dom",
+    "tailwindcss"
+  ],
+  "install": "npm install @xyflow/react lucide-react @radix-ui/react-alert-dialog @radix-ui/react-dialog @radix-ui/react-tooltip @radix-ui/react-slot class-variance-authority clsx tailwind-merge"
+}

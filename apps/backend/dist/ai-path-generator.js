@@ -1,0 +1,888 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.generatePathOutline = generatePathOutline;
+exports.generateModuleContent = generateModuleContent;
+exports.generateModuleFromSourceContent = generateModuleFromSourceContent;
+const openai_1 = __importDefault(require("openai"));
+const promises_1 = require("fs/promises");
+const path_1 = __importDefault(require("path"));
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o';
+const USE_OLLAMA = process.env.USE_OLLAMA === 'true';
+const OLLAMA_BASE_URL = process.env.OLLAMA_BASE_URL || 'http://localhost:11434/v1';
+const OLLAMA_MODEL = process.env.OLLAMA_MODEL || 'llama3.2';
+let openai = null;
+const promptDumpDir = process.env.PATH_PROMPT_DUMP_DIR || path_1.default.resolve(__dirname, '..', 'prompt-dumps');
+const dumpedPromptFiles = new Set();
+const dumpSystemPromptToMarkdown = async (filename, prompt) => {
+    const outputPath = path_1.default.join(promptDumpDir, filename);
+    if (dumpedPromptFiles.has(outputPath)) {
+        return;
+    }
+    try {
+        await (0, promises_1.mkdir)(promptDumpDir, { recursive: true });
+        await (0, promises_1.writeFile)(outputPath, `${prompt.trim()}\n`, 'utf8');
+        dumpedPromptFiles.add(outputPath);
+        console.log(`[PromptDump] Wrote system prompt to ${outputPath}`);
+    }
+    catch (error) {
+        console.warn(`[PromptDump] Failed to write system prompt file ${outputPath}:`, error?.message || error);
+    }
+};
+const ensureClient = () => {
+    if (USE_OLLAMA) {
+        if (!openai) {
+            openai = new openai_1.default({
+                baseURL: OLLAMA_BASE_URL,
+                apiKey: 'ollama',
+            });
+        }
+        return openai;
+    }
+    if (!OPENAI_API_KEY) {
+        throw new Error('OPENAI_API_KEY is not configured');
+    }
+    if (!openai) {
+        openai = new openai_1.default({ apiKey: OPENAI_API_KEY });
+    }
+    return openai;
+};
+const stripCodeFences = (text) => {
+    let cleaned = text.trim();
+    // Remove markdown code fences (json, js, or no language specified)
+    cleaned = cleaned.replace(/^```(?:json|javascript|js)?\s*/i, '');
+    cleaned = cleaned.replace(/```\s*$/i, '');
+    // Remove any leading/trailing whitespace again
+    return cleaned.trim();
+};
+// Attempt to repair common JSON issues
+const repairJson = (text) => {
+    let repaired = text;
+    // Fix backticks inside JSON strings (backticks are not valid in JSON)
+    // Replace backticks with single quotes when they appear inside strings
+    repaired = repaired.replace(/: `([^`"]*)`/g, ': "$1"');
+    repaired = repaired.replace(/:\s*`([^`"]*)`/g, ': "$1"');
+    // Fix unescaped backslashes in LaTeX (common issue)
+    // Match patterns like \frac, \int, \sum, etc. that should be \\frac, \\int, \\sum
+    repaired = repaired.replace(/(?<!\\)\\([a-zA-Z]+)/g, '\\\\$1');
+    // Fix unescaped newlines inside strings (replace literal newlines with \n)
+    // This is a simplified approach - find strings and ensure newlines are escaped
+    // Fix trailing commas before ] or }
+    repaired = repaired.replace(/,(\s*[}\]])/g, '$1');
+    return repaired;
+};
+const tryParseJson = (text) => {
+    const cleaned = stripCodeFences(text);
+    // First attempt: try parsing as-is
+    try {
+        return JSON.parse(cleaned);
+    }
+    catch (firstError) {
+        console.log('First parse attempt failed, trying to repair JSON...');
+        // Second attempt: try with repairs
+        try {
+            const repaired = repairJson(cleaned);
+            return JSON.parse(repaired);
+        }
+        catch (secondError) {
+            console.error('JSON parse error after repair attempt:', secondError);
+            console.error('First 1000 chars:', text.substring(0, 1000));
+            console.error('Last 500 chars:', text.substring(text.length - 500));
+            // Try to find the error location
+            if (secondError instanceof SyntaxError) {
+                const match = secondError.message.match(/position (\d+)/);
+                if (match) {
+                    const pos = parseInt(match[1]);
+                    console.error('Context around error position:', cleaned.substring(Math.max(0, pos - 100), pos + 100));
+                }
+            }
+            return null;
+        }
+    }
+};
+// Fix literal \n strings in content (AI sometimes generates \\n which becomes literal \n after JSON parse)
+const fixLiteralNewlines = (obj) => {
+    if (typeof obj === 'string') {
+        // Replace literal \n with actual newlines
+        return obj.replace(/\\n/g, '\n');
+    }
+    if (Array.isArray(obj)) {
+        return obj.map(fixLiteralNewlines);
+    }
+    if (obj && typeof obj === 'object') {
+        const result = {};
+        for (const [key, value] of Object.entries(obj)) {
+            result[key] = fixLiteralNewlines(value);
+        }
+        return result;
+    }
+    return obj;
+};
+const PATH_OUTLINE_PROMPT = `You are an expert curriculum designer for Lyceum, an educational platform. Your job is to create a high-level outline for a learning path.
+
+CRITICAL: When users provide uploaded files with specific instructions:
+- Those instructions are MANDATORY requirements
+- If they say "make X the first module", X must be order_index: 0
+- If they specify a topic order, follow it exactly
+- User requirements override standard curriculum practices
+- SAFETY/QUALITY OVERRIDE: Never create setup/install/environment modules even if mentioned.
+
+Given a learning path title and description, generate:
+1. Path metadata (refined title, description, difficulty, duration, topics)
+2. A sequence of module titles and descriptions that progressively build knowledge
+
+CRITICAL MODULE CONTENT RULES:
+- Do NOT create modules focused on local machine setup, installation, account creation, IDE setup, or environment configuration.
+- Do NOT include modules like "Setting Up X", "Installing X", "Tooling Setup", or "Prerequisites".
+- Start with learning content fundamentals (concepts, syntax, compiler/runtime mental model, core workflow) rather than personal machine setup.
+- Assume learners can use the in-platform environment; focus modules on skills and understanding.
+
+Respond with JSON only in this structure:
+{
+  "path": {
+    "title": "Refined path title",
+    "description": "Comprehensive 2-3 sentence description",
+    "difficulty": "beginner" | "intermediate" | "advanced",
+    "estimated_duration": number (total hours for the entire path),
+    "topics": ["topic1", "topic2", ...]
+  },
+  "modules": [
+    {
+      "title": "Module title",
+      "description": "1-2 sentence module overview",
+      "order_index": 0,
+      "include_lab_after": true
+    }
+  ]
+}
+
+Guidelines:
+- Create 4-6 modules that build progressively unless the user explicitly requests a different count.
+- Each module should take 2-4 hours to complete
+- Module titles should be clear and descriptive
+- Descriptions should explain what the learner will achieve
+- Ensure proper scaffolding between modules
+- Labs are optional checkpoints, not required after every module, unless the user requests a specific lab count.
+- Choose lab placement intentionally using include_lab_after on modules where practice is most valuable.
+- Use fewer labs than modules (typically 1-3 labs for a 4-6 module path).
+- Never place a lab after the final module.
+- CRITICAL: If user uploaded files contain instructions like "make X first" or "start with Y", those topics MUST be in the earliest modules (order_index: 0, 1, etc.)
+
+EXAMPLE: If user says "Create a module about abstract classes. Make that first module before everything"
+Then your response MUST have:
+{
+  "modules": [
+    {
+      "title": "Abstract Classes in Java",
+      "description": "...",
+      "order_index": 0
+    },
+    ... other modules after ...
+  ]
+}`;
+const SETUP_MODULE_PATTERNS = [
+    /\bset\s*up\b/i,
+    /\bsetup\b/i,
+    /\binstall(?:ation|ing)?\b/i,
+    /\benvironment\s*setup\b/i,
+    /\bset(?:ting)?\s*up\s+.*\benvironment\b/i,
+    /\bconfigure|configuration\b/i,
+    /\bgetting\s*started\b/i,
+    /\bprerequisite(?:s)?\b/i,
+    /\brequirement(?:s)?\b/i,
+    /\bide\b/i,
+    /\btool(?:ing)?\b/i,
+    /\bdownload(?:ing)?\b/i,
+    /\blocal machine\b/i,
+];
+const isSetupOrInstallModule = (module) => {
+    const combined = `${module.title ?? ''} ${module.description ?? ''}`.trim();
+    if (!combined)
+        return false;
+    return SETUP_MODULE_PATTERNS.some((pattern) => pattern.test(combined));
+};
+const normalizePathModules = (modules) => {
+    const normalized = modules
+        .filter((module) => {
+        const shouldExclude = isSetupOrInstallModule(module);
+        if (shouldExclude) {
+            console.log(`Filtering setup/install module from outline: "${module.title || 'Untitled'}"`);
+        }
+        return !shouldExclude;
+    })
+        .map((module, index) => ({
+        title: (module.title || `Module ${index + 1}`).trim(),
+        description: (module.description || '').trim(),
+        order_index: index,
+        include_lab_after: typeof module.include_lab_after === 'boolean' ? module.include_lab_after : undefined,
+    }));
+    // Keep last module content-focused; no trailing lab anchor on final module.
+    if (normalized.length > 0) {
+        normalized[normalized.length - 1].include_lab_after = false;
+    }
+    return normalized;
+};
+const MODULE_CONTENT_PROMPT = `You are an expert curriculum designer for Lyceum. Generate detailed content for a single learning module.
+
+CRITICAL: Your response must be VALID JSON. DO NOT use backticks (\`) anywhere in your response. Use double quotes (") for all strings. All content should be properly escaped for JSON.
+
+Respond with JSON only in this structure:
+{
+  "content": {
+    "overview": "Detailed 2-4 paragraph markdown overview explaining what this module covers, why it matters, and how it fits into the larger learning path. Use **bold** for emphasis and > for important callouts.",
+    "learning_objectives": [
+      "Specific, measurable objective 1",
+      "Specific, measurable objective 2",
+      "Specific, measurable objective 3"
+    ],
+    "chapters": [
+      {
+        "id": 0,
+        "title": "Chapter title",
+        "duration": "5-10 min",
+        "content": "READING CONTENT ONLY. Rich markdown with headings, bullet points, code examples if relevant, and clear explanations. 3-5 paragraphs of EDUCATIONAL READING. Do NOT include any quiz questions, 'Quick Check', 'Practice Activity', 'Quiz', or any interactive elements here - those go ONLY in the quizzes array below.",
+        "quizzes": [
+          {
+            "question": "Clear, specific question testing understanding (wrap any math in $ like: What is $x^2 + y^2$? - for code, use markdown code blocks)",
+            "options": [
+              { "id": "A", "text": "Option A text (if math: $\\\\mathbf{v} = (3, 4)$ - if code: use backtick for inline or triple-backtick for blocks)" },
+              { "id": "B", "text": "Option B text (if math: $x = 3 + 4i$)" },
+              { "id": "C", "text": "Option C text" },
+              { "id": "D", "text": "Option D text" }
+            ],
+            "correct": "B",
+            "explanation": "Brief explanation of why this is correct (wrap math in $ and code in backticks as well)"
+          }
+        ]
+      }
+    ],
+    "key_concepts": [
+      {
+        "concept": "Concept name",
+        "explanation": "Clear 3-4 sentence explanation with depth",
+        "example_sections": [
+          {
+            "type": "pattern",
+            "title": "Step-by-Step Solution",
+            "items": [
+              "**Problem:** Find $\\\\lim_{x \\\\to 2} \\\\frac{x^2-4}{x-2}$\\n\\n**Step 1:** Factor the numerator\\n$x^2 - 4 = (x+2)(x-2)$\\nWe factor because we can cancel the common term with the denominator.\\n\\n**Step 2:** Simplify\\n$\\\\frac{(x+2)(x-2)}{x-2} = x+2$ (for $x \\\\neq 2$)\\nWe cancel since we're taking the limit, not evaluating at $x=2$.\\n\\n**Step 3:** Evaluate\\n$\\\\lim_{x \\\\to 2} (x+2) = 4$\\n\\n**Answer:** The limit is 4.",
+              "Second example with similar detailed step-by-step format"
+            ]
+          }
+        ]
+      }
+    ],
+    "practical_exercises": [
+      {
+        "title": "Short descriptive title for the problem",
+        "description": "The actual problem to solve (e.g., 'Solve: $2x + 5 = 13$' or 'Fill in the blank: 4, 5, _, 7, 8')",
+        "exercise_type": "short_answer" | "multiple_choice" | "code_editor",
+        "difficulty": "beginner" | "intermediate" | "advanced",
+        "estimated_time": "5-15 min",
+        "correct_answer": "The correct answer (e.g., '4' or 'x = 7')",
+        "options": ["Option A", "Option B", "Option C", "Option D"],
+        "hints": [
+          "First hint - a small nudge in the right direction",
+          "Second hint - more specific guidance"
+        ],
+        "common_mistakes": [
+          "Common mistake 1 and why it's wrong"
+        ]
+      }
+    ],
+    "resources": [
+      {
+        "type": "reading" | "video" | "interactive",
+        "title": "Resource title",
+        "description": "What this resource covers and why it's valuable"
+      }
+    ],
+    "assessment": {
+      "questions": [
+        {
+          "question": "Thoughtful assessment question",
+          "type": "multiple-choice",
+          "options": ["Option A", "Option B", "Option C", "Option D"],
+          "correct_answer": "Option B",
+          "explanation": "Why this answer is correct"
+        }
+      ]
+    },
+    "visuals": [
+      {
+        "title": "Descriptive title for the diagram",
+        "description": "Brief explanation of what this diagram shows",
+        "nodes": [
+          {
+            "id": "unique-node-id",
+            "position": { "x": 250, "y": 0 },
+            "data": { "label": "Node text" },
+            "type": "default",
+            "style": {
+              "background": "hsl(var(--primary) / 0.1)",
+              "border": "1px solid hsl(var(--primary) / 0.2)",
+              "borderRadius": "8px",
+              "padding": "16px 24px",
+              "fontSize": "14px",
+              "fontWeight": 600,
+              "width": 200,
+              "color": "#000000"
+            }
+          }
+        ],
+        "edges": [
+          {
+            "id": "edge-1",
+            "source": "node1",
+            "target": "node2",
+            "label": "connects to",
+            "type": "smoothstep",
+            "animated": false,
+            "style": { "stroke": "hsl(var(--primary) / 0.3)", "strokeWidth": 2 },
+            "markerEnd": { "type": "arrowclosed", "color": "hsl(var(--primary) / 0.5)" }
+          }
+        ]
+      }
+    ]
+  }
+}
+
+Guidelines:
+- Use CSS variables for colors in visuals (e.g., hsl(var(--primary) / 0.1)) to ensure theme compatibility.
+- For node text color, ALWAYS use pure black "#000000" to ensure maximum readability on the light-colored nodes, regardless of the user's theme.
+- Create 2-4 chapters with rich content
+- Each chapter should take 5-15 minutes to read
+- Include 1-2 quiz questions per chapter (simple questions to check understanding)
+- Include 3-5 key concepts with thorough explanations
+- Include 2-4 practical exercises (MUST be actual problems to solve, see below)
+- Include 4-6 assessment questions (more comprehensive)
+- Use markdown formatting for better readability (headings, bold, lists, code blocks for CODE only)
+- Make content specific, actionable, and pedagogically sound
+- Write in an engaging, conversational but professional tone
+
+CHAPTER WRITING GUIDELINES (CRITICAL):
+========================================
+Write chapters that are THOROUGH, CLEAR, and EASY TO UNDERSTAND:
+
+1. LENGTH & DEPTH:
+   - Each chapter should be 800-1200 words (approximately 5-10 paragraphs)
+   - Never write chapters shorter than 600 words
+   - Explain concepts thoroughly - don't rush or skip details
+   - Break complex ideas into smaller, digestible pieces
+
+2. STRUCTURE & FLOW:
+   - Use a clear, logical progression from simple to complex
+   - Each paragraph should flow naturally to the next
+   - Use transition phrases: "Building on this...", "Now that we understand...", "Let's explore..."
+   - Don't jump between topics - finish explaining one concept before moving to the next
+   - Include smooth transitions between sections
+
+3. LANGUAGE & CLARITY:
+   - Use simple, conversational language - write like you're explaining to a friend
+   - Define technical terms when first introduced
+   - Avoid jargon; when necessary, explain it immediately
+   - Use concrete examples to illustrate abstract concepts
+   - Break down complex sentences into shorter ones
+   - Use active voice ("we calculate" not "it is calculated")
+
+4. EXPLANATION STYLE:
+   - Start with the "why" before the "how" - motivation matters
+   - Use analogies and metaphors to relate to familiar concepts
+   - Show multiple perspectives on the same concept when helpful
+   - Address common confusions proactively
+   - Explain the reasoning behind formulas, methods, and approaches
+   - Don't assume prior knowledge - build up systematically
+
+5. FORMATTING FOR READABILITY:
+   - Use headers (##, ###) to organize sections within the chapter
+   - Use bullet points for lists of related items
+   - Use numbered lists for sequential steps or procedures
+   - Use **bold** for key terms and important points
+   - Use > blockquotes for important notes or warnings
+   - Add blank lines between paragraphs for visual breathing room
+
+6. EXAMPLES & ILLUSTRATIONS:
+   - Include concrete examples within the chapter text
+   - Walk through examples step-by-step with explanations
+   - Use realistic scenarios that learners can relate to
+   - For math: show the work AND explain the reasoning for each step
+
+7. PEDAGOGICAL APPROACH:
+   - Begin each chapter with what the learner will understand by the end
+   - Build incrementally - each new concept should build on previous ones
+   - Revisit and reinforce key ideas throughout the chapter
+   - End chapters with a brief summary of what was covered
+   - Anticipate and address common questions or misconceptions
+
+EXAMPLE OF GOOD CHAPTER STRUCTURE:
+-----------------------------------
+## Introduction to the Concept
+[2-3 paragraphs: What is it? Why does it matter? Where is it used?]
+
+## Understanding the Fundamentals
+[3-4 paragraphs: Core principles explained simply with examples]
+
+## How It Works in Practice
+[2-3 paragraphs: Concrete examples showing the concept in action]
+
+## Key Insights and Connections
+[2 paragraphs: Tie it together, connect to bigger picture]
+
+## Summary
+[1 paragraph: Brief recap of main points]
+
+CHAPTER CONTENT SEPARATION (CRITICAL):
+======================================
+The chapter "content" field is for READING ONLY. The UI renders this as readable text.
+Quiz questions are handled by a SEPARATE quiz component that reads from the "quizzes" array.
+
+✗ DO NOT put these in the "content" field:
+  - "Quiz", "Quick Check", "Practice Activity", "Check Your Understanding"
+  - Any questions with answer options (A, B, C, D)
+  - Any interactive exercises or fill-in-the-blank prompts
+  - Numbered quiz questions (1., 2., 3.)
+
+✓ The "content" field should ONLY contain:
+  - Educational explanations and reading material
+  - Examples that illustrate concepts
+  - Definitions and key points
+  - Diagrams described in text (actual diagrams go in visuals)
+
+✓ All questions go in the "quizzes" array as structured objects.
+
+PRACTICAL EXERCISES REQUIREMENTS (CRITICAL):
+===============================================
+Exercises MUST be actual problems with correct answers that can be verified.
+
+EXERCISE TYPES - Choose the right type for each problem:
+
+CRITICAL RULE FOR PROGRAMMING EXERCISES:
+- If the exercise asks the learner to WRITE ANY CODE (methods, functions, classes, programs), use "code_editor" type
+- Examples that require "code_editor": "Write a method...", "Implement a function...", "Create a program...", "Write code that..."
+NON-CODING RULE (CRITICAL):
+- If the topic is NOT programming/software development, NEVER use "code_editor"
+- For non-coding topics, use "short_answer" or "multiple_choice" only
+
+1. "short_answer" - Simple problems with a single answer
+   Examples:
+   - "Fill in the blank: 4, 5, _, 7, 8" → correct_answer: "6"
+   - "What is 7 × 8?" → correct_answer: "56"
+   - "Solve: $2x = 10$" → correct_answer: "5" or "x = 5"
+   - "What is the GCD of 12 and 18?" → correct_answer: "6"
+   Use when: Single number, single word, or simple expression answer
+
+2. "multiple_choice" - Select from options
+   Examples:
+   - "Which is prime: 9, 11, 15, 21?" → options: ["9", "11", "15", "21"], correct_answer: "11"
+   - "What is $\\sqrt{64}$?" → options: ["6", "7", "8", "9"], correct_answer: "8"
+   Use when: Testing recognition, or when there are natural distractor options
+   MUST include "options" array with 3-4 choices
+
+3. "code_editor" - ANY exercise requiring writing/implementing CODE (THIS IS THE PRIMARY TYPE FOR PROGRAMMING)
+   Examples:
+   - "Write a Java method that returns the sum of two integers"
+   - "Implement a Python function to reverse a string"
+   - "Create a JavaScript function that checks if a number is prime"
+   - "Write a program that prints numbers 1 to 10"
+   - "Implement a method called isEven that takes an int and returns true if even"
+   - "Create a function to find the maximum value in an array"
+   CRITICAL: Use "code_editor" for ANY exercise where the learner needs to WRITE CODE in a programming language
+   This includes: methods, functions, classes, complete programs, implementing algorithms
+   Include starter_code (optional) and test_cases (optional). Provide correct_answer as complete working code.
+   Language can be: Java, Python, JavaScript, TypeScript, C++, or any programming language
+
+For ALL exercise types, you MUST include:
+- title: Short descriptive name
+- description: The ACTUAL PROBLEM with specific numbers/expressions
+- exercise_type: One of "short_answer", "multiple_choice", or "code_editor"
+- correct_answer: The exact correct answer for validation (for code_editor, include complete working code)
+- hints: 1-2 hints that guide without giving the answer
+
+✗ WRONG exercise description examples (DO NOT DO THIS):
+  - "Students will practice solving equations" (no specific problem)
+  - "Using manipulatives, learners will explore..." (activity, not problem)
+  - "Identify the most appropriate primitive type for each scenario" (references scenarios but doesn't provide them)
+  - "Choose the correct answer for each case" (vague, no actual problem stated)
+  - Missing correct_answer field
+  
+CRITICAL: The description must be SELF-CONTAINED and include ALL information needed to solve the problem. 
+Do NOT reference external content like "each scenario", "the cases above", or "the following situations" unless you actually include that content in the description.
+
+ADAPTIVE EXAMPLES STRATEGY (CRITICAL):
+- Examples should be adaptive and intentional based on what best helps learners understand each specific concept
+- Choose example types that genuinely add clarity—do NOT force real-world examples on every concept
+- Each concept should have 1-3 example sections (not all types are needed for every concept)
+- Only include example sections that meaningfully contribute to understanding
+
+Example Type Selection Guide:
+1. "code" type - Use ONLY for: Programming/software development concepts, syntax, APIs, data structures, algorithms
+   - Title examples: "Code Example", "Implementation", "Syntax Example"
+   - Show concise, working code snippets with brief explanation
+   - Prioritize for: Functions, classes, language features, technical implementations
+   - DO NOT USE for: Math, physics, chemistry, or other subjects where code is just a tool (not the subject itself)
+
+2. "conceptual" type - Use for: Abstract concepts, theories, mental models, foundational ideas
+   - Title examples: "Conceptual Example", "Mental Model", "Core Idea"
+   - Use analogies, explanations, or thought experiments
+   - Prioritize for: Theoretical concepts, philosophical ideas, abstract principles
+
+3. "pattern" type - Use for: Best practices, design patterns, common approaches
+   - Title examples: "Common Pattern", "Best Practice", "Typical Approach", "Step-by-Step Solution"
+   - Show established, recommended ways to solve problems
+   - For MATH: Use this for worked problems with FULL step-by-step solutions
+   - Prioritize for: Intermediate/advanced topics, architectural concepts, mathematical problem-solving
+
+4. "antipattern" type - Use for: Common mistakes, pitfalls, what to avoid
+   - Title examples: "What Not to Do", "Common Mistake", "Pitfall to Avoid"
+   - Highlight incorrect approaches with explanation of why they fail
+   - Prioritize for: Topics with common misconceptions or frequent errors
+
+5. "applied" type - Use for: Practical application, use cases, problem-solving
+   - Title examples: "Applied Example", "Use Case", "Practical Application"
+   - Show how concept solves specific problems
+   - Prioritize for: Skills, techniques, methodologies
+
+6. "real-world" type - Use ONLY when real-world context genuinely adds clarity
+   - Title examples: "Real-World Application", "Industry Example", "Production Use Case"
+   - Connect to actual systems, companies, or scenarios
+   - Use sparingly—only when concrete real-world context enhances understanding
+
+Selection Strategy by Topic Type:
+- Foundational/Abstract concepts → "conceptual" + optionally "applied"
+- Programming syntax/technical topics → "code" (primary) + optionally "pattern" or "antipattern"
+- Intermediate concepts → "pattern" + "antipattern" + optionally "applied"
+- Advanced topics → "pattern" + optionally "applied"
+- Practical skills → "applied" + optionally "real-world"
+- Theoretical concepts → "conceptual" + optionally "applied"
+- Math topics → "pattern" (for step-by-step solutions) + "conceptual" (for theory/intuition)
+- Science topics → "conceptual" + "applied" (show experiments, phenomena, calculations—NOT code)
+- Design/Architecture → "pattern" + "antipattern" + optionally "real-world"
+
+CRITICAL RULES:
+- Do NOT create empty sections
+- Do NOT force real-world examples on every concept
+- Do NOT use "code" type for math, science, or non-programming topics (use "conceptual", "pattern", or "applied" instead)
+- Only use "code" type when the learning goal is programming/software development itself
+- Prioritize clarity and learning value over metaphor
+
+MATH-SPECIFIC REQUIREMENTS (ABSOLUTELY CRITICAL - MUST FOLLOW):
+==================================================================
+For ANY mathematics topic (calculus, algebra, linear algebra, etc.):
+
+1. STRUCTURE REQUIREMENT:
+   - Use "pattern" type with title "Step-by-Step Solution" or "Worked Example"
+   - Each item in the items array is ONE COMPLETE worked problem with full walkthrough
+   
+2. CONTENT REQUIREMENT - Each item MUST contain ALL of these:
+   ✓ **Problem:** statement with proper LaTeX
+   ✓ **Step 1:** First step of solution with work shown
+      - Show the mathematical work
+      - Explain WHY we do this step
+   ✓ **Step 2:** Second step with work shown
+      - Show the mathematical work  
+      - Explain the reasoning
+   ✓ **Step 3:** Continue until problem is solved
+   ✓ **Answer:** Final answer with interpretation
+   
+3. FORMAT REQUIREMENTS:
+   - Use \\n\\n for line breaks between sections (newlines in JSON string)
+   - Use $...$ for inline math, $$...$$ for display math
+   - Remember to escape backslashes: \\\\ for LaTeX commands in JSON
+   - Each step needs: operation shown + reasoning explained
+   
+4. EXAMPLE OF CORRECT FORMAT (this is what each item should look like):
+   "**Problem:** Find $\\\\lim_{x \\\\to 2} \\\\frac{x^2-4}{x-2}$\\n\\n**Step 1:** Factor the numerator\\n$x^2 - 4 = (x+2)(x-2)$\\nWe factor because we can cancel the common term with the denominator.\\n\\n**Step 2:** Simplify the expression\\n$\\\\frac{(x+2)(x-2)}{x-2} = x+2$ (for $x \\\\neq 2$)\\nWe cancel the $(x-2)$ terms since we're taking the limit as $x$ approaches 2, not evaluating at 2.\\n\\n**Step 3:** Evaluate the limit\\n$\\\\lim_{x \\\\to 2} (x+2) = 2+2 = 4$\\nNow the limit is straightforward to evaluate.\\n\\n**Answer:** The limit is 4."
+
+5. WHAT NOT TO DO (INCORRECT):
+   ✗ "Approaching $x=2$ for $f(x) = \\frac{x^2-4}{x-2}$ simplifies to $f(x) = x+2$, so the limit is 4."
+   ✗ Brief explanations without step-by-step work
+   ✗ Just showing the answer without the process
+   
+6. GOAL: TEACH the problem-solving PROCESS, not just show answers
+   - Students need to see HOW to solve similar problems
+   - Every step needs both the math AND the reasoning
+   - Think like a tutor explaining to a student
+
+CRITICAL MATH FORMATTING RULES (MUST FOLLOW):
+- ALL mathematical expressions, formulas, equations, variables, and symbols MUST be wrapped in dollar signs
+- Inline math: wrap in single $ like $x^2 + y^2 = z^2$ or $\\mathbf{v}$ or $\\alpha$
+- Block math: wrap in double $$ on own line like $$\\int_0^1 f(x) dx$$
+- This applies to ALL content: chapter content, quiz questions, quiz options, explanations, examples, everywhere
+- Examples of what MUST be wrapped:
+  * Variables: $x$, $y$, $v$, $\\alpha$, $\\beta$
+  * Expressions: $x + y$, $2x - 3$, $\\frac{a}{b}$
+  * Vectors: $\\mathbf{v}$, $\\vec{u}$
+  * Functions: $f(x)$, $\\sin(x)$, $\\log(n)$
+  * Equations: $E = mc^2$, $a^2 + b^2 = c^2$
+  * Sets: $\\{1, 2, 3\\}$
+- NEVER write raw LaTeX without $ delimiters (e.g., "\\mathbf{v}" is WRONG, "$\\mathbf{v}$" is CORRECT)
+- NEVER use triple backtick code blocks for math - only use $ delimiters
+- Remember to escape backslashes in JSON strings (use \\\\ for a single backslash in LaTeX commands)
+- Generate 2-4 visual diagrams using ReactFlow format:
+  - Position nodes using x,y coordinates (canvas is roughly 800x600)
+  - For vertical flows: increment y by 100-120 for each row
+  - For horizontal flows: increment x by 250-300 for each column
+  - Center the diagram around x=300-400
+  - Use type "smoothstep" for most edges (creates nice curved connectors)
+  - Use type "straight" for direct relationships
+  - Use type "step" for hierarchical diagrams
+  - Style nodes with colors: primary=#0284c7, success=#16a34a, warning=#ea580c, info=#6366f1
+  - Use backgrounds like #e0f2fe (light blue), #dcfce7 (light green), #fef3c7 (light yellow)
+  - Set animated: true on edges to highlight important flows
+  - Always include markerEnd with type "arrowclosed" for directional edges
+  - Give each node a width of 150-250 based on label length`;
+async function generatePathOutline(request) {
+    const maxRetries = 2;
+    let lastError;
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+        try {
+            if (attempt > 0) {
+                console.log(`Retrying path outline generation (attempt ${attempt}/${maxRetries})...`);
+            }
+            const client = ensureClient();
+            const model = USE_OLLAMA ? OLLAMA_MODEL : OPENAI_MODEL;
+            const moduleCountInstruction = Number.isInteger(request.module_count)
+                ? `- Return EXACTLY ${request.module_count} modules in the modules array.`
+                : `- Choose a reasonable module count (typically 4-6).`;
+            const labCountInstruction = request.include_labs === false
+                ? `- Set include_lab_after to false for every module. No labs should be inserted.`
+                : Number.isInteger(request.lab_count)
+                    ? `- Set include_lab_after to true for EXACTLY ${request.lab_count} modules. Never set include_lab_after on the final module.`
+                    : `- Choose lab checkpoints intentionally with include_lab_after when practice is valuable.`;
+            let userPrompt;
+            if (request.context_files && request.context_files.length > 0) {
+                // When user provides files, those take absolute priority
+                const fileContents = request.context_files.map((file, idx) => `File ${idx + 1}: ${file.name}\n${file.content.substring(0, 3000)}${file.content.length > 3000 ? '...' : ''}`).join('\n\n---\n\n');
+                userPrompt = `🚨 CRITICAL INSTRUCTIONS FROM USER FILES 🚨
+
+The user has uploaded specific instructions for this learning path. These are MANDATORY requirements, NOT suggestions:
+
+${fileContents}
+
+---
+
+REQUIRED ACTIONS:
+1. Read the user's instructions above carefully
+2. If they specify a topic to cover FIRST, make that the FIRST module (order_index: 0)
+3. If they specify a custom order or structure, follow it EXACTLY
+4. If they mention specific topics to include, create modules for those topics
+5. Only add additional standard curriculum topics AFTER addressing all user requirements
+6. Never create setup/install/environment modules; focus on actual learning content.
+
+Additional Context:
+- Base Topic: ${request.description || 'Create a structured learning path'}
+- Difficulty: ${request.difficulty}
+${request.topics && request.topics.length > 0 ? `- Focus Areas: ${request.topics.join(', ')}` : ''}
+- Structure Requirements:
+${moduleCountInstruction}
+${labCountInstruction}
+
+REMEMBER: User instructions in the files above override standard curriculum design. Follow them precisely.`;
+            }
+            else {
+                // Standard generation without custom files
+                const titleInstruction = request.title
+                    ? `Title: ${request.title}`
+                    : `Generate an appropriate title based on the learning goals described below.`;
+                userPrompt = `Generate a comprehensive learning path outline for:
+
+${titleInstruction}
+Description: ${request.description || 'Create a structured learning path'}
+Difficulty: ${request.difficulty}
+${request.topics && request.topics.length > 0 ? `Focus Topics: ${request.topics.join(', ')}` : ''}
+
+Note: Determine an appropriate total duration (in hours) based on the content scope and difficulty level.
+Create module titles and descriptions that build on each other progressively.
+
+Structure Requirements:
+${moduleCountInstruction}
+${labCountInstruction}`;
+            }
+            await dumpSystemPromptToMarkdown('path-outline-system-prompt.md', PATH_OUTLINE_PROMPT);
+            const completion = await client.chat.completions.create({
+                model,
+                messages: [
+                    { role: 'system', content: PATH_OUTLINE_PROMPT },
+                    { role: 'user', content: userPrompt }
+                ],
+                temperature: 0.7,
+                max_tokens: 2000,
+                response_format: { type: 'json_object' },
+            });
+            const rawResponse = completion.choices[0]?.message?.content || '{}';
+            console.log('Path outline response:', rawResponse.substring(0, 500));
+            const parsed = tryParseJson(rawResponse);
+            if (!parsed || !parsed.path || !parsed.modules) {
+                console.error('Failed to parse path outline. Raw response:', rawResponse);
+                throw new Error('Failed to parse AI response for path outline');
+            }
+            const normalizedModules = normalizePathModules(parsed.modules);
+            if (normalizedModules.length === 0) {
+                throw new Error('AI outline did not include usable learning modules');
+            }
+            let constrainedModules = normalizedModules;
+            if (Number.isInteger(request.module_count) && request.module_count > 0) {
+                const requestedCount = request.module_count;
+                if (normalizedModules.length > requestedCount) {
+                    constrainedModules = normalizedModules
+                        .slice(0, requestedCount)
+                        .map((module, index) => ({ ...module, order_index: index }));
+                }
+            }
+            if (constrainedModules.length > 0) {
+                constrainedModules[constrainedModules.length - 1].include_lab_after = false;
+            }
+            return {
+                ...parsed.path,
+                modules: constrainedModules,
+            };
+        }
+        catch (error) {
+            lastError = error;
+            console.error(`Attempt ${attempt + 1} failed for path outline:`, error.message);
+            if (attempt === maxRetries) {
+                throw error;
+            }
+            await new Promise(resolve => setTimeout(resolve, 1000 * (attempt + 1)));
+        }
+    }
+    throw lastError;
+}
+async function generateModuleContent(moduleTitle, moduleDescription, pathContext, difficulty, orderIndex, contextFiles) {
+    const maxRetries = 1;
+    let lastError;
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+        try {
+            if (attempt > 0) {
+                console.log(`Retrying module generation for "${moduleTitle}" (attempt ${attempt}/${maxRetries})...`);
+                // Short delay before retry when generating in parallel
+                await new Promise(resolve => setTimeout(resolve, 500));
+            }
+            const client = ensureClient();
+            const model = USE_OLLAMA ? OLLAMA_MODEL : OPENAI_MODEL;
+            const contextFilesSection = contextFiles && contextFiles.length > 0
+                ? `\n\nUser-Provided Reference Materials:\n${contextFiles.map((file, idx) => `[${idx + 1}] ${file.name}:\n${file.content.substring(0, 2000)}${file.content.length > 2000 ? '...' : ''}`).join('\n\n')}\n\nUse these materials to inform the content of this module.`
+                : '';
+            const userPrompt = `Generate detailed content for this learning module:
+
+Module Title: ${moduleTitle}
+Module Description: ${moduleDescription}
+Learning Path Context: ${pathContext}
+Difficulty Level: ${difficulty}${contextFilesSection}
+Module Position: ${orderIndex + 1}
+
+Create comprehensive, thorough learning content. Each chapter should be detailed and well-explained (800-1200 words), with clear progression and smooth flow. Use simple language and explain everything clearly. Don't rush through concepts - take the time to explain them properly with examples.`;
+            await dumpSystemPromptToMarkdown('module-content-system-prompt.md', MODULE_CONTENT_PROMPT);
+            const completion = await client.chat.completions.create({
+                model,
+                messages: [
+                    { role: 'system', content: MODULE_CONTENT_PROMPT },
+                    { role: 'user', content: userPrompt }
+                ],
+                temperature: 0.7,
+                max_tokens: 16000,
+                response_format: { type: 'json_object' },
+            });
+            const rawResponse = completion.choices[0]?.message?.content || '{}';
+            const finishReason = completion.choices[0]?.finish_reason;
+            console.log(`Module "${moduleTitle}" content generated (${rawResponse.length} chars, finish_reason: ${finishReason})`);
+            // Check if response was truncated
+            if (finishReason === 'length') {
+                console.error('WARNING: Response was truncated due to max_tokens limit!');
+            }
+            const parsed = tryParseJson(rawResponse);
+            if (!parsed || !parsed.content) {
+                console.error('Failed to parse module content. Raw response:', rawResponse.substring(0, 500));
+                throw new Error('Failed to parse AI response for module content');
+            }
+            // Fix any literal \n strings in the content
+            return fixLiteralNewlines(parsed.content);
+        }
+        catch (error) {
+            lastError = error;
+            console.error(`Attempt ${attempt + 1} failed for module "${moduleTitle}":`, error.message);
+            if (attempt === maxRetries) {
+                throw error;
+            }
+        }
+    }
+    throw lastError;
+}
+/**
+ * Generate structured module content from synthesized source material
+ * Takes content from the source registry and creates a full learning module
+ */
+async function generateModuleFromSourceContent(moduleTitle, moduleDescription, pathContext, difficulty, synthesizedContent) {
+    const client = ensureClient();
+    const model = USE_OLLAMA ? OLLAMA_MODEL : OPENAI_MODEL;
+    // Format the synthesized content for the AI
+    const sourceMaterial = `
+SYNTHESIZED CONTENT FROM SOURCE MATERIAL:
+
+Overview:
+${synthesizedContent.overview}
+
+Learning Objectives:
+${synthesizedContent.learning_objectives.map((obj, i) => `${i + 1}. ${obj}`).join('\n')}
+
+Sections:
+${synthesizedContent.sections.map((sec, i) => `
+Section ${i + 1}: ${sec.title}
+${sec.content}
+`).join('\n---\n')}
+
+Key Concepts:
+${synthesizedContent.key_concepts.map(kc => `
+Concept: ${kc.concept}
+Explanation: ${kc.explanation}
+${kc.example_sections ? `Examples: ${JSON.stringify(kc.example_sections)}` : ''}
+`).join('\n---\n')}
+`;
+    const userPrompt = `You are transforming educational content from a textbook into an engaging, structured learning module.
+
+Module Title: ${moduleTitle}
+Module Description: ${moduleDescription}
+Learning Path Context: ${pathContext}
+Difficulty Level: ${difficulty}
+
+IMPORTANT: The content below has been extracted from an authoritative educational source. Your job is to:
+1. Break it into 3-5 digestible chapters (each should be thorough and detailed: 800-1200 words)
+2. Explain concepts clearly using simple language with smooth, logical flow - don't jump around
+3. Create quiz questions for each chapter to test understanding
+4. Enhance the key concepts with detailed examples and step-by-step explanations
+5. Create practical exercises based on the material
+6. Generate visual diagrams to illustrate the concepts
+7. Add a comprehensive assessment at the end
+
+Remember: Write chapters that are thorough, well-explained, and easy to understand. Use clear transitions between ideas and build concepts incrementally.
+
+${sourceMaterial}
+
+Create a complete, structured learning module that makes this content engaging and easy to learn. Use the source material as your foundation - don't add external information, but DO structure it pedagogically with chapters, quizzes, examples, exercises, and visuals.`;
+    await dumpSystemPromptToMarkdown('module-content-system-prompt.md', MODULE_CONTENT_PROMPT);
+    const completion = await client.chat.completions.create({
+        model,
+        messages: [
+            { role: 'system', content: MODULE_CONTENT_PROMPT },
+            { role: 'user', content: userPrompt }
+        ],
+        temperature: 0.6,
+        max_tokens: 16000,
+        response_format: { type: 'json_object' },
+    });
+    const rawResponse = completion.choices[0]?.message?.content || '{}';
+    const finishReason = completion.choices[0]?.finish_reason;
+    console.log(`Registry-backed module "${moduleTitle}" structured (${rawResponse.length} chars, finish_reason: ${finishReason})`);
+    if (finishReason === 'length') {
+        console.error('WARNING: Response was truncated due to max_tokens limit!');
+    }
+    const parsed = tryParseJson(rawResponse);
+    if (!parsed || !parsed.content) {
+        console.error('Failed to parse module content. Raw response:', rawResponse.substring(0, 500));
+        throw new Error('Failed to parse AI response for registry-backed module content');
+    }
+    return fixLiteralNewlines(parsed.content);
+}
