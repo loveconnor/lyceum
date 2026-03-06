@@ -33,7 +33,7 @@
     "rehype-katex": "^7.0.1",
     "remark-gfm": "^4.0.1",
     "remark-math": "^6.0.0",
-    "shiki": "^3.12.2",
+    "shiki": "3.22.0",
     "simple-functional-loader": "^1.2.1",
     "tailwindcss": "^4.1.15",
     "typescript": "^5.8.3"

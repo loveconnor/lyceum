@@ -622,31 +622,6 @@ function MarkdownComponent({ children, className, components = DEFAULT_COMPONENT
 
     processed = wrapBareLatexInTableRows(processed);
 
-    const isLikelyParenthesizedMath = (content: string) => {
-      const trimmed = content.trim();
-      if (!trimmed) return false;
-
-      const hasLatexCommand = /\\[a-zA-Z]+/.test(trimmed);
-      const hasSubOrSup = /[_^]/.test(trimmed);
-      const hasEquationOperator = /[=+*/^]|-(?=\d)/.test(trimmed);
-      const hasDigit = /\d/.test(trimmed);
-
-      // Remove LaTeX command names before counting natural-language words.
-      const deLatex = trimmed.replace(/\\[a-zA-Z]+/g, " ");
-      const plainText = deLatex
-        .replace(/[$_^{}=+\-*/\\,.;:()[\]0-9]/g, " ")
-        .replace(/\s+/g, " ")
-        .trim();
-      const wordCount = plainText ? plainText.split(" ").length : 0;
-
-      // Avoid wrapping prose-style parentheticals like "(e.g., give both ...)".
-      if (wordCount >= 4) return false;
-      if (hasLatexCommand) return true;
-      if (hasSubOrSup) return true;
-      if (hasEquationOperator && hasDigit) return true;
-      return false;
-    };
-    
     // Convert [ math ] style display math to $$ math $$
     // This handles cases where AI uses square brackets for display math
     processed = processed.replace(/\\\[([\s\S]*?)\\\]/g, (match, content) => {
@@ -659,18 +634,8 @@ function MarkdownComponent({ children, className, components = DEFAULT_COMPONENT
       .replace(/\\\\\(([\s\S]*?)\\\\\)/g, (match, content) => `$${content}$`)
       .replace(/\\\(([\s\S]*?)\\\)/g, (match, content) => `$${content}$`);
 
-    // Pass 1: wrap simple parenthesized math with no nested parentheses.
-    processed = processed.replace(
-      /\(([^()\n]*?(?:_[A-Za-z{]|\\[a-zA-Z]+)[^()\n]*)\)/g,
-      (match, content) => `$${content}$`
-    );
-
-    // Pass 2: wrap one-level nested parenthesized math, e.g. (\mathbf r(3)=...).
-    // This catches expressions skipped by the no-nesting pass above.
-    processed = processed.replace(
-      /\(((?:[^()\n]+|\([^()\n]*\))+?)\)/g,
-      (match, content) => (isLikelyParenthesizedMath(content) ? `$${content.trim()}$` : match)
-    );
+    // Do not auto-wrap plain parenthesized content as math. That can corrupt
+    // valid LaTeX grouping, e.g. \left( ... \right) -> \left$ ... \right$.
     
     // Also handle the case where square brackets are used without backslashes
     // Match [ followed by math content and closing ]

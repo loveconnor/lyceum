@@ -11,6 +11,11 @@
     "apps/*",
     "packages/*"
   ],
+  "pnpm": {
+    "overrides": {
+      "shiki": "3.22.0"
+    }
+  },
   "devDependencies": {
     "@types/d3": "^7.4.3",
     "@types/three": "^0.170.0",

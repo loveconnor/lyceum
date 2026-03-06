@@ -1,13 +1,17 @@
 {
   "version": 1,
   "entries": {
-    "FillInTheBlank.iteration-1.tsx": { "parent": "fill-in-the-blank" },
-    "FillInTheBlank.iteration-2.tsx": { "parent": "fill-in-the-blank" },
-    "FillInTheBlank.iteration-3.tsx": { "parent": "fill-in-the-blank" },
-    "FillInTheBlank.iteration-4.tsx": { "parent": "fill-in-the-blank" },
-    "ShortAnswer.iteration-1.tsx": { "parent": "short-answer" },
-    "ShortAnswer.iteration-2.tsx": { "parent": "short-answer" },
-    "ShortAnswer.iteration-3.tsx": { "parent": "short-answer" },
-    "ShortAnswer.iteration-4.tsx": { "parent": "short-answer" }
+    "FillInTheBlank.iteration-1.tsx": {
+      "parent": "fill-in-the-blank"
+    },
+    "FillInTheBlank.iteration-2.tsx": {
+      "parent": "fill-in-the-blank"
+    },
+    "FillInTheBlank.iteration-3.tsx": {
+      "parent": "fill-in-the-blank"
+    },
+    "FillInTheBlank.iteration-4.tsx": {
+      "parent": "fill-in-the-blank"
+    }
   }
 }
