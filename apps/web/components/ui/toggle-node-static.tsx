@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import type { SlateElementProps } from 'platejs/static';
 
-import { ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'honestui/icons';
 import { SlateElement } from 'platejs/static';
 
 export function ToggleElementStatic(props: SlateElementProps) {

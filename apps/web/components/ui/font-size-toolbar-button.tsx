@@ -6,10 +6,10 @@ import type { TElement } from 'platejs';
 
 import { toUnitLess } from '@platejs/basic-styles';
 import { FontSizePlugin } from '@platejs/basic-styles/react';
-import { Minus } from 'lucide-react';
+import { Minus } from 'honestui/icons';
 import { KEYS } from 'platejs';
 import { useEditorPlugin, useEditorSelector } from 'platejs/react';
-import { Plus } from '@/components/ui/icons/plus';
+import { Plus } from '@/components/ui/animated-icons';
 
 import {
   Popover,

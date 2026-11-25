@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface StatusTabsProps<T extends string> {
@@ -9,6 +8,7 @@ interface StatusTabsProps<T extends string> {
   statusEnum: Record<string, T>;
   statusNamed: Record<T, string>;
   allLabel: string;
+  resultsId?: string;
 }
 
 function StatusTabs<T extends string>({
@@ -16,21 +16,20 @@ function StatusTabs<T extends string>({
   activeTab,
   statusEnum,
   statusNamed,
-  allLabel
+  allLabel,
+  resultsId
 }: StatusTabsProps<T>) {
-  const id = React.useId();
-  
   return (
     <Tabs
-      id={id}
-      defaultValue={activeTab}
       onValueChange={(value) => onTabChange(value as T | "all")}
       value={activeTab}>
       <TabsList>
-        <TabsTrigger value="all">{allLabel}</TabsTrigger>
-        {Object.values(statusEnum).map((status) => (
-          <TabsTrigger key={status} value={status}>
-            {statusNamed[status]}
+        {(["all" as const, ...Object.values(statusEnum)]).map((status) => (
+          <TabsTrigger
+            key={status}
+            value={status}
+            {...(resultsId && { id: `${resultsId}-tab-${status}`, "aria-controls": resultsId })}>
+            {status === "all" ? allLabel : statusNamed[status]}
           </TabsTrigger>
         ))}
       </TabsList>

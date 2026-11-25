@@ -3,12 +3,12 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import {
-  CheckCircle2,
-  XCircle,
+  CircleCheck as CheckCircle2,
+  CircleX as XCircle,
   RefreshCcw,
-  HelpCircle,
-  AlertCircle,
-} from "lucide-react";
+  CircleQuestionMark as HelpCircle,
+  CircleAlert as AlertCircle,
+} from "honestui/icons";
 import { Markdown } from "./markdown";
 
 import type { ComponentRenderProps } from "./types";
@@ -352,7 +352,7 @@ export function FillInTheBlank({ element }: ComponentRenderProps) {
 
     // Drag Hover State
     if (dragOverId === id) {
-      return `${base} border-primary/50 ring-2 ring-primary/10 text-foreground`;
+      return `${base} surface-selected text-foreground`;
     }
 
     // Validation States
@@ -364,7 +364,7 @@ export function FillInTheBlank({ element }: ComponentRenderProps) {
     }
 
     // Default State
-    return `${base} border-border text-foreground focus-within:ring-2 focus-within:ring-primary/15 focus-within:border-primary/40`;
+    return `${base} border-border text-foreground focus-within:surface-selected`;
   };
 
   const wordBankSection = (
@@ -373,7 +373,7 @@ export function FillInTheBlank({ element }: ComponentRenderProps) {
         showCard
           ? "px-4 py-3 border border-border rounded-md bg-muted/20"
           : "px-0 py-0"
-      } ${isBankHovered ? "bg-primary/5 ring-2 ring-primary/10" : ""}`}
+      } ${isBankHovered ? "surface-selected" : ""}`}
       onDragOver={(e) => {
         e.preventDefault();
         setIsBankHovered(true);
@@ -403,7 +403,7 @@ export function FillInTheBlank({ element }: ComponentRenderProps) {
             key={`${word}-${idx}`}
             draggable
             onDragStart={(e) => handleDragStart(e, word, "bank", idx)}
-            className="cursor-grab active:cursor-grabbing px-2.5 py-1 bg-background border border-border rounded-md shadow-sm hover:border-primary/40 hover:text-primary transition-colors text-xs font-medium flex items-center gap-2 select-none"
+            className="cursor-grab active:cursor-grabbing px-2.5 py-1 bg-background border border-border rounded-md shadow-sm hover:surface-hover hover:shadow-md transition-all duration-200 text-xs font-medium flex items-center gap-2 select-none"
           >
             {word}
           </div>

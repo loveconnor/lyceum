@@ -1,12 +1,12 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { FlowControls } from "@/app/design-playground/ui/flow-controls";
 import React, { useState, useEffect, useCallback } from "react";
 import { useTheme } from "next-themes";
 import {
   ReactFlow,
   Background,
-  Controls,
   Node,
   Edge,
   MarkerType,
@@ -27,8 +27,8 @@ import {
   ChevronRight,
   Eye,
   Network,
-  CheckCircle2,
-} from "lucide-react";
+  CircleCheck as CheckCircle2,
+} from "honestui/icons";
 import { cn } from "@/lib/utils";
 import { Markdown } from "./markdown";
 
@@ -364,7 +364,7 @@ export function ReactFlowWidget({
           className="bg-muted/10 react-flow-widget-container w-full h-full"
         >
           <Background gap={20} size={1} className="opacity-40" />
-          <Controls className="!bg-card !border-border !shadow-sm" />
+          <FlowControls className="!bg-card !border-border !shadow-sm" />
         </ReactFlow>
       </div>
     </div>
@@ -452,12 +452,8 @@ export function ReactFlowWidget({
 const CustomNode = ({ data, selected }: NodeProps) => {
   return (
     <div
-      className={cn(
-        "relative min-w-[200px] max-w-[300px] rounded-xl border bg-card px-5 py-4 shadow-sm transition-all duration-300",
-        selected
-          ? "border-primary ring-2 ring-primary/20 shadow-lg scale-105"
-          : "border-border hover:border-primary/50 hover:shadow-md",
-      )}
+      data-selected={!!selected}
+      className="selectable min-w-[200px] max-w-[300px] rounded-xl px-5 py-4"
     >
       <Handle
         type="target"

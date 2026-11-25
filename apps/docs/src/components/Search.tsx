@@ -1,5 +1,6 @@
 'use client'
 
+import { Search as SearchIcon, LoaderCircle } from 'honestui/icons'
 import {
   forwardRef,
   Fragment,
@@ -32,14 +33,6 @@ type Autocomplete = AutocompleteApi<
   React.MouseEvent,
   React.KeyboardEvent
 >
-
-function SearchIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg aria-hidden="true" viewBox="0 0 20 20" {...props}>
-      <path d="M16.293 17.707a1 1 0 0 0 1.414-1.414l-1.414 1.414ZM9 14a5 5 0 0 1-5-5H2a7 7 0 0 0 7 7v-2ZM4 9a5 5 0 0 1 5-5V2a7 7 0 0 0-7 7h2Zm5-5a5 5 0 0 1 5 5h2a7 7 0 0 0-7-7v2Zm8.707 12.293-3.757-3.757-1.414 1.414 3.757 3.757 1.414-1.414ZM14 9a4.98 4.98 0 0 1-1.464 3.536l1.414 1.414A6.98 6.98 0 0 0 16 9h-2Zm-1.464 3.536A4.98 4.98 0 0 1 9 14v2a6.98 6.98 0 0 0 4.95-2.05l-1.414-1.414Z" />
-    </svg>
-  )
-}
 
 function useAutocomplete({
   close,
@@ -108,35 +101,6 @@ function useAutocomplete({
   return { autocomplete, autocompleteState }
 }
 
-function LoadingIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  let id = useId()
-
-  return (
-    <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" {...props}>
-      <circle cx="10" cy="10" r="5.5" strokeLinejoin="round" />
-      <path
-        stroke={`url(#${id})`}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M15.5 10a5.5 5.5 0 1 0-5.5 5.5"
-      />
-      <defs>
-        <linearGradient
-          id={id}
-          x1="13"
-          x2="9.5"
-          y1="9"
-          y2="15"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop stopColor="currentColor" />
-          <stop offset="1" stopColor="currentColor" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-    </svg>
-  )
-}
-
 function HighlightQuery({ text, query }: { text: string; query: string }) {
   return (
     <Highlighter
@@ -170,7 +134,7 @@ function SearchResult({
 
   return (
     <li
-      className="group block cursor-default rounded-lg px-3 py-2 aria-selected:bg-slate-100 dark:aria-selected:bg-slate-700/30"
+      className="group block cursor-default rounded-hui-item px-3 py-2 aria-selected:bg-hui-subtle"
       aria-labelledby={`${id}-hierarchy ${id}-title`}
       {...autocomplete.getItemProps({
         item: result,
@@ -258,7 +222,7 @@ const SearchInput = forwardRef<
 
   return (
     <div className="group relative flex h-12">
-      <SearchIcon className="pointer-events-none absolute top-0 left-4 h-full w-5 fill-slate-400 dark:fill-slate-500" />
+      <SearchIcon aria-hidden="true" className="pointer-events-none absolute top-0 left-4 h-full w-5 text-slate-400 dark:text-slate-500" />
       <input
         ref={inputRef}
         data-autofocus
@@ -287,7 +251,7 @@ const SearchInput = forwardRef<
       />
       {autocompleteState.status === 'stalled' && (
         <div className="absolute inset-y-0 right-3 flex items-center">
-          <LoadingIcon className="h-6 w-6 animate-spin stroke-slate-200 text-slate-400 dark:stroke-slate-700 dark:text-slate-500" />
+          <LoaderCircle aria-hidden="true" className="h-6 w-6 animate-spin text-slate-400 dark:text-slate-500" />
         </div>
       )}
     </div>
@@ -371,7 +335,7 @@ function SearchDialog({
         <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm" />
 
         <div className="fixed inset-0 overflow-y-auto px-4 py-4 sm:px-6 sm:py-20 md:py-32 lg:px-8 lg:py-[15vh]">
-          <DialogPanel className="mx-auto transform-gpu overflow-hidden rounded-xl bg-white shadow-xl sm:max-w-xl dark:bg-slate-800 dark:ring-1 dark:ring-slate-700">
+          <DialogPanel className="mx-auto transform-gpu overflow-hidden rounded-hui-panel border-[0.5px] border-hui-overlay-edge bg-hui-overlay shadow-hui-overlay sm:max-w-xl">
             <div {...autocomplete.getRootProps({})}>
               <form
                 ref={formRef}
@@ -435,13 +399,13 @@ export function Search() {
 
   return (
     <>
-      <button type="button" className="group relative hidden h-9 w-full lg:block" {...buttonProps}>
-        <SearchIcon className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 fill-current" />
-        <div className="flex h-9 w-full items-center rounded-md border border-border bg-background/60 pr-14 pl-10 text-left text-sm text-muted-foreground shadow-xs">
+      <button type="button" className="group relative hidden h-9 w-full rounded-hui-control lg:block focus-visible:outline-2 focus-visible:outline-hui-focus focus-visible:outline-offset-2" {...buttonProps}>
+        <SearchIcon aria-hidden="true" className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
+        <div className="flex h-9 w-full items-center rounded-hui-control border-[0.5px] border-hui-field-edge bg-hui-field pr-14 pl-10 text-left text-sm text-hui-muted shadow-hui-soft">
           Search docs
         </div>
         {modifierKey && (
-          <div className="absolute top-1/2 right-2 hidden h-6 min-w-8 -translate-y-1/2 items-center justify-center gap-0.5 rounded-md border border-border/60 bg-muted/70 px-1.5 font-mono text-xs leading-none font-medium text-muted-foreground sm:inline-flex">
+          <div className="absolute top-1/2 right-2 hidden h-6 min-w-8 -translate-y-1/2 items-center justify-center gap-0.5 rounded-hui-item border-[0.5px] border-hui-line bg-hui-subtle px-1.5 font-mono text-xs leading-none font-medium text-muted-foreground sm:inline-flex">
             <span>{modifierKey}</span>
             <span>K</span>
           </div>
@@ -449,10 +413,10 @@ export function Search() {
       </button>
       <button
         type="button"
-        className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-border bg-background/60 lg:hidden"
+        className="inline-flex h-9 w-9 items-center justify-center rounded-hui-control border-[0.5px] border-hui-field-edge bg-hui-field lg:hidden focus-visible:outline-2 focus-visible:outline-hui-focus focus-visible:outline-offset-2"
         {...buttonProps}
       >
-        <SearchIcon className="h-4 w-4 fill-current text-muted-foreground" />
+        <SearchIcon aria-hidden="true" className="h-4 w-4 text-muted-foreground" />
       </button>
       <SearchDialog {...dialogProps} />
     </>

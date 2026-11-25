@@ -9,7 +9,7 @@ import { Controlled as ControlledZoom } from "react-medium-image-zoom";
 import { ActionButton, ActionWrapper, ImageActions } from "./image-actions";
 import { useImageActions } from "../hooks/use-image-actions";
 import { blobUrlToBase64, randomId } from "../../../utils";
-import { InfoCircledIcon, TrashIcon } from "@radix-ui/react-icons";
+import { Info as InfoCircledIcon, Trash as TrashIcon } from "honestui/icons";
 import { ImageOverlay } from "./image-overlay";
 import { Spinner } from "../../../components/spinner";
 import type { UploadReturnType } from "../image";

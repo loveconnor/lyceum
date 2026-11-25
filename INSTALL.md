@@ -36,6 +36,7 @@ Create a `.env.local` file in `apps/web/`:
 # apps/web/.env.local
 NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key_from_step_2
+NEXT_PUBLIC_BACKEND_URL=http://127.0.0.1:8080
 ```
 
 ### Backend (`apps/backend`)
@@ -84,7 +85,7 @@ npm run dev -w apps/web
 **Backend (API):**
 ```bash
 npm run dev -w apps/backend
-# Access at http://localhost:3001
+# Access at http://127.0.0.1:8080
 ```
 
 ## AI Endpoints (backend)

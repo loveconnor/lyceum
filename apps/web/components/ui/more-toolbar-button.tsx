@@ -5,10 +5,10 @@ import * as React from 'react';
 import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
 import {
-  KeyboardIcon,
-  SubscriptIcon,
-  SuperscriptIcon,
-} from 'lucide-react';
+  Keyboard as KeyboardIcon,
+  Subscript as SubscriptIcon,
+  Superscript as SuperscriptIcon,
+} from 'honestui/icons';
 import { KEYS } from 'platejs';
 import { useEditorRef } from 'platejs/react';
 
@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { ToolbarButton } from './toolbar';
-import { EllipsisVerticalIcon } from '@/components/ui/icons/ellipsis-vertical';
+import { EllipsisVertical as EllipsisVerticalIcon } from '@/components/ui/animated-icons';
 
 export function MoreToolbarButton(props: DropdownMenuProps) {
   const editor = useEditorRef();

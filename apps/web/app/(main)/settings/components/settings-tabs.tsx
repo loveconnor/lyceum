@@ -6,10 +6,12 @@ import { usePathname, useRouter } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useI18n } from "@/components/providers/i18n-provider";
 import type { MessageKey } from "@/lib/i18n";
-import { UserIcon } from "@/components/ui/icons/user";
-import { HeartIcon } from "@/components/ui/icons/heart";
-import { PaintbrushIcon } from "@/components/ui/icons/paintbrush";
-import { BellIcon } from "@/components/ui/icons/bell";
+import {
+  User as UserIcon,
+  Heart as HeartIcon,
+  Paintbrush as PaintbrushIcon,
+  Bell as BellIcon,
+} from "@/components/ui/animated-icons";
 
 const settingsTabs: Array<{
   titleKey: MessageKey;

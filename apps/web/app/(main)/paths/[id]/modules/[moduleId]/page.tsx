@@ -1,15 +1,16 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { FlowControls } from "@/app/design-playground/ui/flow-controls";
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { 
-  MessageSquareText, 
-  ChevronLeft, 
-  ChevronRight, 
+import {
+  MessageSquareText,
+  ChevronLeft,
+  ChevronRight,
   ArrowRight,
-  HelpCircle, 
-  CheckCircle2, 
+  CircleQuestionMark as HelpCircle,
+  CircleCheck as CheckCircle2,
   BookOpen,
   Lightbulb,
   ArrowLeft,
@@ -20,15 +21,15 @@ import {
   FileText,
   Clock,
   X,
-  Code2,
+  CodeXml as Code2,
   Brain,
-  CheckSquare,
-  XCircle,
+  SquareCheckBig as CheckSquare,
+  CircleX as XCircle,
   Wrench,
   Globe,
   ChevronDown,
   ArrowDown,
-} from "lucide-react";
+} from "honestui/icons";
 import { ReactFlowWidget, ReactFlowWidgetData } from "@/components/widgets/react-flow-widget";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
@@ -56,7 +57,6 @@ import { Separator } from "@/components/ui/separator";
 import { 
   ReactFlow, 
   Background, 
-  Controls, 
   Node, 
   Edge,
   MarkerType,
@@ -2404,7 +2404,7 @@ const VisualsViewOld_Unused = ({ isVisualsComplete, setIsVisualsComplete }: { is
                 }}
               >
                 <Background gap={16} size={1} color="hsl(var(--muted-foreground))" style={{ opacity: 0.2 }} />
-                <Controls />
+                <FlowControls />
               </ReactFlow>
             </div>
           </CardContent>
@@ -2551,7 +2551,7 @@ const VisualsViewOld_Unused = ({ isVisualsComplete, setIsVisualsComplete }: { is
                 }}
               >
                 <Background gap={16} size={1} color="hsl(var(--muted-foreground))" style={{ opacity: 0.2 }} />
-                <Controls />
+                <FlowControls />
               </ReactFlow>
             </div>
           </CardContent>
@@ -2795,7 +2795,7 @@ const VisualsViewOld_Unused = ({ isVisualsComplete, setIsVisualsComplete }: { is
                 proOptions={{ hideAttribution: true }}
               >
                 <Background gap={12} size={1} />
-                <Controls />
+                <FlowControls />
               </ReactFlow>
             </div>
           </CardContent>

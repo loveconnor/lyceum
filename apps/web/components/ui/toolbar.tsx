@@ -5,7 +5,7 @@ import * as React from 'react';
 import * as ToolbarPrimitive from '@radix-ui/react-toolbar';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import { type VariantProps, cva } from 'class-variance-authority';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'honestui/icons';
 
 import {
   DropdownMenuLabel,
@@ -58,7 +58,7 @@ export function ToolbarSeparator({
 }: React.ComponentProps<typeof ToolbarPrimitive.Separator>) {
   return (
     <ToolbarPrimitive.Separator
-      className={cn('mx-2 my-1 w-px shrink-0 bg-border', className)}
+      className={cn('mx-2 my-1 w-px shrink-0 bg-hui-line', className)}
       {...props}
     />
   );
@@ -66,7 +66,7 @@ export function ToolbarSeparator({
 
 // From toggleVariants
 const toolbarButtonVariants = cva(
-  "inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium text-sm outline-none transition-[color,box-shadow] hover:bg-muted hover:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-checked:bg-accent aria-checked:text-accent-foreground aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-hui-item font-medium text-sm hover:bg-hui-subtle hover:text-hui-ink outline-none focus-visible:outline-2 focus-visible:outline-hui-focus focus-visible:outline-offset-2 motion-safe:[transition:var(--hui-transition-interactive)] disabled:pointer-events-none disabled:opacity-50 aria-checked:bg-hui-subtle aria-checked:text-hui-ink aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     defaultVariants: {
       size: 'default',
@@ -81,7 +81,7 @@ const toolbarButtonVariants = cva(
       variant: {
         default: 'bg-transparent',
         outline:
-          'border border-input bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground',
+          'border-[0.5px] border-hui-field-edge bg-hui-field shadow-hui-soft hover:bg-hui-subtle hover:text-hui-ink',
       },
     },
   }
@@ -104,7 +104,7 @@ const dropdownArrowVariants = cva(
       },
       variant: {
         default:
-          'bg-transparent hover:bg-muted hover:text-muted-foreground aria-checked:bg-accent aria-checked:text-accent-foreground',
+          'bg-transparent hover:bg-muted hover:text-muted-foreground aria-checked:bg-hui-subtle aria-checked:text-hui-ink',
         outline:
           'border border-input border-l-0 bg-transparent hover:bg-accent hover:text-accent-foreground',
       },

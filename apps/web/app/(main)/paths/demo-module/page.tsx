@@ -1,14 +1,15 @@
 "use client";
 
+import { FlowControls } from "@/app/design-playground/ui/flow-controls";
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { updatePathItemProgress, fetchPathItem } from "@/lib/api/paths";
-import { 
-  MessageSquareText, 
-  ChevronLeft, 
-  ChevronRight, 
-  HelpCircle, 
-  CheckCircle2, 
+import {
+  MessageSquareText,
+  ChevronLeft,
+  ChevronRight,
+  CircleQuestionMark as HelpCircle,
+  CircleCheck as CheckCircle2,
   BookOpen,
   Lightbulb,
   ArrowLeft,
@@ -19,7 +20,7 @@ import {
   FileText,
   Clock,
   X
-} from "lucide-react";
+} from "honestui/icons";
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 import { useTheme } from "next-themes";
@@ -32,7 +33,6 @@ import { Separator } from "@/components/ui/separator";
 import { 
   ReactFlow, 
   Background, 
-  Controls, 
   Node, 
   Edge,
   MarkerType,
@@ -409,7 +409,7 @@ This level of abstraction allows developers to swap out implementations for bett
                         "w-full text-left px-3.5 py-3 rounded-lg border transition-all flex items-center gap-3 group relative",
                         selectedOption === option.id 
                           ? (isCorrect ? "border-green-500/50 bg-green-500/5" : "border-destructive/50 bg-destructive/5")
-                          : "border-border hover:border-primary/30 hover:bg-accent/30",
+                          : "border-border hover:surface-hover",
                         isCorrect === true && selectedOption !== option.id && "opacity-40"
                       )}
                     >
@@ -1420,7 +1420,7 @@ const VisualsView = ({
                 }}
               >
                 <Background gap={16} size={1} color="hsl(var(--muted-foreground))" style={{ opacity: 0.2 }} />
-                <Controls />
+                <FlowControls />
               </ReactFlow>
             </div>
           </div>
@@ -1598,7 +1598,7 @@ const VisualsView = ({
                 }}
               >
                 <Background gap={16} size={1} color="hsl(var(--muted-foreground))" style={{ opacity: 0.2 }} />
-                <Controls />
+                <FlowControls />
               </ReactFlow>
             </div>
           </div>
@@ -1909,7 +1909,7 @@ const VisualsView = ({
                 proOptions={{ hideAttribution: true }}
               >
                 <Background gap={12} size={1} />
-                <Controls />
+                <FlowControls />
               </ReactFlow>
             </div>
           </div>

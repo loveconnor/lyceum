@@ -23,23 +23,23 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import Editor from "@monaco-editor/react";
-import { 
-  BookOpen, 
-  CheckCircle2, 
-  Circle, 
-  MessageSquare, 
+import {
+  BookOpen,
+  CircleCheck as CheckCircle2,
+  Circle,
+  MessageSquare,
   History,
-  HelpCircle,
+  CircleQuestionMark as HelpCircle,
   ChevronRight,
   Check,
   Eye,
   Brain,
-  AlertTriangle,
-  Loader2,
+  TriangleAlert as AlertTriangle,
+  LoaderCircle as Loader2,
   ThumbsUp,
   ThumbsDown,
   Info
-} from "lucide-react";
+} from "honestui/icons";
 import { cn, extractJSON } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { useLabAI } from "@/hooks/use-lab-ai";

@@ -3,9 +3,8 @@
 import React, { useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Clock, Eye, RotateCcw, Star, Info } from "lucide-react";
-import { EllipsisVertical } from "@/components/ui/icons/ellipsis-vertical";
-import { Trash2 } from "@/components/ui/icons/trash";
+import { Clock, Eye, RotateCcw, Star, Info } from "honestui/icons";
+import { EllipsisVertical, Trash2 } from "@/components/ui/animated-icons";
 import { statusClasses } from "@/app/(main)/labs/enum";
 import { Lab, LabStatus } from "@/app/(main)/labs/types";
 import { Markdown } from "@/components/ui/custom/prompt/markdown";

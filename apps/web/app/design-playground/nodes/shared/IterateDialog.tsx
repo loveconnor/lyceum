@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
-import { Check, Copy, Loader2, Zap } from 'lucide-react';
+import { Check, Copy, LoaderCircle as Loader2, Zap } from 'honestui/icons';
 import { useReactFlow } from '@xyflow/react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip';
 import { generateIterationPrompt, generateIterationFromIterationPrompt } from '../../registry';

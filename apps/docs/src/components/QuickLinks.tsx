@@ -22,13 +22,13 @@ export function QuickLink({
   icon: React.ComponentProps<typeof Icon>['icon']
 }) {
   return (
-    <div className="group relative rounded-xl border border-border">
-      <div className="absolute -inset-px rounded-xl border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,var(--color-background)),var(--quick-links-hover-bg,var(--color-background)))_padding-box,linear-gradient(to_top,var(--color-slate-400),var(--color-slate-500),var(--color-slate-700))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:var(--color-slate-900)]" />
-      <div className="relative overflow-hidden rounded-xl p-6">
+    <div className="group relative rounded-hui-panel border-[0.5px] border-hui-line bg-hui-surface shadow-hui-soft">
+      <div className="absolute -inset-px rounded-hui-panel border-2 border-transparent opacity-0 [background:linear-gradient(var(--quick-links-hover-bg,var(--color-background)),var(--quick-links-hover-bg,var(--color-background)))_padding-box,linear-gradient(to_top,var(--color-slate-400),var(--color-slate-500),var(--color-slate-700))_border-box] group-hover:opacity-100 dark:[--quick-links-hover-bg:var(--color-slate-900)]" />
+      <div className="relative overflow-hidden rounded-hui-panel p-6">
         <Icon icon={icon} className="h-8 w-8" />
         <h2 className="mt-4 font-display text-base text-foreground">
           <Link href={href}>
-            <span className="absolute -inset-px rounded-xl" />
+            <span className="absolute -inset-px rounded-hui-panel group-focus-within:outline-2 group-focus-within:outline-hui-focus group-focus-within:outline-offset-2" />
             {title}
           </Link>
         </h2>

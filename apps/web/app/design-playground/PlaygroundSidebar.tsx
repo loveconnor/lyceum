@@ -1,7 +1,7 @@
 'use client';
 
+import { Hexagon, ChevronRight, ChevronDown, GripVertical, ChevronLeft } from "honestui/icons";
 import { useState, DragEvent } from 'react';
-import { ChevronRight, ChevronDown, GripVertical, ChevronLeft } from 'lucide-react';
 import { registry, RegistryItem, isGroup, isLeaf } from './registry';
 import { DND_DATA_KEY } from './lib/constants';
 
@@ -104,9 +104,7 @@ export default function PlaygroundSidebar({ onCollapse }: PlaygroundSidebarProps
       {/* Header row: label + collapse button */}
       <div className="flex items-center justify-between px-3 pt-3 pb-2 flex-shrink-0">
         <div className="flex items-center gap-1.5">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" className="text-stone-400">
-            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-          </svg>
+          <Hexagon aria-hidden="true" size={13} className="text-stone-400" />
           <span className="text-[11px] font-semibold tracking-widest uppercase text-stone-400 select-none">
             Components
           </span>

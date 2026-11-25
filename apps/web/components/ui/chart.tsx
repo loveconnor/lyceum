@@ -154,7 +154,7 @@ function ChartTooltipContent({
   return (
     <div
       className={cn(
-        "border-border/50 bg-background grid min-w-[8rem] items-start gap-1.5 rounded-lg border px-2.5 py-1.5 text-xs shadow-xl",
+        "border-hui-overlay-edge bg-hui-overlay grid min-w-[8rem] items-start gap-1.5 rounded-hui-control border-[0.5px] px-2.5 py-1.5 text-xs shadow-hui-overlay",
         className
       )}>
       {!nestLabel ? tooltipLabel : null}

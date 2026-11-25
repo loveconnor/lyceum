@@ -1,8 +1,7 @@
 import { ElCopyable } from '@tailwindplus/elements/react'
 import { clsx } from 'clsx/lite'
 import type { ComponentProps, ReactNode } from 'react'
-import { CheckmarkIcon } from '../icons/checkmark-icon'
-import { Squares2StackedIcon } from '../icons/squares-2-stacked-icon'
+import { Check, Copy } from 'honestui/icons'
 
 export function InstallCommand({
   snippet,
@@ -33,8 +32,8 @@ export function InstallCommand({
         type="button"
         className="group relative flex size-9 items-center justify-center rounded-full after:absolute after:-inset-1 hover:bg-mist-950/10 dark:hover:bg-white/10 after:pointer-fine:hidden"
       >
-        <Squares2StackedIcon className="group-data-copied:hidden" />
-        <CheckmarkIcon className="not-group-data-copied:hidden" />
+        <Copy aria-hidden="true" className="size-4 group-data-copied:hidden" />
+        <Check aria-hidden="true" className="size-4 not-group-data-copied:hidden" />
       </button>
     </div>
   )

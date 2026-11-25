@@ -3,7 +3,7 @@ import type { ComponentProps, ReactNode } from 'react'
 import { Container } from '../elements/container'
 import { Subheading } from '../elements/subheading'
 import { Text } from '../elements/text'
-import { CheckmarkIcon } from '../icons/checkmark-icon'
+import { Check } from 'honestui/icons'
 
 export function PricingSingleTierTwoColumn({
   headline,
@@ -44,7 +44,7 @@ export function PricingSingleTierTwoColumn({
               {features.map((feature, index) => (
                 <li key={index} className="flex gap-3 text-sm/5">
                   <span className="flex size-5 shrink-0 items-center justify-center rounded-xs bg-mist-950 dark:bg-mist-700">
-                    <CheckmarkIcon className="size-3 stroke-white" />
+                    <Check aria-hidden="true" className="size-3 stroke-white" />
                   </span>
                   <p className="text-mist-700 dark:text-mist-400">{feature}</p>
                 </li>

@@ -12,7 +12,7 @@ import {
   startOfYear,
   startOfWeek
 } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { Calendar as CalendarIcon } from "honestui/icons";
 import type { DateRange } from "react-day-picker";
 
 import { cn } from "@/lib/utils";

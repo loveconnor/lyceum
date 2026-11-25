@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { GripVerticalIcon } from "lucide-react"
+import { GripVertical as GripVerticalIcon } from "honestui/icons"
 import * as ResizablePrimitive from "react-resizable-panels"
 
 import { cn } from "@/lib/utils"
@@ -45,7 +45,7 @@ function ResizableHandle({
       {...props}
     >
       {withHandle && (
-        <div className="bg-border z-10 flex h-4 w-3 items-center justify-center rounded-xs border">
+        <div className="bg-hui-surface z-10 flex h-4 w-3 items-center justify-center rounded-hui-item border-[0.5px] border-hui-field-edge shadow-hui-soft">
           <GripVerticalIcon className="size-2.5" />
         </div>
       )}

@@ -4,9 +4,8 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { formatDuration } from "@/lib/duration";
-import { Clock, Eye, RotateCcw, Star, BookOpen, FlaskConical } from "lucide-react";
-import { EllipsisVertical } from "@/components/ui/icons/ellipsis-vertical";
-import { Trash2 } from "@/components/ui/icons/trash";
+import { Clock, Eye, RotateCcw, Star, BookOpen, FlaskConical } from "honestui/icons";
+import { EllipsisVertical, Trash2 } from "@/components/ui/animated-icons";
 import { statusClasses, pathStatusNamed } from "@/app/(main)/paths/enum";
 import { LearningPath, PathStatus } from "@/app/(main)/paths/types";
 

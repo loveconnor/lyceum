@@ -812,6 +812,15 @@ body:not([data-font]) {
 
 
 /* Radius */
+[data-theme-radius]:not([data-theme-radius="default"]) {
+    --hui-radius-1: max(0px, calc(var(--radius) * 0.6));
+    --hui-radius-2: var(--radius);
+    --hui-radius-3: calc(var(--radius) * 1.2);
+    --hui-radius-item: var(--hui-radius-1);
+    --hui-radius-card: calc(var(--radius) * 2);
+    --hui-radius-dialog: var(--hui-radius-card);
+}
+
 [data-theme-radius="none"] {
     --radius: 0rem;
 }
@@ -839,6 +848,13 @@ body:not([data-font]) {
 
 
 /* Scale */
+[data-theme-scale="sm"],
+[data-theme-scale="lg"] {
+    --hui-font-size-control: var(--text-sm);
+    --hui-font-size-regular: var(--text-sm);
+    --hui-font-size-large: var(--text-base);
+}
+
 [data-theme-scale="sm"] {
     --text-lg: 1.05rem;
     --text-base: 0.85rem;

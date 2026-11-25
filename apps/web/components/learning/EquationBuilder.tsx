@@ -2,8 +2,8 @@
 /* eslint-disable react-hooks/set-state-in-effect, @typescript-eslint/no-unsafe-function-type */
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Copy, Check, Undo2, AlertCircle } from "lucide-react";
-import { Trash2 } from "@/components/ui/icons/trash";
+import { Copy, Check, Undo2, CircleAlert as AlertCircle } from "honestui/icons";
+import { Trash2 } from "@/components/ui/animated-icons";
 import { Markdown } from "./markdown";
 
 import type { ComponentRenderProps } from "./types";
@@ -234,7 +234,7 @@ export function EquationBuilder({ element }: ComponentRenderProps) {
             isFilled
               ? "bg-muted text-foreground border border-border cursor-pointer hover:bg-rose-50 dark:hover:bg-rose-900/40 hover:border-rose-200 dark:hover:border-rose-800 hover:text-rose-600 dark:hover:text-rose-300"
               : isActive
-                ? "bg-background border-2 border-foreground shadow-sm z-10"
+                ? "bg-background border surface-selected z-10"
                 : "bg-muted/40 border border-border"
           }`}
         >

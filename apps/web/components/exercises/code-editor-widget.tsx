@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Play, CheckCircle2 } from "lucide-react";
+import { Play, CircleCheck as CheckCircle2 } from "honestui/icons";
 import Editor from "@monaco-editor/react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";

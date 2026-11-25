@@ -1,6 +1,24 @@
 'use client';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import {
+  MessageSquareText as AICommentIcon,
+  Album,
+  BadgeQuestionMark as BadgeHelp,
+  BookOpenCheck,
+  Check,
+  CornerUpLeft,
+  Feather as FeatherIcon,
+  ListEnd,
+  ListMinus,
+  ListPlus,
+  LoaderCircle as Loader2Icon,
+  Pause as PauseIcon,
+  PenLine,
+  Smile as SmileIcon,
+  Wand,
+  X,
+} from 'honestui/icons';
 import * as React from 'react';
 
 import {
@@ -13,23 +31,6 @@ import { getTransientCommentKey } from '@platejs/comment';
 import { BlockSelectionPlugin, useIsSelecting } from '@platejs/selection/react';
 import { getTransientSuggestionKey } from '@platejs/suggestion';
 import { Command as CommandPrimitive } from 'cmdk';
-import {
-  Album,
-  BadgeHelp,
-  BookOpenCheck,
-  Check,
-  CornerUpLeft,
-  FeatherIcon,
-  ListEnd,
-  ListMinus,
-  ListPlus,
-  Loader2Icon,
-  PauseIcon,
-  PenLine,
-  SmileIcon,
-  Wand,
-  X,
-} from 'lucide-react';
 import {
   type NodeEntry,
   type SlateEditor,
@@ -253,26 +254,6 @@ type EditorChatState =
   | 'cursorSuggestion'
   | 'selectionCommand'
   | 'selectionSuggestion';
-
-const AICommentIcon = () => (
-  <svg
-    fill="none"
-    height="24"
-    stroke="currentColor"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    strokeWidth="2"
-    viewBox="0 0 24 24"
-    width="24"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M0 0h24v24H0z" fill="none" stroke="none" />
-    <path d="M8 9h8" />
-    <path d="M8 13h4.5" />
-    <path d="M10 19l-1 -1h-3a3 3 0 0 1 -3 -3v-8a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v4.5" />
-    <path d="M17.8 20.817l-2.172 1.138a.392 .392 0 0 1 -.568 -.41l.415 -2.411l-1.757 -1.707a.389 .389 0 0 1 .217 -.665l2.428 -.352l1.086 -2.193a.392 .392 0 0 1 .702 0l1.086 2.193l2.428 .352a.39 .39 0 0 1 .217 .665l-1.757 1.707l.414 2.41a.39 .39 0 0 1 -.567 .411l-2.172 -1.138z" />
-  </svg>
-);
 
 const aiChatItems = {
   accept: {

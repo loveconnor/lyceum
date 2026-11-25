@@ -4,14 +4,14 @@ import type { FormatAction } from '../../types'
 import type { toggleVariants } from '@/components/ui/toggle'
 import type { VariantProps } from 'class-variance-authority'
 import {
-  CodeIcon,
-  DotsHorizontalIcon,
-  FontBoldIcon,
-  FontItalicIcon,
-  StrikethroughIcon,
-  TextNoneIcon,
-  UnderlineIcon
-} from '@radix-ui/react-icons'
+  Code as CodeIcon,
+  Ellipsis as DotsHorizontalIcon,
+  Bold as FontBoldIcon,
+  Italic as FontItalicIcon,
+  Strikethrough as StrikethroughIcon,
+  RemoveFormatting as TextNoneIcon,
+  Underline as UnderlineIcon
+} from 'honestui/icons'
 import { ToolbarSection } from '../toolbar-section'
 
 type TextStyleAction = 'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'clearFormatting'

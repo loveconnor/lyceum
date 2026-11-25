@@ -9,8 +9,8 @@ import {
   Clock,
   Star,
   BookOpen,
-  AlertCircle
-} from "lucide-react";
+  CircleAlert as AlertCircle
+} from "honestui/icons";
 import { usePathStore } from "@/app/(main)/paths/store";
 import { statusClasses, pathStatusNamed } from "@/app/(main)/paths/enum";
 import { fetchPathById } from "@/lib/api/paths";
@@ -291,7 +291,7 @@ const PathDetailDialog: React.FC<PathDetailDialogProps> = ({
                             href={source.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="block w-full rounded-md border border-transparent bg-background/60 p-2 transition hover:border-primary/30 hover:bg-background"
+                            className="block w-full rounded-md border border-transparent bg-background/60 p-2 transition-colors duration-200 hover:surface-hover"
                           >
                             {content}
                           </Link>

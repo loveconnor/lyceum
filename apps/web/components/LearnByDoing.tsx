@@ -1,6 +1,7 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { ArrowDown, Maximize, Square, X } from "honestui/icons";
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { Renderer, useUIStream, JSONUIProvider } from "../../../packages/react";
 import type { UITree, UIElement } from "../../../packages/core";
@@ -762,15 +763,7 @@ export function Demo({
                 className="ml-2 w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-colors"
                 aria-label="Stop"
               >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  stroke="none"
-                >
-                  <rect x="6" y="6" width="12" height="12" />
-                </svg>
+                <Square aria-hidden="true" size={12} fill="currentColor" />
               </button>
             ) : (
               <button
@@ -782,19 +775,7 @@ export function Demo({
                 className="ml-2 w-7 h-7 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/90 transition-colors disabled:opacity-30"
                 aria-label="Submit"
               >
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M12 5v14" />
-                  <path d="M19 12l-7 7-7-7" />
-                </svg>
+                <ArrowDown aria-hidden="true" size={16} />
               </button>
             )}
           </div>
@@ -871,21 +852,7 @@ export function Demo({
                 className="text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="Maximize"
               >
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M8 3H5a2 2 0 0 0-2 2v3" />
-                  <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
-                  <path d="M3 16v3a2 2 0 0 0 2 2h3" />
-                  <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
-                </svg>
+                <Maximize aria-hidden="true" size={14} />
               </button>
             </div>
             <div className="border border-border rounded p-3 bg-background h-96 overflow-auto">
@@ -1021,19 +988,7 @@ export function Demo({
               className="text-muted-foreground hover:text-foreground transition-colors p-1"
               aria-label="Close"
             >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M18 6L6 18" />
-                <path d="M6 6l12 12" />
-              </svg>
+              <X aria-hidden="true" size={20} />
             </button>
           </div>
           <div className="flex-1 overflow-auto p-6">

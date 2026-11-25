@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 import { FilterTab, LearningPath, PathStatus, Difficulty } from "@/app/(main)/paths/types";
 
 import { Button } from "@/components/ui/button";
-import { X, Search, GridIcon } from "lucide-react";
-import { Plus } from "@/components/ui/icons/plus";
+import { X, Search, Grid2x2 as GridIcon } from "honestui/icons";
+import { Plus } from "@/components/ui/animated-icons";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -26,8 +26,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { updatePathItem } from "@/lib/api/paths";
 import { resetLab } from "@/lib/api/labs";
 import { fetchPaths } from "@/lib/api/paths";
-import { SlidersHorizontal } from "@/components/ui/icons/sliders-horizontal";
-import { ListIcon } from "@/components/ui/icons/list";
+import { SlidersHorizontal, List as ListIcon } from "@/components/ui/animated-icons";
 
 interface PathListProps {
   activeTab: FilterTab;

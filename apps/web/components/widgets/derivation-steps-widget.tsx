@@ -3,8 +3,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Plus } from "@/components/ui/icons/plus";
-import { Trash2 } from "@/components/ui/icons/trash";
+import { Plus, Trash2 } from "@/components/ui/animated-icons";
 import { Markdown } from "@/components/ui/custom/prompt/markdown";
 
 export interface DerivationStep {

@@ -13,8 +13,8 @@ import {
   getSortedRowModel,
   useReactTable
 } from "@tanstack/react-table";
-import { ChevronLeft, ChevronRight, GraduationCap, Loader2 } from "lucide-react";
-import { EllipsisVerticalIcon } from "@/components/ui/icons/ellipsis-vertical";
+import { ChevronLeft, ChevronRight, GraduationCap, LoaderCircle as Loader2 } from "honestui/icons";
+import { EllipsisVertical as EllipsisVerticalIcon } from "@/components/ui/animated-icons";
 import { useRouter } from "next/navigation";
 import { gooey } from "@/components/ui/custom/gooey-toast";
 

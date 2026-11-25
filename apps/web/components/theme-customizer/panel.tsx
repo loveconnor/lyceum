@@ -1,6 +1,6 @@
 "use client";
 
-import { Settings } from "lucide-react";
+import { Settings } from "honestui/icons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,

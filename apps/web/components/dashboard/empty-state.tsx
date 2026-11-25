@@ -1,14 +1,14 @@
 import { cn } from "@/lib/utils";
-import type { LucideIcon } from "lucide-react";
+import type { ArrowRight } from "honestui/icons";
 import { Button } from "@/components/ui/button";
 
 type EmptyStateProps = {
-  icon: LucideIcon;
+  icon: typeof ArrowRight;
   title: string;
   description: string;
   note?: string;
   actionLabel?: string;
-  actionIcon?: LucideIcon;
+  actionIcon?: typeof ArrowRight;
   onAction?: () => void;
   className?: string;
 };

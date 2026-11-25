@@ -1,5 +1,6 @@
 'use client';
 
+import { Hexagon } from "honestui/icons";
 import { useState } from 'react';
 import { ReactFlowProvider } from '@xyflow/react';
 import PlaygroundSidebar from './PlaygroundSidebar';
@@ -38,13 +39,12 @@ export default function PlaygroundClient() {
               sidebarVisible ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'
             }`}
           >
-            <svg
-              width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"
-              style={{ transition: 'transform 600ms ease-in-out' }}
+            <Hexagon
+              aria-hidden="true"
+              size={18}
               className="group-hover:[transform:rotate(90deg)]"
-            >
-              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-            </svg>
+              style={{ transition: 'transform 600ms ease-in-out' }}
+            />
           </button>
 
           {/* Canvas — always full size, sidebar overlays */}

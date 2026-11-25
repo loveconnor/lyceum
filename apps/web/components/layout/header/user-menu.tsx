@@ -17,8 +17,7 @@ import {
   ProfileMenuItem,
   ProfileMenuTrigger,
 } from "@/components/ui/profile-menu";
-import { LogOutIcon } from "@/components/ui/icons/log-out";
-import { UserIcon } from "@/components/ui/icons/user";
+import { LogOut as LogOutIcon, User as UserIcon } from "@/components/ui/animated-icons";
 
 export default function UserMenu() {
   const user = useUserProfile();

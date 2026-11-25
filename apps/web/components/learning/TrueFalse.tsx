@@ -5,11 +5,11 @@ import { useState, useEffect } from "react";
 import {
   Check,
   X,
-  AlertCircle,
-  HelpCircle,
+  CircleAlert as AlertCircle,
+  CircleQuestionMark as HelpCircle,
   RefreshCcw,
   ArrowRight,
-} from "lucide-react";
+} from "honestui/icons";
 import { Markdown } from "./markdown";
 
 import type { ComponentRenderProps } from "./types";
@@ -66,9 +66,9 @@ const ConfidenceCheck = ({
               key={level.value}
               onClick={() => !disabled && onChange(level.value)}
               disabled={disabled}
-              className={`group relative flex flex-col items-center justify-center p-3 rounded-md border transition-colors duration-200 ${
+              className={`group relative flex flex-col items-center justify-center p-3 rounded-md border transition-all duration-200 ${
                 isSelected
-                  ? "border-foreground bg-muted/40"
+                  ? "surface-selected"
                   : disabled
                     ? "border-border bg-muted/40 opacity-60"
                     : "border-border bg-background hover:bg-muted/30"

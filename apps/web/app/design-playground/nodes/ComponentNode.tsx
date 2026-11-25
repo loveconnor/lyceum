@@ -1,8 +1,16 @@
 'use client';
 
+import {
+  Check,
+  Link2,
+  Maximize,
+  Monitor,
+  Smartphone,
+  ArrowUpRight,
+  LoaderCircle as Loader2,
+} from "honestui/icons";
 import { memo, useState, useRef, useEffect } from 'react';
 import { useNodeId } from '@xyflow/react';
-import { Monitor, Smartphone, ArrowUpRight, Loader2 } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { flatRegistry } from '../registry';
 import { CancelGenerationButton } from './shared/IterateDialogParts';
@@ -41,12 +49,7 @@ function SizeButtons({
       key: 'default',
       label: 'Auto',
       icon: (
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M8 3H5a2 2 0 0 0-2 2v3" />
-          <path d="M21 8V5a2 2 0 0 0-2-2h-3" />
-          <path d="M3 16v3a2 2 0 0 0 2 2h3" />
-          <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
-        </svg>
+        <Maximize aria-hidden="true" size={13} />
       ),
     },
     { key: 'laptop', label: 'Desktop', icon: <Monitor className="w-3 h-3" /> },
@@ -250,14 +253,9 @@ function ComponentNode({ data, selected = false }: ComponentNodeProps) {
                       {shareState === 'connecting' ? (
                         <Loader2 className="w-3.5 h-3.5 animate-spin" />
                       ) : shareState === 'copied' ? (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                          <polyline points="20 6 9 17 4 12" />
-                        </svg>
+                        <Check aria-hidden="true" size={14} />
                       ) : (
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                        </svg>
+                        <Link2 aria-hidden="true" size={14} />
                       )}
                     </button>
                   </TooltipTrigger>

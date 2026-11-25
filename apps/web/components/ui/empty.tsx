@@ -7,7 +7,7 @@ function Empty({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="empty"
       className={cn(
-        "flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-lg border-dashed p-6 text-center text-balance md:p-12",
+        "flex min-w-0 flex-1 flex-col items-center justify-center gap-6 rounded-[var(--hui-radius-2)] border-[0.5px] border-dashed border-[var(--hui-color-border-base-tertiary)] p-6 text-center text-balance md:p-12",
         className
       )}
       {...props}
@@ -20,7 +20,7 @@ function EmptyHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="empty-header"
       className={cn(
-        "flex max-w-sm flex-col items-center gap-2 text-center",
+        "flex max-w-sm flex-col items-center text-center",
         className
       )}
       {...props}
@@ -29,12 +29,12 @@ function EmptyHeader({ className, ...props }: React.ComponentProps<"div">) {
 }
 
 const emptyMediaVariants = cva(
-  "flex shrink-0 items-center justify-center mb-2 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "flex shrink-0 items-center justify-center [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default: "bg-transparent",
-        icon: "bg-muted text-foreground flex size-10 shrink-0 items-center justify-center rounded-lg [&_svg:not([class*='size-'])]:size-6",
+        icon: "relative flex size-9 shrink-0 items-center justify-center rounded-[var(--hui-radius-2)] border-[0.5px] border-[var(--hui-color-border-base-secondary)] bg-[var(--hui-color-background-base-primary)] text-[var(--hui-color-foreground-base-primary)] shadow-[var(--hui-shadow-feather)] [&_svg:not([class*='size-'])]:size-4.5",
       },
     },
     defaultVariants: {
@@ -49,12 +49,34 @@ function EmptyMedia({
   ...props
 }: React.ComponentProps<"div"> & VariantProps<typeof emptyMediaVariants>) {
   return (
-    <div
-      data-slot="empty-icon"
-      data-variant={variant}
-      className={cn(emptyMediaVariants({ variant, className }))}
-      {...props}
-    />
+    // Props and className belong to the visible tile; the wrapper only
+    // positions the two decorative tiles fanned out behind it.
+    <div className="relative mb-[var(--hui-space-7)]">
+      {variant === "icon" && (
+        <>
+          <div
+            className={cn(
+              emptyMediaVariants({ variant }),
+              "pointer-events-none absolute bottom-px border-[var(--hui-color-border-base-tertiary)] origin-bottom-left -translate-x-0.5 scale-84 -rotate-10 shadow-none"
+            )}
+            aria-hidden="true"
+          />
+          <div
+            className={cn(
+              emptyMediaVariants({ variant }),
+              "pointer-events-none absolute bottom-px border-[var(--hui-color-border-base-tertiary)] origin-bottom-right translate-x-0.5 scale-84 rotate-10 shadow-none"
+            )}
+            aria-hidden="true"
+          />
+        </>
+      )}
+      <div
+        data-slot="empty-icon"
+        data-variant={variant}
+        className={cn(emptyMediaVariants({ variant }), className)}
+        {...props}
+      />
+    </div>
   )
 }
 
@@ -62,7 +84,7 @@ function EmptyTitle({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="empty-title"
-      className={cn("text-lg font-medium tracking-tight", className)}
+      className={cn("font-[var(--hui-font-weight-medium)] text-[length:var(--hui-font-size-large)] leading-[var(--hui-line-height-large)]", className)}
       {...props}
     />
   )
@@ -73,7 +95,7 @@ function EmptyDescription({ className, ...props }: React.ComponentProps<"p">) {
     <div
       data-slot="empty-description"
       className={cn(
-        "text-muted-foreground [&>a:hover]:text-primary text-sm/relaxed [&>a]:underline [&>a]:underline-offset-4",
+        "text-[length:var(--hui-font-size-control,13px)] leading-[var(--hui-line-height-regular)] text-[var(--hui-color-foreground-base-secondary)] [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-[var(--hui-color-foreground-base-primary)] [[data-slot=empty-title]+&]:mt-1",
         className
       )}
       {...props}
@@ -86,7 +108,7 @@ function EmptyContent({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="empty-content"
       className={cn(
-        "flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-sm text-balance",
+        "flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-[length:var(--hui-font-size-control,13px)] leading-[var(--hui-line-height-regular)] text-balance",
         className
       )}
       {...props}

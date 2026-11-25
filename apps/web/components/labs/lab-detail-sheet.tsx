@@ -4,14 +4,14 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import {
-  FileIcon,
+  File as FileIcon,
   FilePlus,
   Clock,
   Star,
   GraduationCap,
-  AlertCircle
-} from "lucide-react";
-import { Trash2 } from "@/components/ui/icons/trash";
+  CircleAlert as AlertCircle
+} from "honestui/icons";
+import { Trash2 } from "@/components/ui/animated-icons";
 import { useLabStore } from "@/app/(main)/labs/store";
 import { statusClasses } from "@/app/(main)/labs/enum";
 import { gooey } from "@/components/ui/custom/gooey-toast";

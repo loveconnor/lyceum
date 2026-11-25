@@ -1,7 +1,7 @@
 'use client';
 
 import { memo } from 'react';
-import { Loader2 } from 'lucide-react';
+import { LoaderCircle as Loader2 } from 'honestui/icons';
 
 interface SkeletonIterationNodeProps {
   data: {

@@ -1,4 +1,4 @@
-import { BookOpenCheck, GitBranch } from "lucide-react";
+import { BookOpenCheck, GitBranch } from "honestui/icons";
 import Link from "next/link";
 
 import { EmptyState } from "./empty-state";

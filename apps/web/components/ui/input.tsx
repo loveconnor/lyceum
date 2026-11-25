@@ -17,17 +17,17 @@ function Input({
     <span
       data-slot="input-control"
       className={cn(
-        "relative inline-flex w-full rounded-lg border border-input bg-background bg-clip-padding text-base/5 shadow-xs ring-ring/24 transition-shadow before:pointer-events-none before:absolute before:inset-0 before:rounded-[calc(var(--radius-lg)-1px)] not-has-disabled:has-not-focus-visible:not-has-aria-invalid:before:shadow-[0_1px_--theme(--color-black/4%)] has-focus-visible:border-ring has-focus-visible:ring-[3px] has-disabled:opacity-64 has-aria-invalid:border-destructive/36 has-focus-visible:has-aria-invalid:border-destructive/64 has-focus-visible:has-aria-invalid:ring-destructive/16 sm:text-sm dark:bg-input/32 dark:not-in-data-[slot=group]:bg-clip-border dark:not-has-disabled:has-not-focus-visible:not-has-aria-invalid:before:shadow-[0_-1px_--theme(--color-white/8%)] dark:has-aria-invalid:ring-destructive/24 [&:has(:disabled,:focus-visible,[aria-invalid])]:shadow-none",
+        "relative inline-flex w-full items-center text-base/5 sm:text-sm rounded-hui-control border-[0.5px] border-hui-field-edge bg-hui-field text-hui-ink motion-safe:[transition:var(--hui-transition-interactive)] not-has-[input:is(:disabled,:read-only,[aria-invalid=true])]:hover:border-hui-focus focus-within:border-hui-focus focus-within:outline-hidden has-disabled:border-hui-line has-disabled:bg-hui-subtle has-disabled:opacity-65 has-[[aria-invalid=true]]:border-destructive has-[[aria-invalid=true]]:focus-within:border-destructive has-[[aria-invalid=true]]:focus-within:shadow-hui-invalid",
         wrapperClassName
       )}
     >
       <InputPrimitive
         data-slot="input"
         className={cn(
-          "w-full min-w-0 appearance-none rounded-[inherit] border-0 bg-transparent px-[calc(--spacing(3)-1px)] py-[calc(--spacing(1.5)-1px)] shadow-none outline-none placeholder:text-muted-foreground/64",
+          "w-full min-w-0 appearance-none rounded-[inherit] border-0 bg-transparent px-3 py-2 shadow-none outline-none placeholder:text-hui-muted disabled:cursor-not-allowed",
           size === "sm" &&
-            "px-[calc(--spacing(2.5)-1px)] py-[calc(--spacing(1)-1px)]",
-          size === "lg" && "py-[calc(--spacing(2)-1px)]",
+            "px-2.5 py-1",
+          size === "lg" && "py-2.5",
           props.type === "search" &&
             "[&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none",
           props.type === "file" &&

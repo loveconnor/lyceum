@@ -3,10 +3,10 @@
 import Link from "next/link";
 import {
   Archive,
-  CheckCircle2,
+  CircleCheck as CheckCircle2,
   ChevronRight,
   CircleDashed,
-} from "lucide-react";
+} from "honestui/icons";
 import { useState, useSyncExternalStore } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { EllipsisVertical } from "@/components/ui/icons/ellipsis-vertical";
+import { EllipsisVertical } from "@/components/ui/animated-icons";
 
 import {
   FIRST_WEEK_LOOP_NAME,

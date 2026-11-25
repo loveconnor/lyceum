@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { LearningPath } from "@/app/(main)/paths/types";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, BookOpen, Clock } from "lucide-react";
+import { ArrowLeft, BookOpen, Clock } from "honestui/icons";
 import { Button } from "@/components/ui/button";
 import ModuleCard from "./module-card";
 import { cn } from "@/lib/utils";

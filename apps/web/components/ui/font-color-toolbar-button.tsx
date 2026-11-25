@@ -10,7 +10,7 @@ import type {
 
 import { useComposedRef } from '@udecode/cn';
 import debounce from 'lodash/debounce.js';
-import { EraserIcon } from 'lucide-react';
+import { Eraser as EraserIcon } from 'honestui/icons';
 import { useEditorRef, useEditorSelector } from 'platejs/react';
 
 import { buttonVariants } from '@/components/ui/button';
@@ -26,7 +26,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { PlusIcon } from '@/components/ui/icons/plus';
+import { Plus as PlusIcon } from '@/components/ui/animated-icons';
 import { cn } from '@/lib/utils';
 
 import { ToolbarButton, ToolbarMenuGroup } from './toolbar';

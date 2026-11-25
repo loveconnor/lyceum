@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Legend } from "recharts";
-import { BarChart3 } from "lucide-react";
+import { ChartNoAxesColumnIncreasing as BarChart3 } from "honestui/icons";
 import { subDays, format, startOfDay, endOfDay, eachDayOfInterval, eachWeekOfInterval, startOfWeek, endOfWeek, differenceInDays } from "date-fns";
 import type { DateRange } from "react-day-picker";
 

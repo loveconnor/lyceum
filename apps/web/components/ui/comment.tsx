@@ -14,12 +14,12 @@ import {
   format,
 } from 'date-fns';
 import {
-  ArrowUpIcon,
-  CheckIcon,
-  PencilIcon,
-  TrashIcon,
-  XIcon,
-} from 'lucide-react';
+  ArrowUp as ArrowUpIcon,
+  Check as CheckIcon,
+  Pencil as PencilIcon,
+  Trash as TrashIcon,
+  X as XIcon,
+} from 'honestui/icons';
 import { type Value, KEYS, nanoid, NodeApi } from 'platejs';
 import {
   Plate,
@@ -40,7 +40,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { cn } from '@/lib/utils';
 import { BasicMarksKit } from '@/components/widgets/editor/plugins/basic-marks-kit';
-import { EllipsisVerticalIcon } from '@/components/ui/icons/ellipsis-vertical';
+import { EllipsisVertical as EllipsisVerticalIcon } from '@/components/ui/animated-icons';
 import {
   type TDiscussion,
   discussionPlugin,

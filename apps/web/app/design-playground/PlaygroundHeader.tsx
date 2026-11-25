@@ -1,6 +1,6 @@
 'use client';
 
-import { LayoutGrid, Eraser, RefreshCw } from 'lucide-react';
+import { LayoutGrid, Eraser, RefreshCw } from 'honestui/icons';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import {
   PLAYGROUND_AUTO_ARRANGE_EVENT,

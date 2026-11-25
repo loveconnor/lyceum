@@ -7,9 +7,9 @@ import {
   useScaleInput,
 } from '@platejs/media/react';
 import { cva } from 'class-variance-authority';
-import { ArrowLeft, ArrowRight, Download, Minus, X } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download, Minus, X } from 'honestui/icons';
 import { useEditorRef } from 'platejs/react';
-import { Plus } from '@/components/ui/icons/plus';
+import { Plus } from '@/components/ui/animated-icons';
 
 import { cn } from '@/lib/utils';
 

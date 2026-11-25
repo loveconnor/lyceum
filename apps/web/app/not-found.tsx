@@ -1,4 +1,4 @@
-import { ArrowRight } from "lucide-react";
+import { ArrowRight } from "honestui/icons";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";

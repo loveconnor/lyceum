@@ -3,16 +3,16 @@
 import * as React from 'react';
 
 import {
-  ArrowUpToLineIcon,
-  BaselineIcon,
-  BoldIcon,
-  Code2Icon,
-  HighlighterIcon,
-  ItalicIcon,
-  PaintBucketIcon,
-  StrikethroughIcon,
-  UnderlineIcon,
-} from 'lucide-react';
+  ArrowUpToLine as ArrowUpToLineIcon,
+  Baseline as BaselineIcon,
+  Bold as BoldIcon,
+  CodeXml as Code2Icon,
+  Highlighter as HighlighterIcon,
+  Italic as ItalicIcon,
+  PaintBucket as PaintBucketIcon,
+  Strikethrough as StrikethroughIcon,
+  Underline as UnderlineIcon,
+} from 'honestui/icons';
 import { KEYS } from 'platejs';
 import { useEditorReadOnly } from 'platejs/react';
 

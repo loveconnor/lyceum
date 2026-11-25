@@ -2,8 +2,9 @@
 
 import { useTheme } from "next-themes"
 import { Toaster as Sonner, ToasterProps } from "sonner"
+import { toastIcons } from "@/app/design-playground/ui/toast-icons"
 
-const Toaster = ({ ...props }: ToasterProps) => {
+const Toaster = ({ icons, ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme()
 
   return (
@@ -12,12 +13,16 @@ const Toaster = ({ ...props }: ToasterProps) => {
       className="toaster group"
       style={
         {
-          "--normal-bg": "var(--popover)",
-          "--normal-text": "var(--popover-foreground)",
-          "--normal-border": "var(--border)",
+          "--normal-bg": "var(--hui-color-background-overlay)",
+          "--normal-text": "var(--hui-color-foreground-base-primary)",
+          "--normal-border": "var(--hui-color-border-overlay)",
         } as React.CSSProperties
       }
+      toastOptions={{
+        classNames: { toast: "rounded-hui-control! shadow-hui-lifted!" },
+      }}
       {...props}
+      icons={{ ...toastIcons, ...icons }}
     />
   )
 }

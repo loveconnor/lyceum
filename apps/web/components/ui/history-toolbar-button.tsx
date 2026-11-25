@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { Redo2Icon, Undo2Icon } from 'lucide-react';
+import { Redo2 as Redo2Icon, Undo2 as Undo2Icon } from 'honestui/icons';
 import { useEditorRef, useEditorSelector } from 'platejs/react';
 
 import { ToolbarButton } from './toolbar';

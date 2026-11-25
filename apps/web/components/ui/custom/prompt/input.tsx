@@ -68,7 +68,7 @@ function Input({
           onSubmit
         }}>
         <div
-          className={cn("border-input bg-background rounded-2xl border p-2 shadow-xs", className)}>
+          className={cn("rounded-hui-panel border-[0.5px] border-hui-field-edge bg-hui-field p-2 focus-within:border-hui-focus focus-within:shadow-hui-focus", className)}>
           {children}
         </div>
       </PromptInputContext.Provider>
@@ -115,7 +115,7 @@ function PromptInputTextarea({
       onChange={(e) => setValue(e.target.value)}
       onKeyDown={handleKeyDown}
       className={cn(
-        "dark:bg-background min-h-[44px] w-full resize-none border-none bg-transparent shadow-none outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+        "min-h-[44px] w-full resize-none border-none bg-transparent shadow-none outline-none focus-visible:shadow-none focus-visible:outline-none",
         className
       )}
       rows={1}

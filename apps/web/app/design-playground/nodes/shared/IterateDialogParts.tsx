@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { ChevronDown, Check, Loader2, XCircle, Download } from 'lucide-react';
+import { ChevronDown, Check, LoaderCircle as Loader2, CircleX as XCircle, Download } from 'honestui/icons';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../../ui/tooltip';
 import {
   GENERATION_ERROR_EVENT,

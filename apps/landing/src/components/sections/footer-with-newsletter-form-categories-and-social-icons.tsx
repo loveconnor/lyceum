@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { clsx } from 'clsx/lite'
 import type { ComponentProps, ReactNode } from 'react'
 import { Container } from '../elements/container'
-import { ArrowNarrowRightIcon } from '../icons/arrow-narrow-right-icon'
+import { ArrowRight } from 'honestui/icons'
 
 export function FooterCategory({ title, children, ...props }: { title: ReactNode } & ComponentProps<'div'>) {
   return (
@@ -69,7 +69,7 @@ export function NewsletterForm({
           aria-label="Subscribe"
           className="relative inline-flex size-7 items-center justify-center rounded-full after:absolute after:-inset-2 hover:bg-mist-950/10 dark:hover:bg-white/10 after:pointer-fine:hidden"
         >
-          <ArrowNarrowRightIcon />
+          <ArrowRight aria-hidden="true" className="inline-block size-4 shrink-0" />
         </button>
       </div>
     </form>

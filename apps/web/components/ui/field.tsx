@@ -46,14 +46,14 @@ function FieldControl({
       <FieldPrimitive.Control
         data-slot="field-control"
         className={cn(
-          "w-full min-w-0 rounded-[inherit] px-[calc(--spacing(3)-1px)] py-[calc(--spacing(1.5)-1px)] outline-none placeholder:text-muted-foreground/64",
+          "w-full min-w-0 rounded-[inherit] px-[calc(--spacing(3)-1px)] py-[calc(--spacing(1.5)-1px)] outline-none placeholder:text-hui-muted/64",
           size === "sm" &&
             "px-[calc(--spacing(2.5)-1px)] py-[calc(--spacing(1)-1px)]",
           size === "lg" && "py-[calc(--spacing(2)-1px)]",
           props.type === "search" &&
             "[&::-webkit-search-cancel-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-results-button]:appearance-none [&::-webkit-search-results-decoration]:appearance-none",
           props.type === "file" &&
-            "text-muted-foreground file:me-3 file:bg-transparent file:text-sm file:font-medium file:text-foreground"
+            "text-hui-muted file:me-3 file:bg-transparent file:text-sm file:font-medium file:text-foreground"
         )}
         {...props}
       />
@@ -68,7 +68,7 @@ function FieldDescription({
   return (
     <FieldPrimitive.Description
       data-slot="field-description"
-      className={cn("text-xs text-muted-foreground", className)}
+      className={cn("text-xs text-hui-muted", className)}
       {...props}
     />
   )
@@ -105,7 +105,7 @@ function FieldSeparator({ className, children, ...props }: React.ComponentProps<
     >
       <div className="h-px flex-1 bg-border" />
       {children && (
-        <span className="text-xs text-muted-foreground">{children}</span>
+        <span className="text-xs text-hui-muted">{children}</span>
       )}
       <div className="h-px flex-1 bg-border" />
     </div>

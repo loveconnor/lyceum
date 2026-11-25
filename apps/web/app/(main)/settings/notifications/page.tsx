@@ -19,7 +19,7 @@ import { Switch } from "@/components/ui/switch";
 import { gooey } from "@/components/ui/custom/gooey-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { BellIcon, BookOpen, Target, Award } from "lucide-react";
+import { Bell as BellIcon, BookOpen, Target, Award } from "honestui/icons";
 import { useI18n } from "@/components/providers/i18n-provider";
 
 const notificationsFormSchema = z.object({

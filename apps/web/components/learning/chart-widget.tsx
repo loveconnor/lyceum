@@ -11,9 +11,9 @@ import {
   ChevronLeft,
   ChevronRight,
   Eye,
-  BarChart3,
-  CheckCircle2,
-} from "lucide-react";
+  ChartNoAxesColumnIncreasing as BarChart3,
+  CircleCheck as CheckCircle2,
+} from "honestui/icons";
 import { cn } from "@/lib/utils";
 import { Markdown } from "./markdown";
 

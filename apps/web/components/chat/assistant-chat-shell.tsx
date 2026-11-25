@@ -5,7 +5,7 @@ import AIChatSidebar, { SidebarContent } from "./ai-chat-sidebar";
 import { AssistantChatProvider } from "./assistant-chat-provider";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { PanelLeftClose, PanelLeftOpen } from "honestui/icons";
 import { cn } from "@/lib/utils";
 
 export default function AssistantChatShell() {

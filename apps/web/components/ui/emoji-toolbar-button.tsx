@@ -2,6 +2,20 @@
 /* eslint-disable react-hooks/refs */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+import {
+  Volleyball,
+  Apple as AppleIcon,
+  Clock as ClockIcon,
+  Compass as CompassIcon,
+  Flag as FlagIcon,
+  Leaf as LeafIcon,
+  Lightbulb as LightbulbIcon,
+  Music as MusicIcon,
+  Search as SearchIcon,
+  Smile as SmileIcon,
+  Star as StarIcon,
+  X as XIcon,
+} from "honestui/icons";
 import * as React from 'react';
 
 import type { Emoji } from '@emoji-mart/data';
@@ -18,19 +32,6 @@ import {
   useEmojiDropdownMenuState,
 } from '@platejs/emoji/react';
 import * as Popover from '@radix-ui/react-popover';
-import {
-  AppleIcon,
-  ClockIcon,
-  CompassIcon,
-  FlagIcon,
-  LeafIcon,
-  LightbulbIcon,
-  MusicIcon,
-  SearchIcon,
-  SmileIcon,
-  StarIcon,
-  XIcon,
-} from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -542,38 +543,10 @@ const emojiCategoryIcons: Record<
 > = {
   activity: {
     outline: (
-      <svg
-        className="size-full"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle cx="12" cy="12" r="10" />
-        <path d="M2.1 13.4A10.1 10.1 0 0 0 13.4 2.1" />
-        <path d="m5 4.9 14 14.2" />
-        <path d="M21.9 10.6a10.1 10.1 0 0 0-11.3 11.3" />
-      </svg>
+      <Volleyball aria-hidden="true" className="size-full" />
     ),
     solid: (
-      <svg
-        className="size-full"
-        fill="none"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="2"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle cx="12" cy="12" r="10" />
-        <path d="M2.1 13.4A10.1 10.1 0 0 0 13.4 2.1" />
-        <path d="m5 4.9 14 14.2" />
-        <path d="M21.9 10.6a10.1 10.1 0 0 0-11.3 11.3" />
-      </svg>
+      <Volleyball aria-hidden="true" className="size-full" />
     ),
   },
 

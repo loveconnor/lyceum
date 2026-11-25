@@ -7,22 +7,22 @@ import type { TElement } from 'platejs';
 
 import { DropdownMenuItemIndicator } from '@radix-ui/react-dropdown-menu';
 import {
-  CheckIcon,
-  ChevronRightIcon,
-  Columns3Icon,
-  FileCodeIcon,
-  Heading1Icon,
-  Heading2Icon,
-  Heading3Icon,
-  Heading4Icon,
-  Heading5Icon,
-  Heading6Icon,
-  ListIcon,
-  ListOrderedIcon,
-  PilcrowIcon,
-  QuoteIcon,
-  SquareIcon,
-} from 'lucide-react';
+  Check as CheckIcon,
+  ChevronRight as ChevronRightIcon,
+  Columns3 as Columns3Icon,
+  FileCode as FileCodeIcon,
+  Heading1 as Heading1Icon,
+  Heading2 as Heading2Icon,
+  Heading3 as Heading3Icon,
+  Heading4 as Heading4Icon,
+  Heading5 as Heading5Icon,
+  Heading6 as Heading6Icon,
+  List as ListIcon,
+  ListOrdered as ListOrderedIcon,
+  Pilcrow as PilcrowIcon,
+  Quote as QuoteIcon,
+  Square as SquareIcon,
+} from 'honestui/icons';
 import { KEYS } from 'platejs';
 import { useEditorRef, useSelectionFragmentProp } from 'platejs/react';
 

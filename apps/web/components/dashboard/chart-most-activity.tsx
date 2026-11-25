@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Activity } from "lucide-react";
+import { Activity } from "honestui/icons";
 import { Pie, PieChart } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {

@@ -1,4 +1,4 @@
-import { Info } from "lucide-react";
+import { Info } from "honestui/icons";
 import { cn } from "@/lib/utils";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 

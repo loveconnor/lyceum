@@ -1,7 +1,7 @@
 import { clsx } from 'clsx/lite'
 import type { ComponentProps, ReactNode } from 'react'
 import { Section } from '../elements/section'
-import { CheckmarkIcon } from '../icons/checkmark-icon'
+import { Check } from 'honestui/icons'
 
 export function Plan({
   name,
@@ -46,7 +46,7 @@ export function Plan({
         <ul className="mt-4 space-y-2 text-sm/6 text-mist-700 dark:text-mist-400">
           {features.map((feature, index) => (
             <li key={index} className="flex gap-4">
-              <CheckmarkIcon className="h-lh shrink-0 stroke-mist-950 dark:stroke-white" />
+              <Check aria-hidden="true" className="h-lh w-4 shrink-0 stroke-mist-950 dark:stroke-white" />
               <p>{feature}</p>
             </li>
           ))}

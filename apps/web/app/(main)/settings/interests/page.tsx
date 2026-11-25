@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Plus } from "@/components/ui/icons/plus";
+import { Plus } from "@/components/ui/animated-icons";
 import { createClient } from "@/utils/supabase/client";
 import { gooey } from "@/components/ui/custom/gooey-toast";
 import { useI18n } from "@/components/providers/i18n-provider";
@@ -352,7 +352,7 @@ export default function Page() {
               <button
                 key={interest}
                 onClick={() => toggleInterest(interest)}
-                className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-3.5 py-1.5 text-xs font-medium transition-all hover:bg-primary/90 hover:scale-105 active:scale-95"
+                className="inline-flex items-center gap-1.5 rounded-full bg-primary text-primary-foreground px-3.5 py-1.5 text-xs font-medium motion-safe:transition-colors hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
               >
                 <span>{interest}</span>
                 <Plus className="h-3 w-3 rotate-45 transition-transform" animateOnHover />
@@ -385,19 +385,20 @@ export default function Page() {
               <React.Fragment key={interest.name}>
                 <button
                   onClick={() => hasSubtopics ? toggleExpand(interest.name) : toggleInterest(interest.name)}
+                  aria-expanded={hasSubtopics ? isExpanded : undefined}
+                  aria-pressed={hasSubtopics ? undefined : selectedInterests.includes(interest.name)}
                   className={`
-                    inline-flex items-center gap-2 rounded-full border-2 px-4 py-2 text-sm font-medium transition-all duration-200
+                    inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium motion-safe:transition-colors
+                    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring
                     ${isExpanded 
-                      ? "bg-primary text-primary-foreground border-primary shadow-md scale-105" 
-                      : "bg-background text-foreground border-border/60 hover:border-primary/50 hover:bg-accent/50 hover:scale-105 active:scale-95"
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-background text-foreground border-border/60 hover:bg-hui-subtle"
                     }
                   `}
                 >
                   <span>{interest.name}</span>
                   <Plus 
-                    className={`h-4 w-4 transition-transform duration-300 ease-out ${
-                      isExpanded ? "rotate-45" : "group-hover:rotate-90"
-                    }`}
+                    className={`h-4 w-4 motion-safe:transition-transform ${isExpanded ? "rotate-45" : ""}`}
                     animateOnHover
                   />
                 </button>
@@ -408,11 +409,14 @@ export default function Page() {
                     <button
                       key={subtopic}
                       onClick={() => toggleInterest(subtopic)}
+                      aria-pressed={isSubtopicSelected}
                       className={`
-                        inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all duration-200 animate-in fade-in zoom-in-95
+                        inline-flex items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-medium motion-safe:transition-colors
+                        motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-95 duration-200
+                        focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring
                         ${isSubtopicSelected 
-                          ? "bg-primary/90 text-primary-foreground border-primary shadow-md scale-105" 
-                          : "bg-background text-foreground border-border/40 hover:border-primary/40 hover:bg-accent/50 hover:scale-105 active:scale-95"
+                          ? "bg-primary/90 text-primary-foreground border-primary"
+                          : "bg-background text-foreground border-border/40 hover:bg-hui-subtle"
                         }
                       `}
                     >

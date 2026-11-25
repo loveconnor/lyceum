@@ -11,11 +11,11 @@ import {
   ArrowRight,
   ArrowUp,
   Combine,
-  Grid3x3Icon,
+  Grid3x3 as Grid3x3Icon,
   Table,
   Ungroup,
-  XIcon,
-} from 'lucide-react';
+  X as XIcon,
+} from 'honestui/icons';
 import { KEYS } from 'platejs';
 import { useEditorPlugin, useEditorSelector } from 'platejs/react';
 
@@ -29,7 +29,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Trash2Icon } from '@/components/ui/icons/trash';
+import { Trash2 as Trash2Icon } from '@/components/ui/animated-icons';
 import { cn } from '@/lib/utils';
 
 import { ToolbarButton } from './toolbar';

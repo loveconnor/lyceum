@@ -1,13 +1,12 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { 
-  GridIcon, 
-  Search, 
+import {
+  Grid2x2 as GridIcon,
+  Search,
   X
-} from 'lucide-react';
-import { ListIcon } from '@/components/ui/icons/list';
-import { SlidersHorizontal } from '@/components/ui/icons/sliders-horizontal';
+} from 'honestui/icons';
+import { List as ListIcon, SlidersHorizontal } from '@/components/ui/animated-icons';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { 
@@ -197,7 +196,7 @@ export function ReflectionsDashboard({ reflections }: ReflectionsDashboardProps)
               reflection={reflection}
               pathTitle={reflection.pathTitle}
               pathId={reflection.pathId}
-              className="h-full hover:border-primary/50 transition-colors"
+              className="selectable h-full"
             />
           ))}
         </div>

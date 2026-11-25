@@ -2,11 +2,9 @@ import {
   FlaskConical,
   Link as LinkIcon,
   NotebookPen
-} from "lucide-react";
+} from "honestui/icons";
 import type { ComponentType } from "react";
-import { Compass } from "@/components/ui/icons/compass";
-import { LayoutDashboard } from "@/components/ui/icons/layout-dashboard";
-import { Sparkles } from "@/components/ui/icons/sparkle";
+import { Compass, LayoutDashboard, Sparkles } from "@/components/ui/animated-icons";
 import type { MessageKey } from "@/lib/i18n";
 
 export type SidebarItemId =

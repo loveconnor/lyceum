@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect */
 
 import { useState, useEffect, useMemo } from "react";
-import { RotateCcw, Check, X } from "lucide-react";
+import { RotateCcw, Check, X } from "honestui/icons";
 import { Markdown } from "./markdown";
 
 import type { ComponentRenderProps } from "./types";
@@ -195,7 +195,7 @@ export function DragDrop({ element }: ComponentRenderProps) {
           <div
             className={`min-h-[160px] p-3 rounded-md border border-dashed transition-colors duration-200 ${
               selectedItemId && getItemsForCategory(null).length === 0
-                ? "border-foreground bg-muted/30"
+                ? "surface-selected"
                 : "border-border"
             } ${draggedItemId ? "border-foreground/40" : ""}`}
             onDragOver={handleDragOver}
@@ -243,7 +243,7 @@ export function DragDrop({ element }: ComponentRenderProps) {
               <div
                 className={`flex-1 p-3 rounded-md border transition-colors duration-200 ${
                   selectedItemId
-                    ? "border-foreground/40 bg-muted/30 cursor-pointer"
+                    ? "border-border bg-background cursor-pointer hover:surface-hover"
                     : "border-border bg-background"
                 } ${draggedItemId ? "bg-muted/30" : ""}`}
                 onDragOver={handleDragOver}

@@ -7,5 +7,9 @@ export function Code({
   children: React.ReactNode;
   className?: string;
 }): JSX.Element {
-  return <code className={className}>{children}</code>;
+  return (
+    <code className={["rounded-hui-item bg-hui-subtle px-1.5 py-0.5 font-mono text-hui-ink", className].filter(Boolean).join(" ")}>
+      {children}
+    </code>
+  );
 }

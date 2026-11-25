@@ -3,13 +3,13 @@
 
 import { useState, useEffect, type ReactNode } from "react";
 import {
-  AlertCircle,
-  CheckCircle2,
-  XCircle,
+  CircleAlert as AlertCircle,
+  CircleCheck as CheckCircle2,
+  CircleX as XCircle,
   Calculator,
   Info,
   RotateCcw,
-} from "lucide-react";
+} from "honestui/icons";
 import { Markdown } from "./markdown";
 
 import type { ComponentRenderProps } from "./types";

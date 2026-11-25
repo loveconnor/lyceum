@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { ArrowLeft, Calendar, Clock } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock } from 'honestui/icons';
 import { Button } from '@/components/ui/button';
 import { ReflectionEditor } from './reflection-editor';
 import { useReflection } from '@/hooks/use-reflection';

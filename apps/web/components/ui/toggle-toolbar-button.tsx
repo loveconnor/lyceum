@@ -6,7 +6,7 @@ import {
   useToggleToolbarButton,
   useToggleToolbarButtonState,
 } from '@platejs/toggle/react';
-import { ListCollapseIcon } from 'lucide-react';
+import { ListCollapse as ListCollapseIcon } from 'honestui/icons';
 
 import { ToolbarButton } from './toolbar';
 

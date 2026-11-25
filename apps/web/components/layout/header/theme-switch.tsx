@@ -2,8 +2,7 @@
 
 import { useState, useSyncExternalStore } from "react";
 import { useTheme } from "next-themes";
-import { MoonIcon } from "@/components/ui/icons/moon";
-import { SunIcon } from "@/components/ui/icons/sun";
+import { Moon as MoonIcon, Sun as SunIcon } from "@/components/ui/animated-icons";
 import { useUserSettings } from "@/components/providers/settings-provider";
 import { useCircularTransition } from "@/hooks/use-circular-transition";
 

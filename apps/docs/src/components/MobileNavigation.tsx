@@ -1,5 +1,6 @@
 'use client'
 
+import { Menu, X } from 'honestui/icons'
 import { Suspense, useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
@@ -7,36 +8,6 @@ import { Dialog, DialogPanel } from '@headlessui/react'
 
 import { Logomark } from '@/components/Logo'
 import { Navigation } from '@/components/Navigation'
-
-function MenuIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      strokeWidth="2"
-      strokeLinecap="round"
-      {...props}
-    >
-      <path d="M4 7h16M4 12h16M4 17h16" />
-    </svg>
-  )
-}
-
-function CloseIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      fill="none"
-      strokeWidth="2"
-      strokeLinecap="round"
-      {...props}
-    >
-      <path d="M5 5l14 14M19 5l-14 14" />
-    </svg>
-  )
-}
 
 function CloseOnNavigation({ close }: { close: () => void }) {
   let pathname = usePathname()
@@ -71,7 +42,7 @@ export function MobileNavigation() {
         className="relative"
         aria-label="Open navigation"
       >
-        <MenuIcon className="h-6 w-6 stroke-slate-500" />
+        <Menu aria-hidden="true" className="h-6 w-6 stroke-slate-500" />
       </button>
       <Suspense fallback={null}>
         <CloseOnNavigation close={close} />
@@ -89,7 +60,7 @@ export function MobileNavigation() {
               onClick={() => close()}
               aria-label="Close navigation"
             >
-              <CloseIcon className="h-6 w-6 stroke-slate-500" />
+              <X aria-hidden="true" className="h-6 w-6 stroke-slate-500" />
             </button>
             <Link href="/" className="ml-6" aria-label="Home page">
               <Logomark className="h-9 w-9" />

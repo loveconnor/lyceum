@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { MessageSquareTextIcon } from 'lucide-react';
+import { MessageSquareText as MessageSquareTextIcon } from 'honestui/icons';
 import { useEditorRef } from 'platejs/react';
 
 import { commentPlugin } from '@/components/widgets/editor/plugins/comment-kit';

@@ -4,7 +4,7 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_BACKEND_URL ||
   process.env.BACKEND_URL ||
   process.env.NEXT_PUBLIC_API_URL ||
-  "http://localhost:3001";
+  "http://127.0.0.1:8080";
 
 interface CreatePathPayload {
   title: string;
@@ -17,6 +17,8 @@ interface CreatePathPayload {
   include_labs?: boolean;
   module_count?: number;
   lab_count?: number;
+  use_ai_only?: boolean;
+  use_web_search?: boolean;
   context_files?: Array<{
     name: string;
     content: string;
@@ -135,15 +137,31 @@ export async function createPath(payload: CreatePathPayload): Promise<LearningPa
   return handleResponse<LearningPath>(response);
 }
 
-// AI-generate a learning path with modules and content
-export async function generatePath(payload: CreatePathPayload): Promise<LearningPath> {
+async function requestPathGeneration(payload: CreatePathPayload, stream: boolean): Promise<Response> {
   const headers = await getAuthHeaders();
-  const response = await fetch(`${API_BASE_URL}/paths/generate`, {
+  return fetch(`${API_BASE_URL}/paths/generate${stream ? "?stream=true" : ""}`, {
     method: "POST",
     headers,
     body: JSON.stringify(payload),
   });
+}
+
+// AI-generate a learning path with modules and content
+export async function generatePath(payload: CreatePathPayload): Promise<LearningPath> {
+  const response = await requestPathGeneration(payload, false);
   return handleResponse<LearningPath>(response);
+}
+
+export async function streamPathGeneration(payload: CreatePathPayload): Promise<ReadableStream<Uint8Array>> {
+  const response = await requestPathGeneration(payload, true);
+  if (!response.ok) {
+    const error = await response.json().catch(() => null);
+    throw new Error(error?.error || `Path generation failed (HTTP ${response.status})`);
+  }
+  if (!response.body || !response.headers.get("content-type")?.startsWith("text/event-stream")) {
+    throw new Error("The path generation service did not return an event stream");
+  }
+  return response.body;
 }
 
 // Update a learning path

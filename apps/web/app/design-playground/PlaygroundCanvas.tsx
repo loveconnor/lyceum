@@ -1,9 +1,9 @@
 'use client';
 
+import { FlowControls } from "./ui/flow-controls";
 import { useCallback, useRef, useEffect, useState, DragEvent } from 'react';
 import {
   ReactFlow,
-  Controls,
   Background,
   BackgroundVariant,
   MiniMap,
@@ -1425,7 +1425,7 @@ export default function PlaygroundCanvas() {
           nodesConnectable={false}
           elementsSelectable
         >
-          <Controls
+          <FlowControls
             className="!bg-white !border-stone-200 !rounded-lg !shadow-sm [&>button]:!bg-white [&>button]:!border-stone-200 [&>button]:!text-stone-600 [&>button:hover]:!bg-stone-50"
           />
           <MiniMap

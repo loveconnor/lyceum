@@ -1,9 +1,9 @@
 import * as React from "react"
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "lucide-react"
-import { EllipsisVerticalIcon } from "@/components/ui/icons/ellipsis-vertical"
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+} from "honestui/icons"
+import { EllipsisVertical as EllipsisVerticalIcon } from "@/components/ui/animated-icons"
 
 import { cn } from "@/lib/utils"
 import { Button, buttonVariants } from "@/components/ui/button"
@@ -55,7 +55,7 @@ function PaginationLink({
       data-active={isActive}
       className={cn(
         buttonVariants({
-          variant: isActive ? "outline" : "ghost",
+          variant: isActive ? "secondary" : "ghost",
           size,
         }),
         className

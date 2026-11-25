@@ -2,8 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { LogOutIcon } from "@/components/ui/icons/log-out";
-import { UserIcon } from "@/components/ui/icons/user";
+import { LogOut as LogOutIcon, User as UserIcon } from "@/components/ui/animated-icons";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";

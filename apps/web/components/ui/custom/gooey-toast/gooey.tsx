@@ -20,7 +20,7 @@ import {
 	LifeBuoy,
 	LoaderCircle,
 	X,
-} from "./icons";
+} from "honestui/icons";
 
 /* --------------------------------- Config --------------------------------- */
 
@@ -72,12 +72,12 @@ interface GooeyProps {
 /* ---------------------------------- Icons --------------------------------- */
 
 const STATE_ICON: Record<State, ReactNode> = {
-	success: <Check />,
-	loading: <LoaderCircle data-gooey-icon="spin" aria-hidden="true" />,
-	error: <X />,
-	warning: <CircleAlert />,
-	info: <LifeBuoy />,
-	action: <ArrowRight />,
+	success: <Check size={16} strokeWidth={2} aria-hidden="true" />,
+	loading: <LoaderCircle size={16} strokeWidth={2} data-gooey-icon="spin" aria-hidden="true" />,
+	error: <X size={16} strokeWidth={2} aria-hidden="true" />,
+	warning: <CircleAlert size={16} strokeWidth={2} aria-hidden="true" />,
+	info: <LifeBuoy size={16} strokeWidth={2} aria-hidden="true" />,
+	action: <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />,
 };
 
 /* ----------------------------- Memoised Defs ------------------------------ */

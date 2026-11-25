@@ -4,40 +4,52 @@ import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-const badgeVariants = cva(
-  "inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden",
+const badgeVariants= cva(
+  "relative inline-flex shrink-0 items-center justify-center gap-[var(--hui-space-2)] whitespace-nowrap rounded-[var(--hui-radius-1)] border-0 px-1.5 py-[var(--hui-space-1)] [font-style:normal] [font-weight:var(--hui-font-weight-medium)] outline-none focus-visible:[outline:var(--hui-focus-ring)] disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [a&,button&]:cursor-pointer [a&,button&]:pointer-coarse:after:absolute [a&,button&]:pointer-coarse:after:size-full [a&,button&]:pointer-coarse:after:min-h-11 [a&,button&]:pointer-coarse:after:min-w-11",
   {
     variants: {
       variant: {
-        default: "border-transparent bg-primary text-primary-foreground [a&]:hover:bg-primary/90",
-        secondary:
-          "border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90",
-        warning:
-          "border border-orange-400 bg-orange-50 text-orange-800 [a&]:hover:bg-orange-500/90 focus-visible:ring-orange-500/20 dark:focus-visible:ring-orange-500/40 dark:bg-orange-900/70 dark:text-white/80",
-        info: "border border-blue-400 bg-blue-50 text-blue-800 [a&]:hover:bg-blue-500/90 focus-visible:ring-blue-500/20 dark:focus-visible:ring-blue-500/40 dark:bg-blue-900/70 dark:text-white/80",
-        success:
-          "border border-green-400 bg-green-50 text-green-800 [a&]:hover:bg-green-500/90 focus-visible:ring-green-500/20 dark:focus-visible:ring-green-500/40 dark:bg-green-900/70 dark:text-white/80",
+        default:
+          "bg-[var(--hui-color-background-accent-primary)] text-[var(--hui-color-foreground-accent-primary-hover)]",
         destructive:
-          "border border-red-400 bg-red-50 text-red-800 [a&]:hover:bg-red-500/90 focus-visible:ring-red-500/20 dark:focus-visible:ring-red-500/40 dark:bg-red-900/70 dark:text-white/80",
-        outline: "text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground"
-      }
+          "bg-[var(--hui-danger-3)] text-[var(--hui-color-foreground-danger-primary)]",
+        outline:
+          "border-[0.5px] border-[var(--hui-color-border-base-primary)] bg-transparent text-[var(--hui-color-foreground-base-primary)]",
+        secondary:
+          "bg-[var(--hui-color-background-neutral-secondary)] text-[var(--hui-color-foreground-base-primary)]",
+        info: "bg-[var(--hui-color-background-accent-primary)] text-[var(--hui-color-foreground-accent-primary-hover)]",
+        success:
+          "bg-[var(--hui-color-background-success-primary)] text-[var(--hui-color-foreground-success-primary-hover)]",
+        warning:
+          "bg-[var(--hui-color-background-attention-primary)] text-[var(--hui-color-foreground-attention-primary)]",
+        error:
+          "bg-[var(--hui-danger-3)] text-[var(--hui-color-foreground-danger-primary)]",
+      },
+      size: {
+        default:
+          "h-[22px] text-[length:var(--hui-font-size-small)] tracking-[var(--hui-letter-spacing-small)] leading-[var(--hui-line-height-small)] [&_svg:not([class*='size-'])]:size-[var(--hui-space-4)]",
+        sm: "h-[18px] text-[length:var(--hui-font-size-micro)] tracking-[var(--hui-letter-spacing-micro)] leading-[var(--hui-line-height-micro)] [&_svg:not([class*='size-'])]:size-[10px]",
+        lg: "h-[var(--hui-space-8)] text-[length:var(--hui-font-size-regular)] tracking-[var(--hui-letter-spacing-regular)] leading-[var(--hui-line-height-regular)] [&_svg:not([class*='size-'])]:size-[14px]",
+      },
     },
     defaultVariants: {
-      variant: "default"
-    }
+      variant: "default",
+      size: "default",
+    },
   }
-);
+)
 
 function Badge({
   className,
   variant,
+  size,
   asChild = false,
   ...props
 }: React.ComponentProps<"span"> & VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
   const Comp = asChild ? Slot : "span";
 
   return (
-    <Comp data-slot="badge" className={cn(badgeVariants({ variant }), className)} {...props} />
+    <Comp data-slot="badge" className={cn(badgeVariants({ variant, size }), className)} {...props} />
   );
 }
 

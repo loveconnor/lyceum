@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Sparkles, Upload, X, FileText } from "lucide-react";
+import { Sparkles, Upload, X, FileText } from "honestui/icons";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { usePathStore } from "@/app/(main)/paths/store";
@@ -590,12 +590,9 @@ const CreatePathDialog: React.FC<CreatePathDialogProps> = ({ isOpen, onClose, ed
                                 onClick={() => setSelectedRecommendation(
                                   selectedRecommendation === rec.id ? null : rec.id
                                 )}
-                                className={cn(
-                                  "w-full text-left rounded-lg border p-3 transition-all hover:border-primary/50",
-                                  selectedRecommendation === rec.id 
-                                    ? "border-primary bg-primary/5 ring-1 ring-primary" 
-                                    : "border-border bg-background/60"
-                                )}
+                                data-selected={selectedRecommendation === rec.id}
+                                aria-pressed={selectedRecommendation === rec.id}
+                                className="selectable w-full text-left rounded-lg p-3"
                               >
                                 <div className="flex items-start justify-between gap-2">
                                   <div className="flex-1 min-w-0">

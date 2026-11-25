@@ -10,8 +10,8 @@ import {
 } from "@/app/(main)/labs/types";
 
 import { Button } from "@/components/ui/button";
-import { X, Search, GridIcon } from "lucide-react";
-import { Plus } from "@/components/ui/icons/plus";
+import { X, Search, Grid2x2 as GridIcon } from "honestui/icons";
+import { Plus } from "@/components/ui/animated-icons";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -29,14 +29,16 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { gooey } from "@/components/ui/custom/gooey-toast";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { SlidersHorizontal } from "@/components/ui/icons/sliders-horizontal";
-import { ListIcon } from "@/components/ui/icons/list";
+import { SlidersHorizontal, List as ListIcon } from "@/components/ui/animated-icons";
 
 interface LabListProps {
   activeTab: FilterTab;
   onSelectTodo: (id: string) => void;
   onAddTodoClick: () => void;
 }
+
+const LAB_RESULTS_ID = "lab-results";
+const LAB_FILTER_TRIGGER_ID = "lab-filters-trigger";
 
 const TEMPLATE_TYPE_FILTERS: LabTemplateType[] = [
   "build",
@@ -301,6 +303,7 @@ export default function LabList({ activeTab, onSelectTodo, onAddTodoClick }: Lab
           statusEnum={EnumLabStatus}
           statusNamed={labStatusNamed}
           allLabel="All Labs"
+          resultsId={LAB_RESULTS_ID}
         />
 
         <div className="flex w-full items-center gap-2 lg:w-auto">
@@ -308,6 +311,8 @@ export default function LabList({ activeTab, onSelectTodo, onAddTodoClick }: Lab
           <div className="relative w-auto">
             <Search className="pointer-events-none absolute top-2.5 left-3 z-10 size-4 opacity-50" />
             <Input
+              id="lab-search"
+              aria-label="Search labs"
               placeholder="Search labs..."
               className="ps-10"
               value={searchQuery}
@@ -317,7 +322,7 @@ export default function LabList({ activeTab, onSelectTodo, onAddTodoClick }: Lab
 
           {/* Filters */}
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+            <DropdownMenuTrigger asChild id={LAB_FILTER_TRIGGER_ID} aria-label="Filter labs">
               <Button
                 size="icon"
                 variant="outline"
@@ -335,7 +340,7 @@ export default function LabList({ activeTab, onSelectTodo, onAddTodoClick }: Lab
                 )}
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-80" align="end">
+            <DropdownMenuContent className="w-80" align="end" aria-labelledby={LAB_FILTER_TRIGGER_ID}>
               {renderFilterContent()}
             </DropdownMenuContent>
           </DropdownMenu>
@@ -381,14 +386,20 @@ export default function LabList({ activeTab, onSelectTodo, onAddTodoClick }: Lab
         </div>
       </div>
 
-      {filteredLabs.length === 0 ? (
-        <div className="flex h-[calc(100vh-12rem)] flex-col items-center justify-center py-12 text-center">
-          <h3 className="text-xl font-medium">No labs found</h3>
-          <p className="text-muted-foreground mt-2">Create your first hands-on lab to start learning</p>
-        </div>
-      ) : (
-        renderTodoItems()
-      )}
+      <div
+        id={LAB_RESULTS_ID}
+        role="tabpanel"
+        aria-labelledby={`${LAB_RESULTS_ID}-tab-${activeTab}`}
+        tabIndex={0}>
+        {filteredLabs.length === 0 ? (
+          <div className="flex h-[calc(100vh-12rem)] flex-col items-center justify-center py-12 text-center">
+            <h3 className="text-xl font-medium">No labs found</h3>
+            <p className="text-muted-foreground mt-2">Create your first hands-on lab to start learning</p>
+          </div>
+        ) : (
+          renderTodoItems()
+        )}
+      </div>
     </>
   );
 }

@@ -21,13 +21,13 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { 
+import {
   ChevronRight,
   Check,
   Info,
   Lightbulb,
   ArrowRight
-} from "lucide-react";
+} from "honestui/icons";
 import { cn } from "@/lib/utils";
 import { Markdown } from "@/components/ui/custom/prompt/markdown";
 import { EditorWidget, createEditorValue, extractPlainText } from "@/components/widgets";
@@ -763,7 +763,7 @@ Approve if they show reasonable understanding and correct approach. If not appro
                     {availableRules.map((rule) => (
                       <button
                         key={rule.id}
-                        className="w-full text-left p-3 rounded-xl border bg-background hover:bg-primary/5 hover:border-primary/30 transition-all duration-200 group"
+                        className="selectable w-full text-left p-3 rounded-xl group"
                         onClick={() => setSelectedRule(rule)}
                       >
                         <div className="flex items-start justify-between">

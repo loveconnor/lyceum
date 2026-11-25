@@ -4,7 +4,7 @@
 import { Label } from "@/components/ui/label";
 import { useThemeConfig } from "@/components/active-theme";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { BanIcon } from "lucide-react";
+import { Ban as BanIcon } from "honestui/icons";
 import { useI18n } from "@/components/providers/i18n-provider";
 
 export function ThemeRadiusSelector() {

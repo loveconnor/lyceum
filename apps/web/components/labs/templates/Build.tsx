@@ -22,14 +22,14 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import Editor from "@monaco-editor/react";
-import { 
-  CheckCircle2, 
-  Lightbulb, 
+import {
+  CircleCheck as CheckCircle2,
+  Lightbulb,
   Terminal,
   Check,
-  Loader2,
+  LoaderCircle as Loader2,
   Info
-} from "lucide-react";
+} from "honestui/icons";
 import { cn } from "@/lib/utils";
 import { useLabAI } from "@/hooks/use-lab-ai";
 import { gooey } from "@/components/ui/custom/gooey-toast";

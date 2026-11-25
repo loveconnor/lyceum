@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import { SuggestionPlugin } from '@platejs/suggestion/react';
-import { PencilLineIcon } from 'lucide-react';
+import { PencilLine as PencilLineIcon } from 'honestui/icons';
 import { useEditorPlugin, usePluginOption } from 'platejs/react';
 
 import { cn } from '@/lib/utils';

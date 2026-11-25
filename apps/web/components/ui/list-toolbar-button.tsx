@@ -7,7 +7,7 @@ import {
   useIndentTodoToolBarButton,
   useIndentTodoToolBarButtonState,
 } from '@platejs/list/react';
-import { List, ListOrdered, ListTodoIcon } from 'lucide-react';
+import { List, ListOrdered, ListTodo as ListTodoIcon } from 'honestui/icons';
 import { useEditorRef, useEditorSelector } from 'platejs/react';
 
 import {

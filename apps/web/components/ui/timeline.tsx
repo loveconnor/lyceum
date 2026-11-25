@@ -68,7 +68,7 @@ function TimelineContent({ className, ...props }: React.HTMLAttributes<HTMLDivEl
   return (
     <div
       data-slot="timeline-content"
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn("text-hui-muted text-sm", className)}
       {...props}
     />
   );
@@ -85,7 +85,7 @@ function TimelineDate({ asChild = false, className, ...props }: TimelineDateProp
     <Comp
       data-slot="timeline-date"
       className={cn(
-        "text-muted-foreground mb-1 block text-xs font-medium group-data-[orientation=vertical]/timeline:max-sm:h-4",
+        "text-hui-muted mb-1 block text-xs font-medium group-data-[orientation=vertical]/timeline:max-sm:h-4",
         className
       )}
       {...props}

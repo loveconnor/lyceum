@@ -3,7 +3,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { cn } from "@/lib/utils";
 import { Markdown } from "./markdown";
 import { useState } from "react";
-import { CheckIcon, CopyIcon } from "@radix-ui/react-icons";
+import { Check as CheckIcon, Copy as CopyIcon } from "honestui/icons";
 
 export type MessageProps = {
   children: React.ReactNode;

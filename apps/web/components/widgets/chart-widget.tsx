@@ -5,13 +5,13 @@ import { D3Chart } from "./d3-chart";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  ChevronLeft, 
-  ChevronRight, 
+import {
+  ChevronLeft,
+  ChevronRight,
   Eye,
-  BarChart3,
-  CheckCircle2
-} from "lucide-react";
+  ChartNoAxesColumnIncreasing as BarChart3,
+  CircleCheck as CheckCircle2
+} from "honestui/icons";
 import { cn } from "@/lib/utils";
 import { Markdown } from "@/components/ui/custom/prompt/markdown";
 

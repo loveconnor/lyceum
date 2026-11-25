@@ -2,9 +2,8 @@
 
 import React, { useState } from "react";
 import { cn } from "@/lib/utils";
-import { Search, PanelLeftOpen } from "lucide-react";
-import { EllipsisVertical } from "@/components/ui/icons/ellipsis-vertical";
-import { Plus } from "@/components/ui/icons/plus";
+import { Search, PanelLeftOpen } from "honestui/icons";
+import { EllipsisVertical, Plus } from "@/components/ui/animated-icons";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

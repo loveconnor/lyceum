@@ -14,7 +14,7 @@ import {
   Headphones,
   Network,
   Lock
-} from "lucide-react";
+} from "honestui/icons";
 import { createClient } from "@/utils/supabase/client";
 
 interface ModuleCardProps {

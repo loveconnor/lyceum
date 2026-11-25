@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Sparkles, Upload, X, FileText } from "lucide-react";
+import { Sparkles, Upload, X, FileText } from "honestui/icons";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { useLabStore } from "@/app/(main)/labs/store";
@@ -322,12 +322,9 @@ const CreateLabDialog: React.FC<CreateLabDialogProps> = ({
                               selectedRecommendation === rec.id ? null : rec.id
                             )
                           }
-                          className={cn(
-                            "w-full rounded-lg border bg-background/60 p-3 text-left transition-all hover:border-primary/50",
-                            selectedRecommendation === rec.id
-                              ? "border-primary bg-primary/5 ring-1 ring-primary"
-                              : "border-border"
-                          )}
+                          data-selected={selectedRecommendation === rec.id}
+                          aria-pressed={selectedRecommendation === rec.id}
+                          className="selectable w-full rounded-lg p-3 text-left"
                         >
                           <div className="flex items-start justify-between gap-2">
                             <div className="min-w-0 flex-1">

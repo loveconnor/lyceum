@@ -3,7 +3,7 @@
 import React from "react";
 import Editor from "@monaco-editor/react";
 import { Button } from "@/components/ui/button";
-import { Play, Loader2 } from "lucide-react";
+import { Play, LoaderCircle as Loader2 } from "honestui/icons";
 import { cn } from "@/lib/utils";
 import { Markdown } from "@/components/ui/custom/prompt/markdown";
 import { useTheme } from "next-themes";

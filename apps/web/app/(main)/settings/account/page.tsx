@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useSyncExternalStore } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon, CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
+import { Calendar as CalendarIcon, ChevronsUpDown as CaretSortIcon, Check as CheckIcon } from "honestui/icons";
 import { format } from "date-fns";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -37,8 +37,7 @@ import { useFileUpload } from "@/hooks/use-file-upload";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useI18n } from "@/components/providers/i18n-provider";
 import { SUPPORTED_LOCALES, getLanguageLabel } from "@/lib/i18n";
-import { UserIcon } from "@/components/ui/icons/user";
-import { Trash2Icon } from "@/components/ui/icons/trash";
+import { User as UserIcon, Trash2 as Trash2Icon } from "@/components/ui/animated-icons";
 
 const accountFormSchema = z.object({
   name: z

@@ -3,7 +3,7 @@ import type { Editor } from '@tiptap/react'
 import type { VariantProps } from 'class-variance-authority'
 import type { toggleVariants } from '@/components/ui/toggle'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Link2Icon } from '@radix-ui/react-icons'
+import { Link2 as Link2Icon } from 'honestui/icons'
 import { ToolbarButton } from '../toolbar-button'
 import { LinkEditBlock } from './link-edit-block'
 

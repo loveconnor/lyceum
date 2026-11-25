@@ -2,12 +2,12 @@
 
 import * as React from 'react';
 import {
-  BoldIcon,
-  Code2Icon,
-  ItalicIcon,
-  StrikethroughIcon,
-  UnderlineIcon,
-} from 'lucide-react';
+  Bold as BoldIcon,
+  CodeXml as Code2Icon,
+  Italic as ItalicIcon,
+  Strikethrough as StrikethroughIcon,
+  Underline as UnderlineIcon,
+} from 'honestui/icons';
 import { KEYS } from 'platejs';
 import { useEditorReadOnly } from 'platejs/react';
 

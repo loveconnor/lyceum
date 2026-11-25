@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Check } from "lucide-react";
+import { Check } from "honestui/icons";
 import * as d3 from "d3";
 import { Markdown } from "./markdown";
 

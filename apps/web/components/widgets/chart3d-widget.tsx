@@ -5,13 +5,13 @@ import { Chart3D } from "./3d-chart";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { 
-  ChevronLeft, 
-  ChevronRight, 
+import {
+  ChevronLeft,
+  ChevronRight,
   Eye,
   Box,
-  CheckCircle2
-} from "lucide-react";
+  CircleCheck as CheckCircle2
+} from "honestui/icons";
 import { cn } from "@/lib/utils";
 import { Markdown } from "@/components/ui/custom/prompt/markdown";
 

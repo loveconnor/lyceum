@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Check, X } from "lucide-react";
+import { Check, X } from "honestui/icons";
 import { cn } from "@/lib/utils";
 import { Markdown } from "@/components/ui/custom/prompt/markdown";
 import { Textarea } from "@/components/ui/textarea";

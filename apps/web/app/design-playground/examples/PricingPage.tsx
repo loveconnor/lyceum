@@ -1,6 +1,6 @@
 'use client';
 
-import { Zap, Shield, Headphones } from 'lucide-react';
+import { Zap, Shield, Headphones } from 'honestui/icons';
 import PricingCard from './PricingCard';
 
 export interface PricingPageProps {

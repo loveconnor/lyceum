@@ -2,10 +2,10 @@
 
 import * as React from "react"
 import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "lucide-react"
+  ChevronDown as ChevronDownIcon,
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+} from "honestui/icons"
 import {
   DayPicker,
   getDefaultClassNames,
@@ -74,7 +74,7 @@ function Calendar({
           defaultClassNames.dropdowns
         ),
         dropdown_root: cn(
-          "relative has-focus:border-ring border border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px] rounded-md",
+          "relative border-[0.5px] border-hui-field-edge bg-hui-field has-focus:border-hui-focus has-focus:shadow-hui-focus rounded-hui-item",
           defaultClassNames.dropdown_root
         ),
         dropdown: cn(

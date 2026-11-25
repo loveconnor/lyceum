@@ -23,20 +23,20 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { 
-  CheckCircle2, 
-  FileEdit,
+import {
+  CircleCheck as CheckCircle2,
+  FilePen as FileEdit,
   Eye,
   Lightbulb,
   Target,
   Diff,
   Network,
-  Loader2,
+  LoaderCircle as Loader2,
   ThumbsUp,
   ThumbsDown,
   Brain,
   Info
-} from "lucide-react";
+} from "honestui/icons";
 import { cn, extractJSON } from "@/lib/utils";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Markdown } from "@/components/ui/custom/prompt/markdown";

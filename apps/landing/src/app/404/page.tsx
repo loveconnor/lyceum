@@ -1,5 +1,5 @@
 import { Link } from '@/components/elements/link'
-import { ArrowNarrowRightIcon } from '@/components/icons/arrow-narrow-right-icon'
+import { ArrowRight } from 'honestui/icons'
 import { HeroSimpleCentered } from '@/components/sections/hero-simple-centered'
 
 export default function Page() {
@@ -10,7 +10,7 @@ export default function Page() {
         subheadline={<p>Sorry, but the page you were looking for could not be found.</p>}
         cta={
           <Link href="/">
-            Go back home <ArrowNarrowRightIcon />
+            Go back home <ArrowRight aria-hidden="true" className="inline-block size-4 shrink-0" />
           </Link>
         }
       />

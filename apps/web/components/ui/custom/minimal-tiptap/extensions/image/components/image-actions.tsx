@@ -3,7 +3,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
-import { ClipboardCopyIcon, DotsHorizontalIcon, DownloadIcon, Link2Icon, SizeIcon } from '@radix-ui/react-icons'
+import { ClipboardCopy as ClipboardCopyIcon, Ellipsis as DotsHorizontalIcon, Download as DownloadIcon, Link2 as Link2Icon, Scaling as SizeIcon } from 'honestui/icons'
 
 interface ImageActionsProps {
   shouldMerge?: boolean

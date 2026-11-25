@@ -1,16 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { CommandIcon, SearchIcon, FlaskConical, BookOpen, Loader2, MessageSquare, Bell, Palette, Shield } from "lucide-react";
+import { Command as CommandIcon, Search as SearchIcon, FlaskConical, BookOpen, LoaderCircle as Loader2, MessageSquare, Bell, Palette, Shield } from "honestui/icons";
 import { Input } from "@/components/ui/input";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/utils/supabase/client";
-import { Compass } from "@/components/ui/icons/compass";
-import { LayoutDashboard } from "@/components/ui/icons/layout-dashboard";
-import { Sparkles } from "@/components/ui/icons/sparkle";
-import { Settings } from "@/components/ui/icons/settings";
-import { UserIcon } from "@/components/ui/icons/user";
+import { Compass, LayoutDashboard, Sparkles, Settings, User as UserIcon } from "@/components/ui/animated-icons";
 
 import {
   CommandDialog,

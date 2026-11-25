@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect */
 
 import { useState, useEffect, useRef, useMemo, useLayoutEffect } from "react";
-import { Check, RotateCcw, X } from "lucide-react";
+import { Check, RotateCcw, X } from "honestui/icons";
 
 import type { ComponentRenderProps } from "./types";
 import { baseClass, getCustomClass } from "./utils";
@@ -293,8 +293,8 @@ export function Matching({ element }: ComponentRenderProps) {
                       : isMatched
                         ? "bg-muted/30 border-border text-muted-foreground cursor-default"
                         : isSelected
-                          ? "bg-primary/5 border-primary/60 text-foreground ring-2 ring-primary/15"
-                          : "bg-background border-border text-foreground hover:bg-muted/30"
+                          ? "surface-selected text-foreground"
+                          : "bg-background border-border text-foreground hover:surface-hover"
                   }`}
                 >
                   <span className="font-medium text-xs md:text-sm">
@@ -362,7 +362,7 @@ export function Matching({ element }: ComponentRenderProps) {
                       : isMatched
                         ? "bg-muted/30 border-border text-muted-foreground cursor-default"
                         : isTargetForSelection
-                          ? "bg-background border-border hover:border-primary/60 hover:ring-2 hover:ring-primary/10 cursor-pointer"
+                          ? "bg-background border-border hover:surface-hover cursor-pointer"
                           : "bg-background border-border text-foreground"
                   }`}
                 >

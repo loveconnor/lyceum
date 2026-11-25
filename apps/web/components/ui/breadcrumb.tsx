@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
-import { ChevronRight } from "lucide-react"
-import { EllipsisVertical } from "@/components/ui/icons/ellipsis-vertical"
+import { ChevronRight } from "honestui/icons"
+import { EllipsisVertical } from "@/components/ui/animated-icons"
 
 import { cn } from "@/lib/utils"
 
@@ -44,7 +44,7 @@ function BreadcrumbLink({
   return (
     <Comp
       data-slot="breadcrumb-link"
-      className={cn("hover:text-foreground transition-colors", className)}
+      className={cn("hover:text-hui-ink motion-safe:transition-colors focus-visible:outline-2 focus-visible:outline-hui-focus focus-visible:outline-offset-2", className)}
       {...props}
     />
   )

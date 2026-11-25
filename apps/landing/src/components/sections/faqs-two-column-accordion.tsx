@@ -4,8 +4,7 @@ import { type ComponentProps, type ReactNode, useId } from 'react'
 import { Container } from '../elements/container'
 import { Subheading } from '../elements/subheading'
 import { Text } from '../elements/text'
-import { MinusIcon } from '../icons/minus-icon'
-import { PlusIcon } from '../icons/plus-icon'
+import { Minus, Plus } from 'honestui/icons'
 
 export function Faq({
   id,
@@ -26,8 +25,8 @@ export function Faq({
         className="flex w-full items-start justify-between gap-6 py-4 text-left text-base/7 text-mist-950 dark:text-white"
       >
         {question}
-        <PlusIcon className="h-lh in-aria-expanded:hidden" />
-        <MinusIcon className="h-lh not-in-aria-expanded:hidden" />
+        <Plus aria-hidden="true" className="h-lh w-4 in-aria-expanded:hidden" />
+        <Minus aria-hidden="true" className="h-lh w-4 not-in-aria-expanded:hidden" />
       </button>
       <ElDisclosure
         id={`${id}-answer`}

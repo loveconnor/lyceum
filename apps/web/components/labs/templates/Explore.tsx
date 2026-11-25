@@ -18,12 +18,12 @@ import {
   Compass,
   Sparkles,
   Lightbulb,
-  PlayCircle,
+  CirclePlay as PlayCircle,
   RotateCcw,
   BookOpen,
   Zap,
   Info,
-} from "lucide-react";
+} from "honestui/icons";
 import { cn } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
 import { Markdown } from "@/components/ui/custom/prompt/markdown";

@@ -3,7 +3,7 @@
 import * as React from 'react';
 
 import { formatCodeBlock, isLangSupported } from '@platejs/code-block';
-import { BracesIcon, Check, CheckIcon, CopyIcon } from 'lucide-react';
+import { Braces as BracesIcon, Check, Copy as CopyIcon } from 'honestui/icons';
 import { type TCodeBlockElement, type TCodeSyntaxLeaf, NodeApi } from 'platejs';
 import {
   type PlateElementProps,
@@ -178,7 +178,7 @@ function CopyButton({
     >
       <span className="sr-only">Copy</span>
       {hasCopied ? (
-        <CheckIcon className="!size-3" />
+        <Check className="!size-3" />
       ) : (
         <CopyIcon className="!size-3" />
       )}

@@ -1,6 +1,6 @@
 import { ButtonLink, PlainButtonLink } from '@/components/elements/button'
 import { Main } from '@/components/elements/main'
-import { ChevronIcon } from '@/components/icons/chevron-icon'
+import { ChevronRight } from 'honestui/icons'
 import { CallToActionSimpleCentered } from '@/components/sections/call-to-action-simple-centered'
 import { HeroSimpleCentered } from '@/components/sections/hero-simple-centered'
 import { Stat, StatsThreeColumnWithDescription } from '@/components/sections/stats-three-column-with-description'
@@ -87,7 +87,7 @@ export default function Page() {
               </ButtonLink>
 
               <PlainButtonLink href="#" size="lg">
-                Learn more <ChevronIcon />
+                Learn more <ChevronRight aria-hidden="true" className="inline-block size-3" />
               </PlainButtonLink>
             </div>
           }

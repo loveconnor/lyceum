@@ -747,7 +747,7 @@ const KanbanColumn = React.forwardRef<HTMLDivElement, KanbanColumnProps>((props,
           ref={composedRef}
           style={composedStyle}
           className={cn(
-            "bg-muted flex size-full flex-col gap-2 rounded-lg p-2.5 aria-disabled:pointer-events-none aria-disabled:opacity-50",
+            "bg-hui-subtle flex size-full flex-col gap-2 rounded-hui-panel p-2.5 aria-disabled:pointer-events-none aria-disabled:opacity-50",
             {
               "touch-none select-none": asHandle,
               "cursor-default": context.flatCursor,
@@ -901,7 +901,7 @@ const KanbanItem = React.forwardRef<HTMLDivElement, KanbanItemProps>((props, for
         ref={composedRef}
         style={composedStyle}
         className={cn(
-          "focus-visible:ring-ring focus-visible:ring-1 focus-visible:ring-offset-1 focus-visible:outline-hidden",
+          "focus-visible:outline-2 focus-visible:outline-hui-focus focus-visible:outline-offset-2",
           {
             "touch-none select-none": asHandle,
             "cursor-default": context.flatCursor,

@@ -1,8 +1,8 @@
+import { Baseline, ChevronDown as CaretDownIcon, Check as CheckIcon } from "honestui/icons";
 import * as React from 'react'
 import type { Editor } from '@tiptap/react'
 import type { toggleVariants } from '@/components/ui/toggle'
 import type { VariantProps } from 'class-variance-authority'
-import { CaretDownIcon, CheckIcon } from '@radix-ui/react-icons'
 import { ToolbarButton } from '../toolbar-button'
 import { Popover, PopoverTrigger, PopoverContent } from '@/components/ui/popover'
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
@@ -150,23 +150,7 @@ export const SectionThree: React.FC<SectionThreeProps> = ({ editor, size, varian
     <Popover>
       <PopoverTrigger asChild>
         <ToolbarButton tooltip="Text color" aria-label="Text color" className="w-12" size={size} variant={variant}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="size-5"
-            style={{ color: selectedColor }}
-          >
-            <path d="M4 20h16" />
-            <path d="m6 16 6-12 6 12" />
-            <path d="M8 12h8" />
-          </svg>
+          <Baseline aria-hidden="true" className="size-5" style={{ color: selectedColor }} />
           <CaretDownIcon className="size-5" />
         </ToolbarButton>
       </PopoverTrigger>

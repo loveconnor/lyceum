@@ -3,7 +3,7 @@ import React from "react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useOnboardingStore } from "@/app/onboarding/store";
-import { Plus } from "@/components/ui/icons/plus";
+import { Plus } from "@/components/ui/animated-icons";
 
 type InterestOption = {
   name: string;
@@ -262,11 +262,14 @@ export function InterestsStep() {
               <React.Fragment key={interest.name}>
                 <button
                   onClick={() => hasSubtopics ? toggleExpand(interest.name) : toggleInterest(interest.name)}
+                  aria-expanded={hasSubtopics ? isExpanded : undefined}
+                  aria-pressed={hasSubtopics ? undefined : selectedInterests.includes(interest.name)}
                   className={`
-                    inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors
+                    inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm motion-safe:transition-colors
+                    focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring
                     ${isExpanded 
                       ? "bg-foreground text-background border-foreground" 
-                      : "bg-background text-foreground border-border hover:border-foreground"
+                      : "bg-background text-foreground border-border hover:bg-hui-subtle"
                     }
                   `}
                 >
@@ -283,11 +286,14 @@ export function InterestsStep() {
                     <button
                       key={subtopic}
                       onClick={() => toggleInterest(subtopic)}
+                      aria-pressed={isSubtopicSelected}
                       className={`
-                        inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs transition-colors animate-in fade-in zoom-in-95 duration-200
+                        inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs motion-safe:transition-colors
+                        motion-safe:animate-in motion-safe:fade-in motion-safe:zoom-in-95 duration-200
+                        focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring
                         ${isSubtopicSelected 
                           ? "bg-foreground text-background border-foreground" 
-                          : "bg-background text-foreground border-border hover:border-foreground"
+                          : "bg-background text-foreground border-border hover:bg-hui-subtle"
                         }
                       `}
                     >

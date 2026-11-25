@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 import { clsx } from 'clsx/lite'
 import type { ComponentProps, ReactNode } from 'react'
-import { ChevronIcon } from '../icons/chevron-icon'
+import { ChevronRight } from 'honestui/icons'
 
 export function AnnouncementBadge({
   text,
@@ -45,7 +45,7 @@ export function AnnouncementBadge({
           variant === 'normal' && 'text-mist-950 dark:text-white',
         )}
       >
-        {cta} <ChevronIcon className="shrink-0" />
+        {cta} <ChevronRight aria-hidden="true" className="inline-block size-3 shrink-0" />
       </span>
     </Link>
   )

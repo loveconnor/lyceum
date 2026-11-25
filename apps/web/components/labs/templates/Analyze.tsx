@@ -21,23 +21,23 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { 
-  BarChart3, 
-  CheckCircle2, 
-  Circle, 
+import {
+  ChartNoAxesColumnIncreasing as BarChart3,
+  CircleCheck as CheckCircle2,
+  Circle,
   History,
   ChevronRight,
   Check,
   Table as TableIcon,
-  LineChart,
+  ChartLine as LineChart,
   Search,
   Lightbulb,
-  AlertCircle,
+  CircleAlert as AlertCircle,
   FileText,
   Database,
   TrendingUp,
   Info
-} from "lucide-react";
+} from "honestui/icons";
 import { cn } from "@/lib/utils";
 import { 
   Table, 
@@ -517,8 +517,8 @@ export default function AnalyzeTemplate({ data, labId, moduleContext }: AnalyzeT
                               className={cn(
                                 "w-full text-left px-3 py-2 text-xs rounded-lg border transition-all",
                                 primaryVariables.includes(variable)
-                                  ? "bg-primary/10 border-primary/40 font-medium"
-                                  : "bg-background hover:bg-muted/50"
+                                  ? "surface-selected font-medium"
+                                  : "bg-background hover:surface-hover"
                               )}
                             >
                               <div className="flex items-center gap-2">

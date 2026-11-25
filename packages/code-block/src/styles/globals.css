@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../../../ui/src/honest-ui.css";
 
 /* Plugins */
 @import "tw-animate-css";

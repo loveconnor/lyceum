@@ -5,7 +5,7 @@ import { ResizablePanel } from "@/components/ui/resizable";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { Markdown } from "@/components/ui/custom/prompt/markdown";
-import { Check } from "lucide-react";
+import { Check } from "honestui/icons";
 
 // Helper function to properly format mathematical expressions for KaTeX rendering
 const formatMathExpression = (text: string): string => {
@@ -81,7 +81,7 @@ export function LabStepPanel({
                   className={cn(
                     "w-full text-left p-4 rounded-xl transition-all duration-200 border group relative overflow-hidden",
                     isCurrent
-                      ? "bg-background border-primary/50 shadow-sm ring-1 ring-primary/20"
+                      ? "bg-background surface-selected"
                       : isCompleted
                       ? "bg-muted/30 border-transparent hover:bg-muted/50 text-muted-foreground"
                       : isAccessible

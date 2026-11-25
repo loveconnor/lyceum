@@ -5,24 +5,24 @@ import * as React from 'react';
 import type { PlateEditor, PlateElementProps } from 'platejs/react';
 
 import {
-  CalendarIcon,
-  ChevronRightIcon,
-  Code2,
-  Columns3Icon,
-  Heading1Icon,
-  Heading2Icon,
-  Heading3Icon,
-  LightbulbIcon,
-  ListIcon,
+  Calendar as CalendarIcon,
+  ChevronRight as ChevronRightIcon,
+  CodeXml as Code2,
+  Columns3 as Columns3Icon,
+  Heading1 as Heading1Icon,
+  Heading2 as Heading2Icon,
+  Heading3 as Heading3Icon,
+  Lightbulb as LightbulbIcon,
+  List as ListIcon,
   ListOrdered,
-  PenToolIcon,
-  PilcrowIcon,
+  PenTool as PenToolIcon,
+  Pilcrow as PilcrowIcon,
   Quote,
-  RadicalIcon,
+  Radical as RadicalIcon,
   Square,
   Table,
-  TableOfContentsIcon,
-} from 'lucide-react';
+  TableOfContents as TableOfContentsIcon,
+} from 'honestui/icons';
 import { type TComboboxInputElement, KEYS } from 'platejs';
 import { PlateElement } from 'platejs/react';
 

@@ -2,7 +2,7 @@
   "description": "Required npm packages for the Playground UI components. Run: node src/app/playground/setup.mjs",
   "dependencies": {
     "@xyflow/react": "latest",
-    "lucide-react": "latest",
+    "honestui": "0.4.1",
     "@radix-ui/react-alert-dialog": "latest",
     "@radix-ui/react-dialog": "latest",
     "@radix-ui/react-tooltip": "latest",
@@ -20,5 +20,5 @@
     "react-dom",
     "tailwindcss"
   ],
-  "install": "npm install @xyflow/react lucide-react @radix-ui/react-alert-dialog @radix-ui/react-dialog @radix-ui/react-tooltip @radix-ui/react-slot class-variance-authority clsx tailwind-merge"
+  "install": "npm install @xyflow/react honestui@0.4.1 @radix-ui/react-alert-dialog @radix-ui/react-dialog @radix-ui/react-tooltip @radix-ui/react-slot class-variance-authority clsx tailwind-merge"
 }

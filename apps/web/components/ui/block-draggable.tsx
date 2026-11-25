@@ -6,7 +6,7 @@ import * as React from 'react';
 import { DndPlugin, useDraggable, useDropLine } from '@platejs/dnd';
 import { expandListItemsWithChildren } from '@platejs/list';
 import { BlockSelectionPlugin } from '@platejs/selection/react';
-import { GripVertical } from 'lucide-react';
+import { GripVertical } from 'honestui/icons';
 import { type TElement, getPluginByType, isType, KEYS } from 'platejs';
 import {
   type PlateEditor,

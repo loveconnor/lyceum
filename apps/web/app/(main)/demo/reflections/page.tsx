@@ -13,7 +13,7 @@ import React, { useState } from 'react';
 import { ReflectionModal, ReflectionEditor } from '@/components/reflections';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Brain, MessageSquare, FileText } from 'lucide-react';
+import { ArrowRight, Brain, Check, MessageSquare, FileText } from 'honestui/icons';
 import { Separator } from '@/components/ui/separator';
 
 export default function ReflectionDemoPage() {
@@ -120,28 +120,28 @@ export default function ReflectionDemoPage() {
         <CardContent>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
-              <h4 className="text-sm font-medium">✓ Structured thinking tool</h4>
+              <h4 className="flex items-center gap-1.5 text-sm font-medium"><Check aria-hidden="true" className="size-4 shrink-0" />Structured thinking tool</h4>
               <p className="text-sm text-muted-foreground">
                 Not free-writing or journaling. Clear sections guide reasoning.
               </p>
             </div>
             
             <div className="space-y-2">
-              <h4 className="text-sm font-medium">✓ Concise and precise</h4>
+              <h4 className="flex items-center gap-1.5 text-sm font-medium"><Check aria-hidden="true" className="size-4 shrink-0" />Concise and precise</h4>
               <p className="text-sm text-muted-foreground">
                 Encourages specific explanations over long narratives.
               </p>
             </div>
             
             <div className="space-y-2">
-              <h4 className="text-sm font-medium">✓ Professional interface</h4>
+              <h4 className="flex items-center gap-1.5 text-sm font-medium"><Check aria-hidden="true" className="size-4 shrink-0" />Professional interface</h4>
               <p className="text-sm text-muted-foreground">
                 Minimal UI, calm styling, consistent with app design.
               </p>
             </div>
             
             <div className="space-y-2">
-              <h4 className="text-sm font-medium">✓ Action to understanding</h4>
+              <h4 className="flex items-center gap-1.5 text-sm font-medium"><Check aria-hidden="true" className="size-4 shrink-0" />Action to understanding</h4>
               <p className="text-sm text-muted-foreground">
                 Appears after meaningful work to consolidate learning.
               </p>
@@ -161,23 +161,23 @@ export default function ReflectionDemoPage() {
         <CardContent>
           <ul className="space-y-3 text-sm">
             <li className="flex items-start gap-2">
-              <span className="text-primary mt-0.5">→</span>
+              <ArrowRight aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary" />
               <span>After completing a lab with multiple steps or attempts</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-primary mt-0.5">→</span>
+              <ArrowRight aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary" />
               <span>Following a challenging exercise that required problem-solving</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-primary mt-0.5">→</span>
+              <ArrowRight aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary" />
               <span>At the end of a module before moving to the next one</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-primary mt-0.5">→</span>
+              <ArrowRight aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary" />
               <span>After a meaningful attempt (not every single interaction)</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-primary mt-0.5">→</span>
+              <ArrowRight aria-hidden="true" className="mt-0.5 size-4 shrink-0 text-primary" />
               <span>When the learner can articulate what they tried and learned</span>
             </li>
           </ul>

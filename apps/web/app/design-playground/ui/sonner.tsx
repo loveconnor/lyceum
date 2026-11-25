@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import dynamic from "next/dynamic";
+import { toastIcons } from "./toast-icons";
 
 const SonnerToaster = dynamic(async () => (await import("sonner")).Toaster, {
   ssr: false,
@@ -13,6 +14,7 @@ export function PlaygroundToaster() {
       theme="light"
       position="bottom-right"
       richColors={false}
+      icons={toastIcons}
       className="toaster group z-[1000]"
       toastOptions={{
         style: {

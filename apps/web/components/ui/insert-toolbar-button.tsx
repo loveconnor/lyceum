@@ -5,27 +5,27 @@ import * as React from 'react';
 import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
 import {
-  CalendarIcon,
-  ChevronRightIcon,
-  Columns3Icon,
-  FileCodeIcon,
-  FilmIcon,
-  Heading1Icon,
-  Heading2Icon,
-  Heading3Icon,
-  ImageIcon,
-  Link2Icon,
-  ListIcon,
-  ListOrderedIcon,
-  MinusIcon,
-  PenToolIcon,
-  PilcrowIcon,
-  QuoteIcon,
-  RadicalIcon,
-  SquareIcon,
-  TableIcon,
-  TableOfContentsIcon,
-} from 'lucide-react';
+  Calendar as CalendarIcon,
+  ChevronRight as ChevronRightIcon,
+  Columns3 as Columns3Icon,
+  FileCode as FileCodeIcon,
+  Film as FilmIcon,
+  Heading1 as Heading1Icon,
+  Heading2 as Heading2Icon,
+  Heading3 as Heading3Icon,
+  Image as ImageIcon,
+  Link2 as Link2Icon,
+  List as ListIcon,
+  ListOrdered as ListOrderedIcon,
+  Minus as MinusIcon,
+  PenTool as PenToolIcon,
+  Pilcrow as PilcrowIcon,
+  Quote as QuoteIcon,
+  Radical as RadicalIcon,
+  Square as SquareIcon,
+  Table as TableIcon,
+  TableOfContents as TableOfContentsIcon,
+} from 'honestui/icons';
 import { KEYS } from 'platejs';
 import { type PlateEditor, useEditorRef } from 'platejs/react';
 
@@ -35,7 +35,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { PlusIcon } from '@/components/ui/icons/plus';
+import { Plus as PlusIcon } from '@/components/ui/animated-icons';
 import {
   insertBlock,
   insertInlineElement,

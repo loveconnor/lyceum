@@ -4,11 +4,11 @@
 import { useState, useRef, useEffect } from "react";
 import {
   GripVertical,
-  CheckCircle2,
+  CircleCheck as CheckCircle2,
   RotateCcw,
   ArrowRight,
-  AlertCircle,
-} from "lucide-react";
+  CircleAlert as AlertCircle,
+} from "honestui/icons";
 import { Markdown } from "./markdown";
 
 import type { ComponentRenderProps } from "./types";

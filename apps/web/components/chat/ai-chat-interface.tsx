@@ -3,8 +3,14 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { ArrowUpIcon,Paperclip, X, ImageIcon, ExternalLink } from "lucide-react";
-import { CopyIcon } from "@radix-ui/react-icons";
+import {
+  ArrowUp as ArrowUpIcon,
+  Paperclip,
+  X,
+  Image as ImageIcon,
+  ExternalLink,
+  Copy as CopyIcon,
+} from "honestui/icons";
 import Lottie from "lottie-react";
 
 import {
@@ -126,7 +132,7 @@ export default function AIChatInterface() {
               <button
                 key={idx}
                 onClick={() => setSelectedVisual(idx)}
-                className="group relative overflow-hidden rounded-md border border-border bg-background hover:border-foreground/30 transition-all hover:shadow-sm"
+                className="group relative overflow-hidden rounded-md border border-border bg-background transition-all duration-200 hover:surface-hover hover:shadow-sm"
               >
                 <div className="relative w-36 h-28">
                   <Image

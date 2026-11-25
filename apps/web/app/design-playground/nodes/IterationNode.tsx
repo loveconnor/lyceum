@@ -1,8 +1,8 @@
 'use client';
 
+import { Link2, Check, Trash2, LoaderCircle as Loader2, ArrowUpRight, ChevronRight } from "honestui/icons";
 import { memo, useState, Suspense, useMemo, useRef, useEffect } from 'react';
 import { useReactFlow } from '@xyflow/react';
-import { Check, Trash2, Loader2, ArrowUpRight, ChevronRight } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
 import { flatRegistry, generateAdoptPrompt } from '../registry';
 import { getIterationComponent } from '../iterations';
@@ -322,14 +322,9 @@ function IterationNode({ id, data, selected = false }: IterationNodeProps) {
                   {shareState === 'connecting' ? (
                     <Loader2 className="w-3.5 h-3.5 animate-spin" />
                   ) : shareState === 'copied' ? (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
+                    <Check aria-hidden="true" size={14} />
                   ) : (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-                      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-                    </svg>
+                    <Link2 aria-hidden="true" size={14} />
                   )}
                 </button>
               </TooltipTrigger>

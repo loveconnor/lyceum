@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronDown } from "honestui/icons";
 import type { ComponentRenderProps } from "./types";
 import {
   baseClass,
@@ -26,7 +27,7 @@ export function Select({ element }: ComponentRenderProps) {
       ) : null}
       <div
         onClick={() => setOpenSelectValue(isOpen ? null : key)}
-        className="h-7 w-full bg-background border border-border rounded px-2 text-xs flex items-center justify-between cursor-pointer hover:border-foreground/30 transition-colors"
+        className="h-7 w-full bg-background border border-border rounded px-2 text-xs flex items-center justify-between cursor-pointer hover:surface-hover transition-colors"
       >
         <span
           className={
@@ -35,19 +36,7 @@ export function Select({ element }: ComponentRenderProps) {
         >
           {selectedValue || (props.placeholder as string) || "Select..."}
         </span>
-        <svg
-          className={`w-3 h-3 transition-transform ${isOpen ? "rotate-180" : ""}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
+        <ChevronDown aria-hidden="true" className={`size-3 transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </div>
       {isOpen && options.length > 0 && (
         <div className="absolute z-10 top-full left-0 right-0 mt-1 bg-background border border-border rounded shadow-lg overflow-hidden">

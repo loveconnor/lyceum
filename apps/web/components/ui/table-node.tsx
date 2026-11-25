@@ -1,5 +1,21 @@
 'use client';
 
+import {
+  SquareDashed,
+  SquareDashedTopSolid,
+  Table as BorderAllIcon,
+  ArrowDown,
+  ArrowLeft,
+  ArrowRight,
+  ArrowUp,
+  Combine as CombineIcon,
+  Eraser as EraserIcon,
+  Grid2x2 as Grid2X2Icon,
+  GripVertical,
+  PaintBucket as PaintBucketIcon,
+  SquareSplitHorizontal as SquareSplitHorizontalIcon,
+  X as XIcon,
+} from 'honestui/icons';
 import * as React from 'react';
 
 import type * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
@@ -21,19 +37,6 @@ import {
 } from '@platejs/table/react';
 import { PopoverAnchor } from '@radix-ui/react-popover';
 import { cva } from 'class-variance-authority';
-import {
-  ArrowDown,
-  ArrowLeft,
-  ArrowRight,
-  ArrowUp,
-  CombineIcon,
-  EraserIcon,
-  Grid2X2Icon,
-  GripVertical,
-  PaintBucketIcon,
-  SquareSplitHorizontalIcon,
-  XIcon,
-} from 'lucide-react';
 import {
   type TElement,
   type TTableCellElement,
@@ -70,7 +73,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Popover, PopoverContent } from '@/components/ui/popover';
-import { Trash2Icon } from '@/components/ui/icons/trash';
+import { Trash2 as Trash2Icon } from '@/components/ui/animated-icons';
 import { cn } from '@/lib/utils';
 
 import { blockSelectionVariants } from './block-selection';
@@ -79,14 +82,6 @@ import {
   DEFAULT_COLORS,
 } from './font-color-toolbar-button';
 import { ResizeHandle } from './resize-handle';
-import {
-  BorderAllIcon,
-  BorderBottomIcon,
-  BorderLeftIcon,
-  BorderNoneIcon,
-  BorderRightIcon,
-  BorderTopIcon,
-} from './table-icons';
 import {
   Toolbar,
   ToolbarButton,
@@ -324,28 +319,28 @@ function TableBordersDropdownMenuContent(
           checked={hasTopBorder}
           onCheckedChange={getOnSelectTableBorder('top')}
         >
-          <BorderTopIcon />
+          <SquareDashedTopSolid aria-hidden="true" />
           <div>Top Border</div>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={hasRightBorder}
           onCheckedChange={getOnSelectTableBorder('right')}
         >
-          <BorderRightIcon />
+          <SquareDashedTopSolid aria-hidden="true" className="rotate-90" />
           <div>Right Border</div>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={hasBottomBorder}
           onCheckedChange={getOnSelectTableBorder('bottom')}
         >
-          <BorderBottomIcon />
+          <SquareDashedTopSolid aria-hidden="true" className="rotate-180" />
           <div>Bottom Border</div>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem
           checked={hasLeftBorder}
           onCheckedChange={getOnSelectTableBorder('left')}
         >
-          <BorderLeftIcon />
+          <SquareDashedTopSolid aria-hidden="true" className="-rotate-90" />
           <div>Left Border</div>
         </DropdownMenuCheckboxItem>
       </DropdownMenuGroup>
@@ -355,7 +350,7 @@ function TableBordersDropdownMenuContent(
           checked={hasNoBorders}
           onCheckedChange={getOnSelectTableBorder('none')}
         >
-          <BorderNoneIcon />
+          <SquareDashed aria-hidden="true" />
           <div>No Border</div>
         </DropdownMenuCheckboxItem>
         <DropdownMenuCheckboxItem

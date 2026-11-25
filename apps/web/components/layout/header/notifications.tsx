@@ -1,4 +1,4 @@
-import { BellIcon } from "@/components/ui/icons/bell";
+import { Bell as BellIcon } from "@/components/ui/animated-icons";
 import Link from "next/link";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useEffect, useState } from "react";

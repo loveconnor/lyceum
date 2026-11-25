@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect */
 
 import React, { useEffect, useMemo, useState } from "react";
-import { AlertCircle, ChevronRight, Play, RotateCcw } from "lucide-react";
+import { CircleAlert as AlertCircle, ChevronRight, Play, RotateCcw } from "honestui/icons";
 import { Button } from "@/components/ui/button";
 import { Markdown } from "./markdown";
 
@@ -282,13 +282,13 @@ const CodeRenderer = ({
 
           if (isSelected) {
             classes +=
-              " border-primary bg-primary/10 text-primary ring-2 ring-primary/20 border-solid";
+              " surface-selected text-foreground border-solid";
           } else if (filledOption) {
             classes +=
               " border-border bg-card text-foreground border-solid shadow-sm";
           } else {
             classes +=
-              " border-border bg-transparent text-muted-foreground hover:border-foreground/50 hover:bg-card";
+              " border-border bg-transparent text-muted-foreground hover:surface-hover hover:text-foreground";
           }
 
           if (isCorrect) {
@@ -360,7 +360,7 @@ const OptionBank = ({ options, onSelect }: OptionBankProps) => {
           className="
             w-full text-left px-4 py-3
             bg-card border border-border rounded-lg shadow-sm
-            hover:border-blue-500 dark:hover:border-blue-400 hover:shadow-md
+            hover:surface-hover hover:shadow-md
             active:scale-[0.98] transition-all duration-150
             cursor-grab active:cursor-grabbing
           "

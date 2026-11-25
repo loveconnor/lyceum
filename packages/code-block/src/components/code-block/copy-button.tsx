@@ -4,7 +4,7 @@ import { useEffect, useState, type ComponentProps } from "react";
 
 import { cn } from "../../utils/cn";
 import { copyToClipboard } from "../../utils/copy";
-import { CheckIcon, CopyIcon } from "lucide-react";
+import { Check as CheckIcon, Copy as CopyIcon } from "honestui/icons";
 
 interface CopyButtonProps extends ComponentProps<"button"> {
   content: string;
@@ -32,10 +32,8 @@ const CopyButton = ({ content, iconSize = 14, className, ...props }: CopyButtonP
     <button
       title="Copy to clipboard"
       className={cn(
-        "cursor-pointer",
-        "transition-colors duration-200 ease-in-out",
-        "text-neutral-600 dark:text-neutral-400",
-        "hover:text-neutral-950 hover:dark:text-neutral-50",
+        "cursor-pointer rounded-hui-item text-hui-muted hover:text-hui-ink",
+        "motion-safe:[transition:var(--hui-transition-interactive)] focus-visible:outline-2 focus-visible:outline-hui-focus focus-visible:outline-offset-2",
         className,
       )}
       onClick={handleCopy}

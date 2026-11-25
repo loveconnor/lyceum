@@ -1,3 +1,4 @@
+import { ChevronRight, Menu, X } from 'honestui/icons'
 import Link from 'next/link'
 
 import { ElDialog, ElDialogPanel } from '@tailwindplus/elements/react'
@@ -21,9 +22,7 @@ export function NavbarLink({
     >
       {children}
       <span className="inline-flex p-1.5 opacity-0 group-hover:opacity-100 lg:hidden" aria-hidden="true">
-        <svg fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-          <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-        </svg>
+        <ChevronRight aria-hidden="true" className="size-6" />
       </span>
     </Link>
   )
@@ -60,13 +59,7 @@ export function NavbarWithLinksActionsAndCenteredLogo({
               aria-label="Toggle menu"
               className="inline-flex rounded-full p-1.5 text-mist-950 hover:bg-mist-950/10 lg:hidden dark:text-white dark:hover:bg-white/10"
             >
-              <svg viewBox="0 0 24 24" fill="currentColor" className="size-6">
-                <path
-                  fillRule="evenodd"
-                  d="M3.748 8.248a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75ZM3.748 15.75a.75.75 0 0 1 .75-.751h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Z"
-                  clipRule="evenodd"
-                />
-              </svg>
+              <Menu aria-hidden="true" className="size-6" />
             </button>
           </div>
         </div>
@@ -81,16 +74,7 @@ export function NavbarWithLinksActionsAndCenteredLogo({
                   aria-label="Toggle menu"
                   className="inline-flex rounded-full p-1.5 text-mist-950 hover:bg-mist-950/10 dark:text-white dark:hover:bg-white/10"
                 >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="size-6"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
-                  </svg>
+                  <X aria-hidden="true" className="size-6" />
                 </button>
               </div>
               <div className="mt-6 flex flex-col gap-6">{links}</div>

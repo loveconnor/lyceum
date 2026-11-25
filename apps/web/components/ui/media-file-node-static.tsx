@@ -3,7 +3,7 @@ import * as React from 'react';
 import type { TFileElement } from 'platejs';
 import type { SlateElementProps } from 'platejs/static';
 
-import { FileUp } from 'lucide-react';
+import { FileUp } from 'honestui/icons';
 import { SlateElement } from 'platejs/static';
 
 export function FileElementStatic(props: SlateElementProps<TFileElement>) {

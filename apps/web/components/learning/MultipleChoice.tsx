@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, react-hooks/set-state-in-effect */
 
 import { useState, useMemo, useEffect } from "react";
-import { Check, X, AlertCircle, ArrowRight, RotateCcw } from "lucide-react";
+import { Check, X, CircleAlert as AlertCircle, ArrowRight, RotateCcw } from "honestui/icons";
 import { Markdown } from "./markdown";
 
 import type { ComponentRenderProps } from "./types";

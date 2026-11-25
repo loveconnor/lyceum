@@ -11,7 +11,7 @@ import {
   useImagePreviewValue,
 } from '@platejs/media/react';
 import { cva } from 'class-variance-authority';
-import { Link } from 'lucide-react';
+import { Link } from 'honestui/icons';
 import {
   useEditorRef,
   useEditorSelector,
@@ -21,7 +21,7 @@ import {
   useRemoveNodeButton,
   useSelected,
 } from 'platejs/react';
-import { Trash2Icon } from '@/components/ui/icons/trash';
+import { Trash2 as Trash2Icon } from '@/components/ui/animated-icons';
 
 import { Button, buttonVariants } from '@/components/ui/button';
 import {

@@ -24,7 +24,7 @@ import {
 
 import { cn } from "../../../utils/cn";
 import { BunIcon, NpmIcon, PnpmIcon, YarnIcon } from "../../ui/svgs";
-import { CheckIcon, ChevronDownIcon } from "lucide-react";
+import { Check as CheckIcon, ChevronDown as ChevronDownIcon } from "honestui/icons";
 
 interface CodeBlockSelectPkgProps {
   command: string;

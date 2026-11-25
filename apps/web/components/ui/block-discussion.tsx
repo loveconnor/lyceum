@@ -10,10 +10,10 @@ import { CommentPlugin } from '@platejs/comment/react';
 import { getTransientSuggestionKey } from '@platejs/suggestion';
 import { SuggestionPlugin } from '@platejs/suggestion/react';
 import {
-  MessageSquareTextIcon,
-  MessagesSquareIcon,
-  PencilLineIcon,
-} from 'lucide-react';
+  MessageSquareText as MessageSquareTextIcon,
+  MessagesSquare as MessagesSquareIcon,
+  PencilLine as PencilLineIcon,
+} from 'honestui/icons';
 import {
   type AnyPluginConfig,
   type NodeEntry,

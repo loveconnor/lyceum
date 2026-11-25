@@ -4,8 +4,8 @@ import * as React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Calendar, Eye } from 'lucide-react';
-import { Trash2 } from '@/components/ui/icons/trash';
+import { Calendar, Eye } from 'honestui/icons';
+import { Trash2 } from '@/components/ui/animated-icons';
 import { cn } from '@/lib/utils';
 import type { Reflection } from '@/types/reflections';
 import { EditorWidgetReadOnly } from '@/components/widgets';
@@ -72,7 +72,7 @@ export function ReflectionCard({
 
   if (compact) {
     return (
-      <Card className={cn("hover:border-primary/50 transition-colors", className)}>
+      <Card className={cn("transition-all duration-200 hover:surface-hover hover:shadow-md", className)}>
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-1 flex-1">

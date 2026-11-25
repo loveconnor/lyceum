@@ -4,10 +4,12 @@ import * as React from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
-import { UserIcon } from "@/components/ui/icons/user";
-import { HeartIcon } from "@/components/ui/icons/heart";
-import { PaintbrushIcon } from "@/components/ui/icons/paintbrush";
-import { BellIcon } from "@/components/ui/icons/bell";
+import {
+  User as UserIcon,
+  Heart as HeartIcon,
+  Paintbrush as PaintbrushIcon,
+  Bell as BellIcon,
+} from "@/components/ui/animated-icons";
 
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";

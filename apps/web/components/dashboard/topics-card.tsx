@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronRight, ChevronLeft } from "lucide-react";
+import { ChevronRight, ChevronLeft } from "honestui/icons";
 import { useState } from "react";
 
 import { EmptyState } from "./empty-state";

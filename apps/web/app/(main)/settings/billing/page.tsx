@@ -1,7 +1,7 @@
 "use client";
 
-import { Edit2 } from "lucide-react";
-import { Plus } from "@/components/ui/icons/plus";
+import { Pencil as Edit2 } from "honestui/icons";
+import { Plus } from "@/components/ui/animated-icons";
 
 import { Button } from "@/components/ui/button";
 import {

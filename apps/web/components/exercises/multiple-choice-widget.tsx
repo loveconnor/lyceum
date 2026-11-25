@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useCallback } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { CircleCheck as CheckCircle2 } from "honestui/icons";
 import { Button } from "@/components/ui/button";
 import { Markdown } from "@/components/ui/custom/prompt/markdown";
 import { cn } from "@/lib/utils";
@@ -129,10 +129,10 @@ export const MultipleChoiceWidget = ({
               }}
               disabled={isCompleted}
               className={cn(
-                "flex items-center gap-3 p-4 rounded-lg border text-left transition-all",
+                "flex items-center gap-3 p-4 rounded-lg border text-left transition-all duration-200",
                 isSelected && !hasChecked
-                  ? "border-primary bg-primary/5" 
-                  : "border-border hover:border-primary/50 hover:bg-muted/50",
+                  ? "surface-selected"
+                  : "border-border hover:surface-hover",
                 showAsCorrect && "border-green-500 bg-green-500/10",
                 showAsWrong && "border-red-500 bg-red-500/10",
                 isCompleted && !isCorrectOption && "opacity-50"

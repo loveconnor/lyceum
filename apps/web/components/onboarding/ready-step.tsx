@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { useOnboardingStore } from "@/app/onboarding/store";
-import { CheckCircle, ChevronDown, ChevronUp, Loader2, Clock, BookOpen } from "lucide-react";
+import { CircleCheck as CheckCircle, ChevronDown, ChevronUp, LoaderCircle as Loader2, Clock, BookOpen } from "honestui/icons";
 import { createClient } from "@/utils/supabase/client";
 import { useRouter } from "next/navigation";
 import { gooey } from "@/components/ui/custom/gooey-toast";

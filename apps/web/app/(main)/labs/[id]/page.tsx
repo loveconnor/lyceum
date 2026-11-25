@@ -6,7 +6,7 @@ import { fetchLabById } from "@/lib/api/labs";
 import { Lab } from "@/app/(main)/labs/types";
 import LabViewer from "@/components/labs/lab-viewer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, LoaderCircle as Loader2 } from "honestui/icons";
 import { markLabTouched, markPrimaryFeature, trackEvent } from "@/lib/analytics";
 import { Markdown } from "@/components/ui/custom/prompt/markdown";
 

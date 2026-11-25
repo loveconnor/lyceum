@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { ArrowUpIcon, ArrowDownIcon, Users, CheckCircle } from "lucide-react";
+import { ArrowUp as ArrowUpIcon, ArrowDown as ArrowDownIcon, Users, CircleCheck as CheckCircle } from "honestui/icons";
 import { Button } from "@/components/ui/button";
 
 interface StudentSuccessCardProps {

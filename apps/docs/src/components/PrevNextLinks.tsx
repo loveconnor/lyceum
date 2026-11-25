@@ -1,18 +1,11 @@
 'use client'
 
+import { ArrowRight } from 'honestui/icons'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
 
 import { navigation } from '@/lib/navigation'
-
-function ArrowIcon(props: React.ComponentPropsWithoutRef<'svg'>) {
-  return (
-    <svg viewBox="0 0 16 16" aria-hidden="true" {...props}>
-      <path d="m9.182 13.423-1.17-1.16 3.505-3.505H3V7.065h8.517l-3.506-3.5L9.181 2.4l5.512 5.511-5.511 5.512Z" />
-    </svg>
-  )
-}
 
 function PageLink({
   title,
@@ -38,9 +31,10 @@ function PageLink({
           )}
         >
           {title}
-          <ArrowIcon
+          <ArrowRight
+            aria-hidden="true"
             className={clsx(
-              'h-4 w-4 flex-none fill-current',
+              'h-4 w-4 flex-none text-current',
               dir === 'previous' && '-scale-x-100',
             )}
           />

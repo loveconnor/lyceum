@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { PanelLeftIcon } from "@/components/ui/icons/panel-left";
+import { PanelLeft as PanelLeftIcon } from "@/components/ui/animated-icons";
 
 import { Separator } from "@/components/ui/separator";
 import Notifications from "./notifications";

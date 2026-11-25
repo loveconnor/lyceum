@@ -39,7 +39,7 @@ function DropdownMenuContent({
         <MenuPrimitive.Popup
           data-slot="dropdown-menu-content"
           className={cn(
-            "data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=inline-end]:slide-in-from-left-2 z-50 max-h-(--available-height) min-w-32 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-md bg-white p-1 text-neutral-900 shadow-md ring-1 ring-neutral-900/10 duration-100 outline-none data-closed:overflow-hidden dark:bg-neutral-900 dark:text-neutral-50 dark:ring-neutral-50/10",
+            "data-open:animate-in data-closed:animate-out data-closed:fade-out-0 data-open:fade-in-0 data-closed:zoom-out-95 data-open:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=inline-end]:slide-in-from-left-2 z-50 max-h-(--available-height) min-w-32 origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-hui-control border-[0.5px] border-hui-overlay-edge bg-hui-overlay p-1 text-hui-ink shadow-hui-overlay duration-100 outline-none data-closed:overflow-hidden",
             className,
           )}
           {...props}
@@ -68,7 +68,7 @@ function DropdownMenuItem({
       data-inset={inset}
       data-variant={variant}
       className={cn(
-        "group/dropdown-menu-item relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none focus:bg-neutral-100 focus:text-neutral-900 not-data-[variant=destructive]:focus:**:text-neutral-900 data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:pl-8 data-[variant=destructive]:text-red-500 data-[variant=destructive]:focus:bg-red-500/10 data-[variant=destructive]:focus:text-red-500 dark:focus:bg-neutral-800 dark:focus:text-neutral-50 dark:not-data-[variant=destructive]:focus:**:text-neutral-50 dark:data-[variant=destructive]:text-red-900 dark:dark:data-[variant=destructive]:focus:bg-red-900/20 dark:data-[variant=destructive]:focus:bg-red-500/20 dark:data-[variant=destructive]:focus:text-red-900 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:text-neutral-600 dark:[&_svg]:text-neutral-400 data-[variant=destructive]:*:[svg]:text-red-500 dark:data-[variant=destructive]:*:[svg]:text-red-900",
+        "group/dropdown-menu-item relative flex cursor-default items-center gap-2 rounded-hui-item px-2 py-1.5 text-sm outline-hidden select-none data-highlighted:bg-hui-overlay-hover data-highlighted:text-hui-ink data-disabled:pointer-events-none data-disabled:opacity-50 data-inset:pl-8 data-[variant=destructive]:text-red-500 data-[variant=destructive]:data-highlighted:bg-red-500/10 dark:data-[variant=destructive]:text-red-400 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:text-hui-muted data-[variant=destructive]:*:[svg]:text-red-500 dark:data-[variant=destructive]:*:[svg]:text-red-400",
         className,
       )}
       {...props}
@@ -84,7 +84,7 @@ function DropdownMenuSeparator({
     <MenuPrimitive.Separator
       data-slot="dropdown-menu-separator"
       className={cn(
-        "-mx-1 my-1 h-px bg-neutral-200 dark:bg-neutral-800",
+        "-mx-1 my-1 h-px bg-hui-line",
         className,
       )}
       {...props}

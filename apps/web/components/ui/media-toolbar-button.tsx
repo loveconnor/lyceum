@@ -6,12 +6,12 @@ import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
 import { PlaceholderPlugin } from '@platejs/media/react';
 import {
-  AudioLinesIcon,
-  FileUpIcon,
-  FilmIcon,
-  ImageIcon,
-  LinkIcon,
-} from 'lucide-react';
+  AudioLines as AudioLinesIcon,
+  FileUp as FileUpIcon,
+  Film as FilmIcon,
+  Image as ImageIcon,
+  Link as LinkIcon,
+} from 'honestui/icons';
 import { isUrl, KEYS } from 'platejs';
 import { useEditorRef } from 'platejs/react';
 import { gooey } from '@/components/ui/custom/gooey-toast';

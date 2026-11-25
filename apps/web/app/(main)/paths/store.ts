@@ -7,7 +7,7 @@ import {
   PathFile,
   Difficulty
 } from "./types";
-import { createPath, updatePath as updatePathAPI, deletePath as deletePathAPI } from "@/lib/api/paths";
+import { createPath, streamPathGeneration, updatePath as updatePathAPI, deletePath as deletePathAPI } from "@/lib/api/paths";
 import { markPrimaryFeature, trackEvent } from "@/lib/analytics";
 
 type PathDraft = Omit<
@@ -129,40 +129,21 @@ export const usePathStore = create<PathStore>((set) => ({
     try {
       set({ generationStatus: "Initializing AI..." });
       
-      const { createClient } = await import("@/utils/supabase/client");
-      const supabase = createClient();
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001";
-      
-      const response = await fetch(`${API_BASE_URL}/paths/generate?stream=true`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(session?.access_token && {
-            Authorization: `Bearer ${session.access_token}`,
-          }),
-        },
-        body: JSON.stringify({
-          title: path.title,
-          description: path.description,
-          topics: [],
-          difficulty: path.difficulty,
-          use_ai_only: path.useAiOnly,
-          use_web_search: path.useWebSearch,
-          learn_by_doing: path.learnByDoing,
-          include_labs: path.includeLabs,
-          module_count: path.moduleCount,
-          lab_count: path.labCount,
-          context_files: path.contextFiles,
-        }),
+      const stream = await streamPathGeneration({
+        title: path.title,
+        description: path.description,
+        topics: [],
+        difficulty: path.difficulty,
+        use_ai_only: path.useAiOnly,
+        use_web_search: path.useWebSearch,
+        learn_by_doing: path.learnByDoing,
+        include_labs: path.includeLabs,
+        module_count: path.moduleCount,
+        lab_count: path.labCount,
+        context_files: path.contextFiles,
       });
 
-      if (!response.ok || !response.body) {
-        throw new Error("Failed to generate path");
-      }
-
-      const reader = response.body.getReader();
+      const reader = stream.getReader();
       const decoder = new TextDecoder();
       let buffer = "";
 

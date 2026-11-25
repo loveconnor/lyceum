@@ -2,8 +2,7 @@ import { AnnouncementBadge } from '@/components/elements/announcement-badge'
 import { EmailSignupForm } from '@/components/elements/email-signup-form'
 import { Link } from '@/components/elements/link'
 import { Screenshot } from '@/components/elements/screenshot'
-import { ArrowNarrowRightIcon } from '@/components/icons/arrow-narrow-right-icon'
-import { ChevronIcon } from '@/components/icons/chevron-icon'
+import { ArrowRight, ChevronRight } from 'honestui/icons'
 import { CallToActionSimple } from '@/components/sections/call-to-action-simple'
 import { FAQsTwoColumnAccordion, Faq } from '@/components/sections/faqs-two-column-accordion'
 import { FeatureThreeColumnWithDemos, Features } from '@/components/sections/features-three-column-with-demos'
@@ -31,7 +30,7 @@ export default function Page() {
             variant="overlay"
             cta={
               <>
-                Join waitlist <ArrowNarrowRightIcon />
+                Join waitlist <ArrowRight aria-hidden="true" className="inline-block size-4 shrink-0" />
               </>
             }
           />
@@ -96,7 +95,7 @@ export default function Page() {
         }
         cta={
           <Link href="/about">
-            See howLyceumworks <ArrowNarrowRightIcon />
+            See howLyceumworks <ArrowRight aria-hidden="true" className="inline-block size-4 shrink-0" />
           </Link>
         }
         features={
@@ -327,7 +326,7 @@ export default function Page() {
             </Button>
             <Button variant="ghost" size="lg" asChild>
               <NextLink href="/about">
-                Learn more <ChevronIcon />
+                Learn more <ChevronRight aria-hidden="true" className="inline-block size-3" />
               </NextLink>
             </Button>
           </div>

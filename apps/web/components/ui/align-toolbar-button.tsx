@@ -7,11 +7,11 @@ import type { DropdownMenuProps } from '@radix-ui/react-dropdown-menu';
 
 import { TextAlignPlugin } from '@platejs/basic-styles/react';
 import {
-  AlignCenterIcon,
-  AlignJustifyIcon,
-  AlignLeftIcon,
-  AlignRightIcon,
-} from 'lucide-react';
+  TextAlignCenter as AlignCenterIcon,
+  TextAlignJustify as AlignJustifyIcon,
+  TextAlignStart as AlignLeftIcon,
+  TextAlignEnd as AlignRightIcon,
+} from 'honestui/icons';
 import { useEditorPlugin, useSelectionFragmentProp } from 'platejs/react';
 
 import {
